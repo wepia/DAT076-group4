@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <title>Athlete Assist</title>
+  <!--meta tags-->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+  <!--stylesheets-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+<body>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="#">Athlete Assist</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <nav class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <nav class="navbar-nav">
+              <a class="nav-item nav-link " href="index.html">Home <span class="sr-only"></span></a>
+              <a class="nav-item nav-link active" href="registration.html">Registration<span class="sr-only"></span>(current)</a></a>
+              <a class="nav-item nav-link" href="history.html">History</a>
+              <a class="nav-item nav-link disabled" href="#">Log in</a>
+            </nav>
+          </nav>
+        </div>
+      </nav>
+      <main class="container text-center">
+        <section class="row justify-content-center">
+          <h1 class="col">Registration</h1>
+        </section>
+        <section class="row justify-content-center">
+          <p class="col-10">Get involved in active sport events by filling in the registration details!</p>
+        </section>
+      </main>
+
+
+      <form action="process_registration.php" method="post">
+        <!-- "process_registration.php" is the file that will handle the form data -->
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <br>
+
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+
+        <br>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+
+        <br>
+
+        <label for="birthdate">Birthdate:</label>
+        <input type="date" id="birthdate" name="birthdate">
+
+        <br>
+
+        <input type="submit" value="Register">
+    </form>
+
+
+    <footer class="footer text-center border-bottom bg-light">
+        <section class="row text-muted">
+          <p class="col">
+            Contact info: <br> 
+            athlete@not.adomain <br> 
+            +46000000 <br> 
+            addressroad 265, Nowhere <br> 
+          </p>
+          <p class="col">some other footer information</p>
+        </section>
+      </footer>
+      <!--scripts-->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
