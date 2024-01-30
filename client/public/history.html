@@ -18,65 +18,14 @@
           </button>
           <nav class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <nav class="navbar-nav">
-              <a class="nav-item nav-link " href="index.html">Home <span class="sr-only"></span></a>
-              <a class="nav-item nav-link active" href="registration.html">Registration<span class="sr-only"></span>(current)</a></a>
+              <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-item nav-link" href="registration.html">Registration</a>
               <a class="nav-item nav-link" href="history.html">History</a>
               <a class="nav-item nav-link disabled" href="#">Log in</a>
             </nav>
           </nav>
         </div>
       </nav>
-      <main class="container text-center">
-        <section class="row justify-content-center">
-          <h1 class="col">Registration</h1>
-        </section>
-        <section class="row justify-content-center">
-          <p class="col-10">Get involved in active sport events by filling in the registration details!</p>
-        </section>
-      </main>
-
-
-      <form action="process_registration.php" method="post">
-        <!-- "process_registration.php" is the file that will handle the form data -->
-
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-
-        <br>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-
-        <br>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <br>
-
-        <label for="confirm_password">Confirm Password:</label>
-        <input type="password" id="confirm_password" name="confirm_password" required>
-
-        <br>
-
-        <label for="gender">Gender:</label>
-        <select id="gender" name="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-        </select>
-
-        <br>
-
-        <label for="birthdate">Birthdate:</label>
-        <input type="date" id="birthdate" name="birthdate">
-
-        <br>
-
-        <input type="submit" value="Register">
-    </form>
-
-
     <footer class="footer text-center border-bottom bg-light">
         <section class="row text-muted">
           <p class="col">
