@@ -6,7 +6,7 @@ const eventService = new EventService();
 
 export const eventApi = express.Router();
 
-eventApi.get("/getevent", async (
+eventApi.get("/getevents", async (
     req: Request<{}, {}, {}>,
     res: Response<Array<SportEvent> | String>
 ) => {
@@ -18,3 +18,14 @@ eventApi.get("/getevent", async (
     }
 });
 
+
+eventApi.get("/test", async (
+    req: Request<{}, {}, {}>,
+    res: Response<string>
+) => {
+    try {
+        res.status(200).send("Done.");
+    } catch (e: any) {
+        res.status(500).send(e.message);
+    }
+});
