@@ -45,3 +45,13 @@ form {
     margin-right: auto;
     text-align: center;
 }
+
+@keyframes fadeinpane {
+  from {opacity: 0;}
+  to {opacity: 1;}
+  }
+  .datapane{
+      height: 80%;
+      animation-name: fadeinpane;
+      animation-duration: 2s;   
+  }
