@@ -10,7 +10,6 @@ body {
     flex: 1;
   }
   .footer {
-    position: sticky;
     bottom: 0;
     width: 100%;
   }
