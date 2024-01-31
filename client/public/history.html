@@ -31,7 +31,7 @@
       <section class="row justify-content-center">
         <h1 class="col">History and analysis</h1>
       </section>
-      <section class="row justify-content-center">
+      <section class="vh-100 row justify-content-center"> <!--not sure if vh-100 is suitable here, should probably include navbar-->
         <nav class="col-4">
           <div class="list-group" id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action active" id="list-timeline-list" data-toggle="list" href="#timeline" role="tab" aria-controls="timeline">All events</a>
@@ -39,7 +39,7 @@
             <a class="list-group-item list-group-item-action" id="list-2-list" data-toggle="list" href="#list-2" role="tab" aria-controls="2">yyyy-mm-dd Event 2</a>
           </div>
         </nav>
-        <section class="col-8 overflow-scroll" tabindex="0">
+        <section class="h-75 col-8 overflow-auto" tabindex="0">
           <div class="tab-content" id="nav-tabContent">
             <article class="tab-pane fade show active" id="timeline" role="tabpanel" aria-labelledby="timeline">
               <h2>All events (replace img with JS canvas)</h2>
