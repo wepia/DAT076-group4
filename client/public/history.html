@@ -11,22 +11,76 @@
 </head>
 <body>
     <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-          <a class="navbar-brand" href="#">Athlete Assist</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="container">
+        <a class="navbar-brand" href="#">Athlete Assist</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-          </button>
-          <nav class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <nav class="navbar-nav">
-              <a class="nav-item nav-link active" href="index.html">Home <span class="sr-only">(current)</span></a>
-              <a class="nav-item nav-link" href="registration.html">Registration</a>
-              <a class="nav-item nav-link" href="history.html">History</a>
-              <a class="nav-item nav-link disabled" href="#">Log in</a>
-            </nav>
+        </button>
+        <nav class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <nav class="navbar-nav">
+            <a class="nav-item nav-link" href="index.html">Home</a>
+            <a class="nav-item nav-link" href="registration.html">Registration</a>
+            <a class="nav-item nav-link active" href="history.html">History<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link disabled" href="#">Log in</a>
           </nav>
-        </div>
-      </nav>
-    <footer class="footer text-center border-bottom bg-light">
+        </nav>
+      </div>
+    </nav>
+
+    <main class="container text-center">
+      <section class="row justify-content-center">
+        <h1 class="col">History and analysis</h1>
+      </section>
+      <section class="vh-100 row justify-content-center"> <!--not sure if vh-100 is suitable here, should probably include navbar-->
+        <nav class="col-4">
+          <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-timeline-list" data-toggle="list" href="#timeline" role="tab" aria-controls="timeline">All events</a>
+            <a class="list-group-item list-group-item-action" id="list-1-list" data-toggle="list" href="#list-1" role="tab" aria-controls="1">yyyy-mm-dd Event 1</a>
+            <a class="list-group-item list-group-item-action" id="list-2-list" data-toggle="list" href="#list-2" role="tab" aria-controls="2">yyyy-mm-dd Event 2</a>
+          </div>
+        </nav>
+        <section class="col-8 overflow-auto datapane" tabindex="0">
+          <div class="tab-content" id="nav-tabContent">
+            <article class="tab-pane fade show active" id="timeline" role="tabpanel" aria-labelledby="timeline">
+              <h2>All events (replace img with JS canvas)</h2>
+              <img class="img-fluid" src="img/allCharts.jpg">
+            </article>
+            <article class="tab-pane fade" id="list-1" role="tabpanel" aria-labelledby="list-1-list">
+              <div class="row">
+                <h2 class="col">yyyy-mm-dd Event 1</h2>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h3>chart (replace img with JS canvas chart)</h3>
+                  <img class="img-fluid" src="img/statistics-clipart-pie-chart-1.png">
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <p class="col">data from selected event</p>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <img src="img/athlete.jpg" class="col img-fluid">
+                    </div>
+                    <ul class="col">
+                      <li>image-related info 1</li>
+                      <li>image-related info 2</li>
+                      <li>image-related info 3</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="tab-pane fade" id="list-2" role="tabpanel" aria-labelledby="list-2-list">
+              event 2 data
+            </article>
+          </div>
+        </section>
+        <p class="col"></p>
+      </section>
+    </main>
+
+    <footer class="footer text-center mt-auto bg-light">
         <section class="row text-muted">
           <p class="col">
             Contact info: <br> 
@@ -37,7 +91,10 @@
           <p class="col">some other footer information</p>
         </section>
       </footer>
-      <!--scripts-->
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+      <!--scripts, jquery and bootstrap (for some reason collapsible menu doesn't work with bootstrap 5?)-->
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 </body>
 </html>
+
+
