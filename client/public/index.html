@@ -31,35 +31,11 @@
       <h1 class="col">Welcome to Athlete Assist</h1>
     </section>
     <section class="row justify-content-center">
-      <p class="col-10">Athlete Assist aims to simplify and optimize the management of volunteers at sports events. This digital platform is designed to streamline the coordination of volunteer activities, ensuring the efficient utilization of human resources to meet the diverse needs of sports events. Join us in enhancing the volunteer experience and making a positive impact on the world of sports!</p>
+      <p class="col-10 mb-5">Athlete Assist aims to simplify and optimize the management of volunteers at sports events. This digital platform is designed to streamline the coordination of volunteer activities, ensuring the efficient utilization of human resources to meet the diverse needs of sports events. Join us in enhancing the volunteer experience and making a positive impact on the world of sports!</p>
     </section>
     <section class="row justify-content-center">
-      <h2 class="col">Event list</h1>
+      <h2 class="col mt-5">Event list</h1>
       <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">List group item heading</h5>
-            <small>3 days ago</small>
-          </div>
-          <p class="mb-1">Some placeholder content in a paragraph.</p>
-          <small>And some small print.</small>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">List group item heading</h5>
-            <small class="text-muted">3 days ago</small>
-          </div>
-          <p class="mb-1">Some placeholder content in a paragraph.</p>
-          <small class="text-muted">And some muted small print.</small>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">List group item heading</h5>
-            <small class="text-muted">3 days ago</small>
-          </div>
-          <p class="mb-1">Some placeholder content in a paragraph.</p>
-          <small class="text-muted">And some muted small print.</small>
-        </a>
       </div>
     </section>
 
@@ -85,7 +61,7 @@
     fetch('http://localhost:8080/event/getevents')
       .then(response => response.json())
       .then(events => {
-        console.log('tests', events);
+        console.log(events);
         updateEventList(events);
       })
       .catch(error => console.error('Error:', error));
@@ -101,16 +77,16 @@
       listItem.href = '#';
       listItem.innerHTML = `
         <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">${event.title}</h5>
+          <h5 class="mb-1">${event.name}</h5>
           <small>${event.date}</small>
         </div>
-        <p class="mb-1">${event.description}</p>
+        <p class="mb-1">${event.organizer}</p>
       `;
       listGroup.appendChild(listItem);
     });
   }
 
-  //fetchEvents();
+  fetchEvents();
 
 
   // TODO:
