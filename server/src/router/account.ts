@@ -20,7 +20,7 @@ accountRouter.post("/", async (
         const newAcc = await  accountService.registerAccounts(userName, password, confirmPassword, email, gender, birth);
         res.status(200).send(newAcc);
     } catch (e: any) {
-        res.status(500).send(e.message);
+        res.status(400).send(e.message);
     }
 
 } )
