@@ -19,13 +19,35 @@ eventApi.get("/getevents", async (
 });
 
 
-eventApi.get("/test", async (
-    req: Request<{}, {}, {}>,
-    res: Response<string>
+eventApi.post("/", async(
+    req : Request,
+    res : Response<SportEvent | string>
 ) => {
     try {
-        res.status(200).send("Done.");
+        const name : string = req.body.name;
+        const organizer : string = req.body.organizer;
+        const date : string = req.body.date;
+
+        await eventService.addEvent(name,organizer,date);
+
+        res.status(200).send();
+
     } catch (e: any) {
-        res.status(500).send(e.message);
+        res.status(500).send(e.message);        
     }
-});
+})
+
+eventApi.delete("/", async (
+    req : Request,
+    res : Response
+) => {
+    try {
+    const id : number = req.body.id;
+    
+    let deletedEvent = await eventService.deleteEvent(id);
+        
+    res.status(200);
+} catch (e:any) {
+    res.status(500).send(e.message);
+}
+})

@@ -1,11 +1,11 @@
 export class SportEvent {
-    public id: string = "";
+    public id: number;
     public name: string = "";
     public organizer: string = "";
     public date: string = "";
 
-    constructor(id: string, name: string, organizer: string, date: string) {
-        this.id = id;
+    constructor(name: string, organizer: string, date: string) {
+        this.id = Date.now()
         this.name = name;
         this.organizer = organizer;
         this.date = date;
