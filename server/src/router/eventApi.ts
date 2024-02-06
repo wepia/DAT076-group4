@@ -28,9 +28,9 @@ eventApi.post("/", async(
         const organizer : string = req.body.organizer;
         const date : string = req.body.date;
 
-        const newEvent = await eventService.addEvent(name,organizer,date);
+        await eventService.addEvent(name,organizer,date);
 
-        res.status(200).send(newEvent);
+        res.status(200).send();
 
     } catch (e: any) {
         res.status(500).send(e.message);        
