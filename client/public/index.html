@@ -21,7 +21,7 @@
           <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
           <a class="nav-item nav-link" href="registration.html">Registration</a>
           <a class="nav-item nav-link" href="history.html">History</a>
-          <a class="nav-item nav-link disabled" href="#">Log in</a>
+          <a class="nav-item nav-link" href="login.html">Log in</a>
         </nav>
       </nav>
     </div>
@@ -31,10 +31,16 @@
       <h1 class="col">Welcome to Athlete Assist</h1>
     </section>
     <section class="row justify-content-center">
-      <p class="col-10">Athlete Assist aims to simplify and optimize the management of volunteers at sports events. This digital platform is designed to streamline the coordination of volunteer activities, ensuring the efficient utilization of human resources to meet the diverse needs of sports events. Join us in enhancing the volunteer experience and making a positive impact on the world of sports!</p>
+      <p class="col-10 mb-5">Athlete Assist aims to simplify and optimize the management of volunteers at sports events. This digital platform is designed to streamline the coordination of volunteer activities, ensuring the efficient utilization of human resources to meet the diverse needs of sports events. Join us in enhancing the volunteer experience and making a positive impact on the world of sports!</p>
     </section>
+    <section class="row justify-content-center">
+      <h2 class="col mt-5">Event list</h1>
+      <div class="list-group">
+      </div>
+    </section>
+
   </main>
-  <footer class="footer text-center border-bottom bg-light">
+  <footer class="footer text-center mt-auto bg-light">
     <section class="row text-muted">
       <p class="col">
         Contact info: <br> 
@@ -46,6 +52,50 @@
     </section>
   </footer>
   <!--scripts-->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<script>
+    //TODO
+    // fetch list of events from http://localhost:8080/event/getevents
+
+  function fetchEvents() {
+    fetch('http://localhost:8080/event/getevents')
+      .then(response => response.json())
+      .then(events => {
+        console.log(events);
+        updateEventList(events);
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  function updateEventList(events) {
+    const listGroup = document.querySelector('.list-group');
+    listGroup.innerHTML = '';
+
+    events.forEach(event => {
+      const listItem = document.createElement('a');
+      listItem.className = 'list-group-item list-group-item-action';
+      listItem.href = '#';
+      listItem.innerHTML = `
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">${event.name}</h5>
+          <small>${event.date}</small>
+        </div>
+        <p class="mb-1">${event.organizer}</p>
+      `;
+      listGroup.appendChild(listItem);
+    });
+  }
+
+  fetchEvents();
+
+
+  // TODO:
+  // fill in the list in the html list component
+
+</script>
+
+  <!--scripts, jquery and bootstrap (for some reason collapsible menu doesn't work with bootstrap 5?)-->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 </body>
 </html>
