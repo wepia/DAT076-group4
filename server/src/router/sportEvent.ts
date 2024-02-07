@@ -38,7 +38,6 @@ eventApi.post("/", async(
     res : Response<SportEvent | string>
 ) => {
     try {
-        const id : number = Date.now();
         const name : string = req.body.name;
         const organizer : string = req.body.organizer;
         const date : string = req.body.string;
