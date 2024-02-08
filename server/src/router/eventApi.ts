@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import { EventService } from "../service/eventService";
-import { SportEvent } from "../model/sportEvent";
+import { EventService } from "../service/event";
+import { Event } from "../model/event";
 
 const eventService = new EventService();
 
@@ -8,7 +8,7 @@ export const eventApi = express.Router();
 
 eventApi.get("/getevents", async (
     req: Request<{}, {}, {}>,
-    res: Response<Array<SportEvent> | String>
+    res: Response<Array<Event> | String>
 ) => {
     try {
         const events = await eventService.getEvents();
@@ -21,7 +21,7 @@ eventApi.get("/getevents", async (
 
 eventApi.post("/", async(
     req : Request,
-    res : Response<SportEvent | string>
+    res : Response<Event | string>
 ) => {
     try {
         const name : string = req.body.name;

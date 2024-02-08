@@ -1,4 +1,4 @@
-import {Account} from "../model/account";
+import {Account, Shift} from "../model/account";
 
 export class AccountService {
     private accounts : Account[] = [];
