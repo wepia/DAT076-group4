@@ -8,6 +8,7 @@ export class AccountService {
 
     }
 
+    //TODO should we make sure same username is not allowed for multiple users?
     async registerAccounts(userName : string, password : string, confirmPassword : string, email : string, gender : string, birth : string) {
         if (password != confirmPassword) {
             throw new Error("Passwords do not match!")
@@ -18,11 +19,13 @@ export class AccountService {
         }
 
         let newAcc : Account = {
+            id: Date.now(),
             userName: userName,
             password : password,
             email : email,
             gender : gender,
-            birth : birth
+            birth : birth,
+            shifts : []
         }
 
         this.accounts.push(newAcc);
