@@ -1,6 +1,6 @@
 import * as SuperTest from "supertest";
 import {app} from "./start";
-import {Account} from "./model/account";
+import {Account} from "./model/archived/account";
 
 const request = SuperTest.default(app);
 

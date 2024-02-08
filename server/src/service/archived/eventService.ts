@@ -1,4 +1,4 @@
-import { SportEvent } from "../model/sportEvent";
+import { SportEvent } from "../../model/archived/sportEvent";
 
 export class EventService {
     private events : SportEvent[] = [

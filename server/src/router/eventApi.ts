@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import { EventService } from "../service/eventService";
-import { SportEvent } from "../model/sportEvent";
+import { EventService } from "../service/archived/eventService";
+import { SportEvent } from "../model/archived/sportEvent";
 
 const eventService = new EventService();
 

@@ -1,5 +1,5 @@
-import { Account } from "../model/account";
-import { AccountService } from "../service/account";
+import { Account } from "../model/archived/account";
+import { AccountService } from "../service/archived/account";
 import express, {Router, Request, Response} from "express";
 
 const accountService : AccountService = new AccountService();
