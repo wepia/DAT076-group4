@@ -14,19 +14,3 @@ export interface Shift {
     volunteerIDs: number[]; //id's of the scheduled user accounts
     reqNoVolunteers: number;
 }
-
-/*
-export class Event {
-    public id: number;
-    public name: string = "";
-    public organizer: string = "";
-    public date: string = "";
-
-    constructor(name: string, organizer: string, date: string) {
-        this.id = Date.now()
-        this.name = name;
-        this.organizer = organizer;
-        this.date = date;
-    }
-}
-*/
