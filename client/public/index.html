@@ -37,6 +37,10 @@
       <h2 class="col mt-5">Event list</h1>
       <div class="list-group">
       </div>
+      <div id="eventListContainer" class="container">
+        <button id="addEventBtn" class="btn btn-primary mt-4" >Lägg till event</button>
+        <ul id="eventList" class="list-group"></ul>
+    </div>
     </section>
 
   </main>
@@ -56,6 +60,16 @@
 <script>
 
   function fetchEvents() {
+    fetch('http://localhost:8080/event/getevents')
+      .then(response => response.json())
+      .then(events => {
+        console.log(events);
+        updateEventList(events);
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  function deleteEvents() {
     fetch('http://localhost:8080/event/getevents')
       .then(response => response.json())
       .then(events => {
