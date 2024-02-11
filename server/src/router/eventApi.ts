@@ -6,7 +6,7 @@ const eventService = new EventService();
 
 export const eventApi = express.Router();
 
-eventApi.get("/getevents", async (
+eventApi.get("/", async (
     req: Request<{}, {}, {}>,
     res: Response<Array<SportEvent> | String>
 ) => {
@@ -26,12 +26,11 @@ eventApi.post("/", async(
     try {
         const name : string = req.body.name;
         const organizer : string = req.body.organizer;
-        const date : string = req.body.date;
+        const date : Date = req.body.date;
 
         await eventService.addEvent(name,organizer,date);
 
         res.status(200).send();
-
     } catch (e: any) {
         res.status(500).send(e.message);        
     }
@@ -46,7 +45,7 @@ eventApi.delete("/", async (
     
     let deletedEvent = await eventService.deleteEvent(id);
         
-    res.status(200);
+    res.status(200).send();
 } catch (e:any) {
     res.status(500).send(e.message);
 }
