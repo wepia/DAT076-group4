@@ -2,13 +2,8 @@ import { Event, Shift } from "../model/event";
 
 export class EventService {
     private events : Event[] = [];
-    /*
-    [
-        { id : Date.now(), name : 'Marathon', organizer : 'City Sports Club', date: new Date('2024-04-21'), shifts : [] },
-        { id : Date.now(), name : 'Triathlon', organizer : 'National Sports Organization',  date : new Date('2024-06-15'), shifts : [] },
-        { id : Date.now(), name : 'Cycling Race', organizer : 'Cyclists Federation',  date : new Date('2024-07-03'), shifts : [] }
-    ];*/
-
+    private nextEventID : number = 1; //saving 0 if we want to implement a "trashcan id"
+    private nextShiftID : number = 1; //saving 0 if we want to implement a "trashcan id"
     //TODO this is copypaste from account. maybe fix reusable function instead?
     private async accessEvent(eventID : number):Promise<Event>{
         let eIndex : number = this.events.findIndex(v => v.id === eventID);
@@ -24,7 +19,7 @@ export class EventService {
 
     async addEvent(name : string, organizer : string, date : Date) :Promise<Event[]>{
         let newEvent : Event = {
-            id : Date.now(),
+            id : this.nextEventID++,
             name : name,
             organizer : organizer, 
             date : date,
@@ -45,7 +40,7 @@ export class EventService {
     async scheduleShift(eventID : number, description : string, start : Date, end : Date, requiredVolunteers : number) :Promise<Event>{
         let event : Event = await this.accessEvent(eventID);
         let newShift : Shift = {
-            id : Date.now(),
+            id : this.nextShiftID++,
             description : description,
             start: start,
             end: end,

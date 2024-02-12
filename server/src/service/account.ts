@@ -2,6 +2,7 @@ import {Account, Shift} from "../model/account";
 
 export class AccountService {
     private accounts : Account[] = [];
+    private nextAccountID : number = 1; //saving 0 if we want to implement a "trashcan id"
     private async accessAccount(accountID : number):Promise<Account>{
         let accIndex : number = this.accounts.findIndex(v => v.id === accountID);
         if(accIndex === -1){
@@ -26,7 +27,7 @@ export class AccountService {
         }
 
         let newAcc : Account = {
-            id: Date.now(),
+            id: this.nextAccountID++,
             userName: userName,
             password : password,
             email : email,
