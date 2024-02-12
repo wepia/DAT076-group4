@@ -41,12 +41,12 @@ eventApi.delete("/", async (
     res : Response<SportEvent[]>
 ) => {
     try {
-        const id : number = req.body.id;
+    const id : number = req.body.id;
+    
+    const events = await eventService.deleteEvent(id);
         
-        const events = await eventService.deleteEvent(id);
-            
-        res.status(201).send(events);
-    } catch (e:any) {
-        res.status(400).send(e.message);
-    }   
+    res.status(201).send(events);
+} catch (e:any) {
+    res.status(400).send(e.message);
+}
 })
