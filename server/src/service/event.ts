@@ -3,7 +3,6 @@ import { Event, Shift } from "../model/event";
 export class EventService {
     private events : Event[] = [];
     /*
-    Can't seem to make this work on the index page anymore, I don't know why, maybe index.html does not handle the type Date?
     [
         { id : Date.now(), name : 'Marathon', organizer : 'City Sports Club', date: new Date('2024-04-21'), shifts : [] },
         { id : Date.now(), name : 'Triathlon', organizer : 'National Sports Organization',  date : new Date('2024-06-15'), shifts : [] },
