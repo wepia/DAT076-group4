@@ -60,7 +60,7 @@
 <script>
 
   function fetchEvents() {
-    fetch('http://localhost:8080/event/getevents')
+    fetch('http://localhost:8080/event/')
       .then(response => response.json())
       .then(events => {
         console.log(events);
@@ -70,7 +70,7 @@
   }
 
   function deleteEvents() {
-    fetch('http://localhost:8080/event/getevents')
+    fetch('http://localhost:8080/event/')
       .then(response => response.json())
       .then(events => {
         console.log(events);
