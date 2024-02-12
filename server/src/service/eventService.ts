@@ -16,14 +16,14 @@ export class EventService {
         }
 
         this.events.push(newEvent);
-        return this.events;
+        return JSON.parse(JSON.stringify(this.events));
     }
 
     async deleteEvent(id : number) :Promise<SportEvent[]>{
       const newEventList = this.events.filter(event => event.id !== id);
     
       this.events = newEventList;
-      return this.events;
+      return JSON.parse(JSON.stringify(this.events));
     }
 }
 
