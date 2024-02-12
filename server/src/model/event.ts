@@ -11,6 +11,6 @@ export interface Shift {
     id: number;
     start: Date;
     end: Date;
-    volunteerIDs: number[]; //id's of the scheduled user accounts
-    reqNoVolunteers: number;
+    assignedVolunteers: number; //number of scheduled user accounts
+    requiredVolunteers: number;
 }

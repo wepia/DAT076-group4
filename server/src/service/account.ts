@@ -42,25 +42,25 @@ export class AccountService {
     }
 
     async scheduleShift(accountID: number, eventID: number, shiftID: number) :Promise<Account>{
-        let account = this.accessAccount(accountID);
+        let account : Account = await this.accessAccount(accountID);
         //do not schedule a shift twice
-        if((await account).shifts.findIndex(s => (s.shiftID === shiftID) && (s.eventID === eventID)) === -1){
+        if(account.shifts.findIndex(s => (s.shiftID === shiftID) && (s.eventID === eventID)) === -1){
             let newShift : Shift = {
                 eventID: eventID,
                 shiftID: shiftID
             };
-            (await account).shifts.push(newShift);
+            account.shifts.push(newShift);
         }
         return JSON.parse(JSON.stringify(account));
-      }
+    }
     
-      async unscheduleShift(accountID: number, eventID: number, shiftID: number) :Promise<Account>{
-        let account = this.accessAccount(accountID);
-        let shiftIndex = (await account).shifts.findIndex(s => (s.shiftID === shiftID) && (s.eventID === eventID));
+    async unscheduleShift(accountID: number, eventID: number, shiftID: number) :Promise<Account>{
+        let account : Account = await this.accessAccount(accountID);
+        let shiftIndex = account.shifts.findIndex(s => (s.shiftID === shiftID) && (s.eventID === eventID));
         if(shiftIndex > -1){
-            (await account).shifts.splice(shiftIndex, 1);
+            account.shifts.splice(shiftIndex, 1);
         }
         return JSON.parse(JSON.stringify(account));
-      }
+    }
 
 }

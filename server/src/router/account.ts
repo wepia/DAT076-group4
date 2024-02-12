@@ -30,7 +30,7 @@ accountRouter.get("/", async (
     res : Response<Account[] | string >
 ) => {
     try {
-        const accounts = await accountService.getAccounts();
+        const accounts : Account[] = await accountService.getAccounts();
         res.status(200).send(accounts);
     } catch (e : any) {
         res.status(500).send(e.message);
@@ -46,7 +46,7 @@ accountRouter.put("/schedule", async (
         const eventID: number = req.body.eventID; 
         const shiftID: number = req.body.shiftID;
 
-        const updatedAcc = await accountService.scheduleShift(accountID, eventID, shiftID);
+        const updatedAcc : Account = await accountService.scheduleShift(accountID, eventID, shiftID);
         res.status(200).send(updatedAcc);
     } catch(e : any){
         res.status(500).send(e.message);
@@ -62,7 +62,7 @@ accountRouter.put("/unschedule", async (
         const eventID: number = req.body.eventID; 
         const shiftID: number = req.body.shiftID;
 
-        const updatedAcc = await accountService.unscheduleShift(accountID, eventID, shiftID);
+        const updatedAcc : Account = await accountService.unscheduleShift(accountID, eventID, shiftID);
         res.status(200).send(updatedAcc);
     } catch(e : any){
         res.status(500).send(e.message);
