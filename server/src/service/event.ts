@@ -42,10 +42,11 @@ export class EventService {
       return this.events;
     }
 
-    async scheduleShift(eventID : number, start : Date, end : Date, requiredVolunteers : number) :Promise<Event>{
+    async scheduleShift(eventID : number, description : string, start : Date, end : Date, requiredVolunteers : number) :Promise<Event>{
         let event : Event = await this.accessEvent(eventID);
         let newShift : Shift = {
             id : Date.now(),
+            description : description,
             start: start,
             end: end,
             assignedVolunteers: 0, 

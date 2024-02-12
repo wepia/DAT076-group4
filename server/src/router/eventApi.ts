@@ -57,11 +57,12 @@ eventApi.post("/shift", async (
 ) => {
     try {
         const eventID: number = req.body.eventID; 
+        const description: string = req.body.description;
         const start: Date = req.body.start;
         const end: Date = req.body.end;
         const requiredVolunteers: number = req.body.requiredVolunteers;
         
-        const updatedEvent : Event = await eventService.scheduleShift(eventID, start, end, requiredVolunteers);
+        const updatedEvent : Event = await eventService.scheduleShift(eventID, description, start, end, requiredVolunteers);
         res.status(200).send(updatedEvent);
     } catch(e : any){
         res.status(500).send(e.message);

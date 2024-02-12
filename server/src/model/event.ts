@@ -9,6 +9,7 @@ export interface Event {
   
 export interface Shift {
     id: number;
+    description: string;
     start: Date;
     end: Date;
     assignedVolunteers: number; //number of scheduled user accounts
