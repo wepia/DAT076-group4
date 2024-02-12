@@ -1,8 +1,8 @@
 export interface Event {
     id: number;
     name: string;
-    //TODO change to type Date (including time) and "start", "end" instead of just "date"
-    date: string;
+    //TODO change to "start", "end" instead of just "date"
+    date: Date;
     organizer: string;
     shifts: Shift[];
 }

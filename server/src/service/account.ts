@@ -2,6 +2,13 @@ import {Account, Shift} from "../model/account";
 
 export class AccountService {
     private accounts : Account[] = [];
+    private async accessAccount(accountID : number):Promise<Account>{
+        let accIndex : number = this.accounts.findIndex(v => v.id === accountID);
+        if(accIndex === -1){
+          throw new Error("Requested accountID does not exist.");
+        }
+        return this.accounts[accIndex];
+    }
 
     async getAccounts() : Promise<Account[]> {
         return JSON.parse(JSON.stringify(this.accounts));
@@ -9,7 +16,7 @@ export class AccountService {
     }
 
     //TODO should we make sure same username is not allowed for multiple users?
-    async registerAccounts(userName : string, password : string, confirmPassword : string, email : string, gender : string, birth : string) {
+    async registerAccounts(userName : string, password : string, confirmPassword : string, email : string, gender : string, birth : string) :Promise<Account>{
         if (password != confirmPassword) {
             throw new Error("Passwords do not match!")
         }
@@ -29,7 +36,31 @@ export class AccountService {
         }
 
         this.accounts.push(newAcc);
-        
+        //Q: what is happening in the return statement? Why not return a JSON?
+        //return JSON.parse(JSON.stringify(newAcc));
         return {...newAcc};
     }
+
+    async scheduleShift(accountID: number, eventID: number, shiftID: number) :Promise<Account>{
+        let account = this.accessAccount(accountID);
+        //do not schedule a shift twice
+        if((await account).shifts.findIndex(s => (s.shiftID === shiftID) && (s.eventID === eventID)) === -1){
+            let newShift : Shift = {
+                eventID: eventID,
+                shiftID: shiftID
+            };
+            (await account).shifts.push(newShift);
+        }
+        return JSON.parse(JSON.stringify(account));
+      }
+    
+      async unscheduleShift(accountID: number, eventID: number, shiftID: number) :Promise<Account>{
+        let account = this.accessAccount(accountID);
+        let shiftIndex = (await account).shifts.findIndex(s => (s.shiftID === shiftID) && (s.eventID === eventID));
+        if(shiftIndex > -1){
+            (await account).shifts.splice(shiftIndex, 1);
+        }
+        return JSON.parse(JSON.stringify(account));
+      }
+
 }

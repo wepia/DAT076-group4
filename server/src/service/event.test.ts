@@ -3,7 +3,7 @@ import { EventService } from "./event";
 test("If an event is created, then it should be added to the list of all events", async() => {
     const name = "Football";
     const organizer = "Local football club";
-    const date = "2024-03-10";
+    const date = new Date("2024-03-10");
 
     const eventService : EventService = new EventService();
 
@@ -18,7 +18,7 @@ test("If an event is created, then it should be added to the list of all events"
 test("If an event is deleted, then it should be deleted from the list of all events", async() => {
     const name = "Football";
     const organizer = "Local football club";
-    const date = "2024-03-10";
+    const date = new Date("2024-03-10");
 
     const eventService : EventService = new EventService();
 
