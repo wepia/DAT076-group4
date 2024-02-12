@@ -11,7 +11,7 @@ test("If an event is created, then it should be added to the list of all events"
 
     const events = await eventService.getEvents();
 
-    expect(events.some((event) => event.name === name && event.organizer === organizer && event.date === date)).toBeTruthy();
+    expect(events.some((event) => event.name === name && event.organizer === organizer && new Date(event.date).getTime() === date.getTime())).toBeTruthy();
 
 })
 
