@@ -6,26 +6,47 @@ const eventService = new EventService();
 
 export const eventApi = express.Router();
 
-eventApi.get("/getevents", async (
+eventApi.get("/", async (
     req: Request<{}, {}, {}>,
-    res: Response<Array<SportEvent> | String>
+    res: Response<SportEvent[]>
 ) => {
     try {
         const events = await eventService.getEvents();
-        res.status(200).send(events);
+        res.status(201).send(events);
     } catch (e: any) {
-        res.status(500).send(e.message);
+        res.status(400).send(e.message);
     }
 });
 
 
-eventApi.get("/test", async (
-    req: Request<{}, {}, {}>,
-    res: Response<string>
+eventApi.post("/", async(
+    req : Request,
+    res : Response<SportEvent[]>
 ) => {
     try {
-        res.status(200).send("Done.");
+        const name : string = req.body.name;
+        const organizer : string = req.body.organizer;
+        const date : Date = req.body.date;
+
+        const events = await eventService.addEvent(name,organizer,date);
+
+        res.status(201).send(events);
     } catch (e: any) {
-        res.status(500).send(e.message);
+        res.status(400).send(e.message);        
     }
-});
+})
+
+eventApi.delete("/", async (
+    req : Request,
+    res : Response<SportEvent[]>
+) => {
+    try {
+    const id : number = req.body.id;
+    
+    const events = await eventService.deleteEvent(id);
+        
+    res.status(201).send(events);
+} catch (e:any) {
+    res.status(400).send(e.message);
+}
+})
