@@ -6,7 +6,7 @@ test("If an account is created, then it should be added to the list of all accou
     const password = "testlosen";
     const confirmPassword = "testlosen";
     const gender = "testgender";
-    const birth = "0701200";
+    const birth = new Date(2000,8,1);
 
     const accountService : AccountService = new AccountService();
 
@@ -18,3 +18,5 @@ test("If an account is created, then it should be added to the list of all accou
     expect(accounts.some((account) => account.userName === userName && account.email === email && account.password === password && account.gender === gender && account.birth === birth)).toBeTruthy();
 
 })
+
+test("If a Date is in the fu")

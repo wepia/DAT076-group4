@@ -8,7 +8,7 @@ export class AccountService {
 
     }
 
-    async registerAccounts(userName : string, password : string, confirmPassword : string, email : string, gender : string, birth : string) {
+    async registerAccounts(userName : string, password : string, confirmPassword : string, email : string, gender : string, birth : Date) {
         if (password != confirmPassword) {
             throw new Error("Passwords do not match!")
         }

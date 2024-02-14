@@ -15,7 +15,7 @@ accountRouter.post("/", async (
         const password : string = req.body.password;
         const confirmPassword : string = req.body.confirmPassword;
         const gender : string = req.body.gender;
-        const birth : string = req.body.birth;
+        const birth : Date = req.body.birth;
 
         const newAcc = await  accountService.registerAccounts(userName, password, confirmPassword, email, gender, birth);
         res.status(200).send(newAcc);

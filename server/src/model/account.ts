@@ -3,5 +3,5 @@ export interface Account{
     email : string;
     password : string;
     gender : string;
-    birth : string;
+    birth : Date;
 }
