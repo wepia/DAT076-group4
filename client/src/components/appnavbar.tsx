@@ -5,15 +5,18 @@ import Navbar from 'react-bootstrap/Navbar';
 function AppNavbar() {
   return (
     <>
-      <Navbar bg="light" data-bs-theme="light">
+      <Navbar expand="lg" className="bg-body-tertiary" sticky='top'>
         <Container>
-          <Navbar.Brand href="#home">Athlete Assist</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#registration">Registration</Nav.Link>
-            <Nav.Link href="#history">History</Nav.Link>
-            <Nav.Link href="#login">Log in</Nav.Link>
-          </Nav>
+          <Navbar.Brand>Athlete Assist</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse>
+            <Nav className="me-auto">
+              <Nav.Link href="#home">Home</Nav.Link>
+              <Nav.Link href="#registration">Registration</Nav.Link>
+              <Nav.Link href="#history">History</Nav.Link>
+              <Nav.Link href="#login">Log in</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
     </>
