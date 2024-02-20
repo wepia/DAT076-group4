@@ -1,7 +1,6 @@
-import React from 'react';
-import logo from './logo.svg';
 import './main.css';
 import { Navbar, Nav, Container, Row, Col } from 'react-bootstrap';
+import { Outlet } from "react-router-dom"
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 function Layout() {
@@ -21,6 +20,8 @@ function Layout() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
+      <Outlet />
 
       <footer className="footer text-center mt-auto bg-light text-muted">
         <Container>
