@@ -13,26 +13,13 @@ accountRouter.post("/", async (
         const userName : string = req.body.userName;
         const email : string = req.body.email;
         const password : string = req.body.password;
-        const confirmPassword : string = req.body.confirmPassword;
         const gender : string = req.body.gender;
         const birth : Date = req.body.birth;
 
-        const newAcc = await  accountService.registerAccounts(userName, password, confirmPassword, email, gender, birth);
+        const newAcc = await accountService.registerAccounts(userName, password, email, gender, birth);
         res.status(200).send(newAcc);
     } catch (e: any) {
         res.status(400).send(e.message);
     }
 
 } )
-
-accountRouter.get("/", async (
-    req : Request, 
-    res : Response<Array<Account> | string >
-) => {
-    try {
-        const accounts = await accountService.getAccounts();
-        res.status(200).send(accounts);
-    } catch (e : any) {
-        res.status(500).send(e.message);
-    }
-})
