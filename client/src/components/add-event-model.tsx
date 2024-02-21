@@ -2,9 +2,6 @@ import axios from "axios";
 import { FormEvent, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
-interface Event {
-}
-
 function AddEventModel(props : {show: boolean, handleClose: any}) {
   const [newName, setNewName] = useState<string>("");
   const [newOrganizer, setNewOrganizer] = useState<string>("");

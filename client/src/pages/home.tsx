@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { useState } from 'react';
 import AddEventModel from '../components/add-event-model';
+import EventList from '../components/eventlist';
 
 function Home() {
   const [show, setShow] = useState(false);
@@ -33,7 +34,7 @@ function Home() {
       </Container>
       <Container>
         <Row>
-
+          <EventList />
         </Row>
         <Row className="justify-content-center">
           <Col className="text-center mt-4">
