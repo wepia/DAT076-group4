@@ -11,8 +11,8 @@ function AppNavbar() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse>
             <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#registration">Registration</Nav.Link>
+              <Nav.Link href="/home">Home</Nav.Link>
+              <Nav.Link href="/registration">Registration</Nav.Link>
               <Nav.Link href="#history">History</Nav.Link>
               <Nav.Link href="#login">Log in</Nav.Link>
             </Nav>

@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
-import RegistrationForm from "./RegistrationForm";
+import RegistrationForm from "./pages/RegistrationForm";
 import axios, { AxiosStatic } from "axios";
 
 jest.mock("axios");

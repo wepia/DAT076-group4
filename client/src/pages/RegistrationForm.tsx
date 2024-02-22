@@ -1,11 +1,12 @@
 import React, { FormEvent, ReactNode, useState } from "react";
-import "./RegistrationForm.css";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../RegistrationForm.css";
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import InputField from "./InputField";
-import modal from "react-bootstrap/Modal";
+import InputField from "../components/InputField";
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
+import AppNavbar from "../components/appnavbar";
+
 function RegistrationForm() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -58,6 +59,7 @@ function RegistrationForm() {
 
   return (
     <div>
+      <AppNavbar/>
       <form
         action="process_registration.php"
         onSubmit={(e) => {
@@ -135,6 +137,8 @@ function RegistrationForm() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <footer/>
     </div>
   );
 }
