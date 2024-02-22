@@ -1,0 +1,78 @@
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+  
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#rememberUser:checked {
+  background-color: #4caf50;
+  border-color: black;
+  animation: remember-me-check;
+  animation-duration: 2s;
+}
+
+#rememberUser {
+  border-color: gray;
+}
+
+@keyframes remember-me-check {
+  0% {
+    background-color: white;
+  }
+
+  25% {
+    background-color: #8aaf8c;
+  }
+
+  50% {
+    background-color: #76ad79;
+  }
+
+  75% {
+    background-color: #66ad69;
+  }
+
+  100% {
+    background-color: #4caf50;
+  }
+}
+@keyframes fadeinpane {
+  from {opacity: 0;}
+  to {opacity: 1;}
+  }
+  .datapane{
+      height: 80%;
+      animation-name: fadeinpane;
+      animation-duration: 2s;   
+  }
