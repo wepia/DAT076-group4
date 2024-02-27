@@ -32,17 +32,17 @@ function RegistrationForm() {
 
         if (response.status === 200) {
           setModalMessage("Account Registered Successfully!");
+        } else {
+          setModalMessage("Registration Failed!");
         }
-      } catch (error) {
-        setModalMessage("Registration Failed!");
-        setInputs({
-          username: "",
-          email: "",
-          password: "",
-          confirm_password: "",
-          gender: "",
-          birthdate: null,
-        });
+      } catch (error : any) {
+          if (error.response) {
+            setModalMessage(`Registration Failed! ${error.response.data.message}`);
+          } else if (error.request) {
+            setModalMessage("Registration Failed! Network error.");
+          } else {
+            setModalMessage("Registration Failed! An error occurred.");
+          }
       }
     } else {
       setModalMessage("Passwords didn't match!");
@@ -52,7 +52,6 @@ function RegistrationForm() {
         confirm_password: "",
       });
     }
-
     setShowModal(true);
   }
 
@@ -140,3 +139,5 @@ function RegistrationForm() {
 }
 
 export default RegistrationForm;
+
+
