@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, act } from "@testing-library/react";
 import RegistrationForm from "./RegistrationForm";
 import axios, { AxiosStatic } from "axios";
 
@@ -28,7 +28,9 @@ test("If the account registration were successfull a popup should tell that to t
   fireEvent.change(birthdateField, { target: { value: "2022-02-21" } });
 
   const registerButton = screen.getByText("Register");
-  await fireEvent.click(registerButton);
+  await act(async () => {
+    fireEvent.click(registerButton);
+  });
 
   expect(
     screen.getByText(/Account Registered Successfully!/)
@@ -57,7 +59,9 @@ test("If password != confirm_password the popup for this error should be display
   fireEvent.change(birthdateField, { target: { value: "2022-02-21" } });
 
   const registerButton = screen.getByText("Register");
-  await fireEvent.click(registerButton);
+  await act(async () => {
+    fireEvent.click(registerButton);
+  });
 
   expect(screen.getByText(/Passwords didn't match!/)).toBeInTheDocument();
 });
@@ -87,7 +91,13 @@ test("If the registration were unsuccessfull then the popup for this should be d
   fireEvent.change(birthdateField, { target: { value: "2022-02-21" } });
 
   const registerButton = screen.getByText("Register");
-  await fireEvent.click(registerButton);
+  await act(async () => {
+    fireEvent.click(registerButton);
+  });
 
   expect(screen.getByText(/Registration Failed!/)).toBeInTheDocument();
 });
+
+
+
+
