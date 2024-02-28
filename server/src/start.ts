@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import { accountRouter } from "./router/account";
 import { eventApi } from "./router/eventApi";
-import cors from "cors";
 
 
 export const app = express();

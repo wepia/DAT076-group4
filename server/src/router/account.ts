@@ -1,8 +1,9 @@
 import { Account } from "../model/account";
 import { AccountService } from "../service/account";
 import express, {Router, Request, Response} from "express";
+import { IAccountService } from "../model/account.interface";
 
-const accountService : AccountService = new AccountService();
+const accountService : IAccountService = new AccountService();
 export const accountRouter : Router = express.Router();
 
 accountRouter.post("/", async (
