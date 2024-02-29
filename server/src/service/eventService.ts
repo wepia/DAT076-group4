@@ -8,7 +8,7 @@ export class EventService implements IEventService {
         return JSON.parse(JSON.stringify(this.events));
     }
 
-    async addEvent(name : string, organizer : string, date : Date) :Promise<SportEvent[]>{
+    async addEvent(name : string, organizer : string, date : Date) :Promise<SportEvent>{
         let newEvent : SportEvent = {
             id : Date.now(),
             name : name,
@@ -17,7 +17,7 @@ export class EventService implements IEventService {
         }
 
         this.events.push(newEvent);
-        return JSON.parse(JSON.stringify(this.events));
+        return JSON.parse(JSON.stringify(newEvent));
     }
 
     async deleteEvent(id : number) :Promise<SportEvent[]>{

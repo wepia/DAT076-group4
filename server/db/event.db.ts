@@ -49,4 +49,4 @@ async function makeModel() : Promise<Model<SportEvent>> {
   return (await conn).model<SportEvent>("Events", eventSchema);
 }
 
-export const accountModel : Promise<Model<SportEvent>> = makeModel();
+export const eventModel : Promise<Model<SportEvent>> = makeModel();
