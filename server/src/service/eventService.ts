@@ -1,6 +1,7 @@
 import { SportEvent } from "../model/sportEvent";
+import { IEventService } from "../model/event.interface";
 
-export class EventService {
+export class EventService implements IEventService {
     private events : SportEvent[] = [];
     
     async getEvents(): Promise<SportEvent[]> {
