@@ -58,7 +58,6 @@ function RegistrationForm() {
 
   return (
     <div>
-      <AppNavbar/>
       <form
         action="process_registration.php"
         onSubmit={(e) => {
