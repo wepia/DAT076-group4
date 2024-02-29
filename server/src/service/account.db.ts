@@ -3,7 +3,7 @@ import { IAccountService } from "../model/account.interface";
 import { accountModel} from "../../db/account.db";
 import {Model} from 'mongoose';
 
-class AccountDBService implements IAccountService {
+export class AccountDBService implements IAccountService {
 
     async registerAccounts(userName : string, password : string,  email : string, gender : string, birth : Date): Promise<Account> {
         
