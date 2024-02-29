@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
 import { EventService } from "../service/eventService";
 import { SportEvent } from "../model/sportEvent";
+import { IEventService } from "../model/event.interface";
 
-const eventService = new EventService();
+const eventService : IEventService = new EventService();
 
 export const eventApi = express.Router();
 
