@@ -1,7 +1,9 @@
 import React from "react";
-import { fireEvent, render, screen, act } from "@testing-library/react";
-import RegistrationForm from "./RegistrationForm";
+import { fireEvent, render, screen, waitFor, act } from "@testing-library/react";
+import RegistrationForm from "./pages/RegistrationForm";
 import axios, { AxiosStatic } from "axios";
+import { wait } from "@testing-library/user-event/dist/utils";
+import { act } from "react-dom/test-utils";
 
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;
@@ -32,10 +34,13 @@ test("If the account registration were successfull a popup should tell that to t
     fireEvent.click(registerButton);
   });
 
-  expect(
-    screen.getByText(/Account Registered Successfully!/)
-  ).toBeInTheDocument();
-});
+  waitFor(() => {
+    expect(
+      screen.getByText(/Account Registered Successfully!/)
+    ).toBeInTheDocument();
+  });    
+  })
+
 
 test("If password != confirm_password the popup for this error should be displayed", async () => {
   render(<RegistrationForm />);
@@ -95,9 +100,9 @@ test("If the registration were unsuccessfull then the popup for this should be d
     fireEvent.click(registerButton);
   });
 
-  expect(screen.getByText(/Registration Failed!/)).toBeInTheDocument();
-});
-
-
-
+  
+  waitFor(() => {
+    expect(screen.getByText(/Registration Failed!/)).toBeInTheDocument();
+  });
+  })
 
