@@ -1,4 +1,4 @@
-import { Account } from "../model/account.interface";
+import { Account } from "../model/account";
 import { IAccountService } from "../model/account.interface";
 import { accountModel} from "../../db/account.db";
 import {Model} from 'mongoose';
