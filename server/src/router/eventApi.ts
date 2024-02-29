@@ -46,7 +46,7 @@ eventApi.delete("/", async (
     
     const events = await eventService.deleteEvent(id);
         
-    res.status(201).send(events);
+    res.status(200).send(events);
 } catch (e:any) {
     res.status(400).send(e.message);
 }

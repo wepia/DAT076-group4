@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { CloseButton, ListGroup } from "react-bootstrap";
 
 interface Event {
@@ -34,40 +34,48 @@ function EventList() {
     }
   }
 
-  updateEvents();
+  
+  useEffect(() => {
+    updateEvents()
+  },[]);
+  
   return (
     <ListGroup>
       {eventList.map((event: Event) => 
-        <EventItem e = {event}/>
+        <EventItem 
+          e = {event} 
+          eventDeleted={() => updateEvents()}
+          />
         )}
     </ListGroup>
   );
 }
 
-export async function deleteEvent(eID: number) {
-  try{
-    await axios.delete('http://localhost:8080/event',
-        {data: {id: eID}}
-      );
-    EventList(); //TODO only update
-  } catch (err: any) {
-    if (err.response) {
-      console.log(err.response.status);
-    } else if (err.request) {
-      console.log("No response from server")
-    } else {
-      console.log(err);
+
+export function EventItem({e, eventDeleted} : {e: Event, eventDeleted : () => void}) {
+
+  async function deleteEvent() {
+    try{
+      await axios.delete('http://localhost:8080/event',
+          {data: {id: e.id}}
+        );
+      eventDeleted(); //TODO only update
+    } catch (err: any) {
+      if (err.response) {
+        console.log(err.response.status);
+      } else if (err.request) {
+        console.log("No response from server")
+      } else {
+        console.log(err);
+      }
     }
   }
-}
-
-export function EventItem({e} : {e: Event}) {
 
   return (<ListGroup.Item key={e.id}>
           <div><h5>{e.name}</h5>
               <small>{e.date.toLocaleString()}</small>
               <CloseButton onClick = 
-              {ev =>{ev.preventDefault(); deleteEvent(e.id)}}/>
+              {ev =>{ev.preventDefault(); deleteEvent()}}/>
           </div>
           <p className="mb-1">{e.organizer}</p>
         </ListGroup.Item>)

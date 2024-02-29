@@ -21,10 +21,11 @@ export class EventDBService implements IEventService {
 
 
   async deleteEvent(id : number) :Promise<SportEvent[]>{
-    (await eventModel).deleteOne(
+    const em = await eventModel;
+    await em.deleteOne(
       {id:id}
     );
-    return (await eventModel).find();
+    return em.find();
   }
 
 }
