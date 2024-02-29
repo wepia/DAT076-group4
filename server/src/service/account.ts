@@ -13,10 +13,11 @@ export class AccountService implements IAccountService{
 
         let newAcc : Account = {
             userName: userName,
-            password : password,
-            email : email,
-            gender : gender,
-            birth : birth
+            password: password,
+            email: email,
+            gender: gender,
+            birth: birth,
+            events: []
         }
 
         this.accounts.push(newAcc);
