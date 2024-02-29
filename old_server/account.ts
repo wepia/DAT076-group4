@@ -1,5 +1,5 @@
-import {Account} from "../model/account";
-import { IAccountService } from "../model/account.interface";
+import {Account} from "../server/src/model/account";
+import { IAccountService } from "../server/src/service/account.interface";
 
 export class AccountService implements IAccountService{
     private accounts : Account[] = [];

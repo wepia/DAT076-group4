@@ -1,13 +1,13 @@
 import express, { Request, Response } from "express";
-import { EventDBService } from "../service/evendDBservice";
+import { EventDBService } from "../service/event.db";
 import { SportEvent } from "../model/sportEvent";
-import { IEventService } from "../model/event.interface";
+import { IEventService } from "../service/event.interface";
 
 const eventService : IEventService = new EventDBService();
 
-export const eventApi = express.Router();
+export const eventRouter = express.Router();
 
-eventApi.get("/", async (
+eventRouter.get("/", async (
     req: Request<{}, {}, {}>,
     res: Response<SportEvent[]>
 ) => {
@@ -20,7 +20,7 @@ eventApi.get("/", async (
 });
 
 
-eventApi.post("/", async(
+eventRouter.post("/", async(
     req : Request,
     res : Response<SportEvent>
 ) => {
@@ -37,7 +37,7 @@ eventApi.post("/", async(
     }
 })
 
-eventApi.delete("/", async (
+eventRouter.delete("/", async (
     req : Request,
     res : Response<SportEvent[]>
 ) => {

@@ -1,5 +1,5 @@
-import { SportEvent } from "../model/sportEvent";
-import { IEventService } from "../model/event.interface";
+import { SportEvent } from "../server/src/model/sportEvent";
+import { IEventService } from "../server/src/service/event.interface";
 
 export class EventService implements IEventService {
     private events : SportEvent[] = [];

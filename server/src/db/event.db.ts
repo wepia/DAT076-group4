@@ -1,6 +1,6 @@
 import {Schema, Model} from "mongoose";
 
-import {SportEvent} from "../src/model/sportEvent";
+import {SportEvent} from "../model/sportEvent";
 
 import { conn } from "./conn";
 

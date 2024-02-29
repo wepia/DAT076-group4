@@ -1,5 +1,5 @@
 import {Schema, Model} from "mongoose";
-import {Account} from "../src/model/account";
+import {Account} from "../model/account";
 import {conn} from "./conn";
 
 const accountSchema : Schema = new Schema ({

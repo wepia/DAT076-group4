@@ -1,4 +1,4 @@
-import { IAccountService } from "../model/account.interface";
+import { IAccountService } from "./account.interface";
 import { AccountDBService } from "./account.db";
 
 test("If an account is created, then it should be added to the list of all accounts", async() => {

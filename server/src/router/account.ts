@@ -1,7 +1,7 @@
 import { Account } from "../model/account";
 import { AccountDBService } from "../service/account.db";
 import express, {Router, Request, Response} from "express";
-import { IAccountService } from "../model/account.interface";
+import { IAccountService } from "../service/account.interface";
 
 const accountService : IAccountService = new AccountDBService();
 export const accountRouter : Router = express.Router();

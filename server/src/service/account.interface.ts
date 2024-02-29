@@ -1,5 +1,4 @@
-import {Account} from "./account";
-
+import {Account} from "../model/account";
 
 export interface IAccountService {
 

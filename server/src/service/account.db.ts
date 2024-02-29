@@ -1,6 +1,6 @@
 import { Account } from "../model/account";
-import { IAccountService } from "../model/account.interface";
-import { accountModel} from "../../db/account.db";
+import { IAccountService } from "./account.interface";
+import { accountModel} from "../db/account.db";
 import {Model} from 'mongoose';
 
 export class AccountDBService implements IAccountService {

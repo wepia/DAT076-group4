@@ -1,5 +1,4 @@
-import {SportEvent} from "./sportEvent";
-
+import {SportEvent} from "../model/sportEvent";
 
 export interface IEventService {
 
