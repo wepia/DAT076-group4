@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom"
 import AppNavbar from './appnavbar';
 import Footer from './footer';
 
+
 function Layout() {
   return (
     <div>
@@ -12,6 +13,8 @@ function Layout() {
       <Outlet />
 
       <Footer />
+      
+      
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { useState } from 'react';
 import AddEventModel from '../components/add-event-model';
+import EventCard from '../components/event';
 
 function Home() {
   const [show, setShow] = useState(false);
@@ -31,22 +32,27 @@ function Home() {
           <h2 className="mt-5">Event list</h2>
         </Row>
       </Container>
-      <Container>
-        <Row>
 
-        </Row>
+      <Container>  
+      <Row>
+    <div >
+      <EventCard organizer="Chalmers Univercity" Name="Marathon in the garden" date="2024-07-01" />
+      <EventCard organizer="Chalmers Univercity" Name="Marathon in the garden" date="2024-07-01" />
+
+    </div>
+
+    </Row>
         <Row className="justify-content-center">
           <Col className="text-center mt-4">
             <Button variant="primary" onClick={handleShow}>Add event</Button>
           </Col>
-        </Row>
+    </Row>
       </Container>
 
       <AddEventModel 
         show={show} 
         handleClose={handleClose}
       />
-
     </div>
   );
 }
