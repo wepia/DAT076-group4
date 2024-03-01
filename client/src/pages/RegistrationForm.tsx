@@ -1,11 +1,10 @@
-import React, { FormEvent, ReactNode, useState } from "react";
-import "../RegistrationForm.css";
+import React, { FormEvent, useState } from "react";
+import "../css/RegistrationForm.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import InputField from "../components/InputField";
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
-import AppNavbar from "../components/appnavbar";
 
 function RegistrationForm() {
   const [showModal, setShowModal] = useState(false);

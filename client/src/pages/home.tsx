@@ -1,5 +1,5 @@
-import '../main.css';
-import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
+import '../css/main.css';
+import { Container, Row, Col} from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import EventView from '../components/eventView';
 
