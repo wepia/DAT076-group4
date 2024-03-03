@@ -26,4 +26,13 @@ export class EventDBService implements IEventService {
     return em.find();
   }
 
+  async filterEvents(startDate : Date, endDate : Date) : Promise<SportEvent[]> {
+    const em = await eventModel;
+    const events = await em.find({
+      date: {$gte : startDate, $lte :endDate}
+    }).exec();
+
+    return events;
+  }
+
 }

@@ -10,4 +10,7 @@ export interface IEventService {
 
   // Removes an event with the given id and returns a deep copy of the new list of events
   deleteEvent(id : number) :Promise<SportEvent[]>
+
+  // Returns the events that are within the date interval startDate-endDate.
+  filterEvents(startDate : Date, endDate : Date) : Promise<SportEvent[]>
  }
