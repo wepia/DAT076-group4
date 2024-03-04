@@ -1,4 +1,4 @@
-import { EventService } from "./eventService";
+import { EventService } from "../../../old_server/eventService";
 
 test("If an event is created, then it should be added to the list of all events", async() => {
     const name = "Football";

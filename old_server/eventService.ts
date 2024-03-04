@@ -1,13 +1,14 @@
-import { SportEvent } from "../model/sportEvent";
+import { SportEvent } from "../server/src/model/sportEvent";
+import { IEventService } from "../server/src/service/event.interface";
 
-export class EventService {
+export class EventService implements IEventService {
     private events : SportEvent[] = [];
     
     async getEvents(): Promise<SportEvent[]> {
         return JSON.parse(JSON.stringify(this.events));
     }
 
-    async addEvent(name : string, organizer : string, date : Date) :Promise<SportEvent[]>{
+    async addEvent(name : string, organizer : string, date : Date) :Promise<SportEvent>{
         let newEvent : SportEvent = {
             id : Date.now(),
             name : name,
@@ -16,7 +17,7 @@ export class EventService {
         }
 
         this.events.push(newEvent);
-        return JSON.parse(JSON.stringify(this.events));
+        return JSON.parse(JSON.stringify(newEvent));
     }
 
     async deleteEvent(id : number) :Promise<SportEvent[]>{

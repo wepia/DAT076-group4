@@ -3,9 +3,9 @@ import { Col, Container, Row } from "react-bootstrap";
 function Footer() {
   return (
     <>
-       <footer className="footer text-center mt-auto bg-light text-muted">
-        <Container>
-          <Row>
+       <footer >
+        <Container fluid>
+          <Row className="text-center mt-auto bg-light text-muted p-4">
             <Col>          
               <p>
                 Contact info: <br />

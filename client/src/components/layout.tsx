@@ -1,5 +1,4 @@
-import '../main.css';
-import { Navbar, Nav, Container, Row, Col } from 'react-bootstrap';
+import '../css/main.css';
 import { Outlet } from "react-router-dom"
 import AppNavbar from './appnavbar';
 import Footer from './footer';

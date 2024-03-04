@@ -1,8 +1,9 @@
 import { Account } from "../model/account";
-import { AccountService } from "../service/account";
+import { AccountDBService } from "../service/account.db";
 import express, {Router, Request, Response} from "express";
+import { IAccountService } from "../service/account.interface";
 
-const accountService : AccountService = new AccountService();
+const accountService : IAccountService = new AccountDBService();
 export const accountRouter : Router = express.Router();
 
 accountRouter.post("/", async (
@@ -13,26 +14,14 @@ accountRouter.post("/", async (
         const userName : string = req.body.userName;
         const email : string = req.body.email;
         const password : string = req.body.password;
-        const confirmPassword : string = req.body.confirmPassword;
         const gender : string = req.body.gender;
-        const birth : string = req.body.birth;
+        const birth : Date = new Date(req.body.birth);
 
-        const newAcc = await  accountService.registerAccounts(userName, password, confirmPassword, email, gender, birth);
+        const newAcc = await accountService.registerAccounts(userName, password, email, gender, birth);
         res.status(200).send(newAcc);
     } catch (e: any) {
-        res.status(400).send(e.message);
+        console.error(e);
+        res.status(500).send(e.message);
     }
 
 } )
-
-accountRouter.get("/", async (
-    req : Request, 
-    res : Response<Array<Account> | string >
-) => {
-    try {
-        const accounts = await accountService.getAccounts();
-        res.status(200).send(accounts);
-    } catch (e : any) {
-        res.status(500).send(e.message);
-    }
-})

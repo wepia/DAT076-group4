@@ -1,15 +1,9 @@
-import '../main.css';
-import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import { useState } from 'react';
-import AddEventModel from '../components/add-event-model';
-import EventList from '../components/eventlist';
+import '../css/main.css';
+import { Container, Row, Col} from 'react-bootstrap';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import EventView from '../components/eventView';
 
 function Home() {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   return (
     <div>
       <Container>
@@ -33,21 +27,8 @@ function Home() {
         </Row>
       </Container>
       <Container>
-        <Row>
-          <EventList />
-        </Row>
-        <Row className="justify-content-center">
-          <Col className="text-center mt-4">
-            <Button variant="primary" onClick={handleShow}>Add event</Button>
-          </Col>
-        </Row>
+        <EventView />
       </Container>
-
-      <AddEventModel 
-        show={show} 
-        handleClose={handleClose}
-      />
-
     </div>
   );
 }

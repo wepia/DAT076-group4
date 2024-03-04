@@ -3,4 +3,5 @@ export interface SportEvent {
     name: string;
     organizer: string;
     date: Date;
+    volunteerIDs: number[]
 }
