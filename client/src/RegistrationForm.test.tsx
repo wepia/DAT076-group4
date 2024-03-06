@@ -1,13 +1,13 @@
 import React from "react";
 import { fireEvent, render, screen, waitFor, act } from "@testing-library/react";
-import RegistrationForm from "./pages/RegistrationForm";
 import axios, { AxiosStatic } from "axios";
+import Registration from "./pages/Registration";
 
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;
 
 test("If the account registration were successfull a popup should tell that to the user", async () => {
-  render(<RegistrationForm />);
+  render(<Registration />);
 
   const userNameField = screen.getByLabelText("Username");
   fireEvent.change(userNameField, { target: { value: "testuser" } });
@@ -41,7 +41,7 @@ test("If the account registration were successfull a popup should tell that to t
 
 
 test("If password != confirm_password the popup for this error should be displayed", async () => {
-  render(<RegistrationForm />);
+  render(<Registration />);
 
   const userNameField = screen.getByLabelText("Username");
   fireEvent.change(userNameField, { target: { value: "testuser" } });
@@ -73,7 +73,7 @@ test("If the registration were unsuccessfull then the popup for this should be d
   mockedAxios.post.mockRejectedValue({
     status: 400,
   });
-  render(<RegistrationForm />);
+  render(<Registration />);
 
   const userNameField = screen.getByLabelText("Username");
   fireEvent.change(userNameField, { target: { value: "testuser" } });

@@ -64,31 +64,32 @@ function EventView() {
     }
   }
 
-  async function handleSubmit(e : FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    let startDateParam = filterDates.startDate.length > 0 ? filterDates.startDate : new Date(0);
-    let endDateParam = filterDates.endDate.length > 0 ? filterDates.endDate : new Date(8640000000000000);
-    const response = await axios.put("http://localhost:8080/event",  {
-      startDate : startDateParam,
-      endDate : endDateParam,
-    }); 
+    let startDateParam =
+      filterDates.startDate.length > 0 ? filterDates.startDate : new Date(0);
+    let endDateParam =
+      filterDates.endDate.length > 0
+        ? filterDates.endDate
+        : new Date(8640000000000000);
+    const response = await axios.put("http://localhost:8080/event", {
+      startDate: startDateParam,
+      endDate: endDateParam,
+    });
 
-    const filteredEvents : Event[] = response.data;
-    filteredEvents.forEach((event : Event) => {
+    const filteredEvents: Event[] = response.data;
+    filteredEvents.forEach((event: Event) => {
       event.date = new Date(event.date);
     });
     setEventList(filteredEvents);
-
-    
   }
 
   return (
     <Container className="p-4">
-      <Row>
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <Form onSubmit={(e) => handleSubmit(e)}>
         <InputField
-          label="Start Date"
+          label="Start date"
           type="date"
           id="startDate"
           name="startDate"
@@ -98,7 +99,7 @@ function EventView() {
         />
 
         <InputField
-          label="End date"
+          label="Final Date"
           type="date"
           id="endDate"
           name="endDate"
@@ -110,8 +111,8 @@ function EventView() {
         <button type="submit" className="btn btn-primary">
           Filter the events within a date interval
         </button>
-        </form>
-        
+      </Form>
+      <Row>
         <EventList events={eventList} update={() => updateEvents()} />
       </Row>
       <Row className="justify-content-center">
@@ -143,7 +144,6 @@ function EventList({
 }
 
 function EventItem({
- 
   event,
   eventDeleted,
 }: {
