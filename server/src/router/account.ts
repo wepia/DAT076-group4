@@ -25,3 +25,30 @@ accountRouter.post("/", async (
     }
 
 } )
+
+interface LoginRequest extends Request {
+    session : any,
+    body : {username : string, password : string}
+}
+
+accountRouter.post("/login", async (
+    req : LoginRequest,
+    res : Response<string>
+    ) => {
+        try {
+            if (typeof(req.body.username) !== "string" || typeof(req.body.password) !== "string" 
+            || req.body.username === "" || req.body.password === "") {
+                return res.status(400).send("Invalid username or password")
+            }
+
+            if (!await accountService.findAccount(req.body.username, req.body.password)) {
+                return res.status(401).send("Username or password is incorrect")
+            }
+
+            req.session.user = req.body.username
+            return res.status(200).send("Login success")
+        } catch (e: any) {
+            res.status(500).send(e.message);
+        }
+    }
+)

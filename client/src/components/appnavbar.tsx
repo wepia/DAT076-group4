@@ -14,7 +14,7 @@ function AppNavbar() {
               <Nav.Link href="/home">Home</Nav.Link>
               <Nav.Link href="/registration">Registration</Nav.Link>
               <Nav.Link href="#history">History</Nav.Link>
-              <Nav.Link href="#login">Log in</Nav.Link>
+              <Nav.Link href="/login">Log in</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
