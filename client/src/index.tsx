@@ -6,6 +6,7 @@ import Home from "./pages/home";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from './pages/login';
 import Registration from "./pages/Registration";
 import UserPage from "./pages/userPage";
 
@@ -18,6 +19,12 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
+      
+      {
+        path: "/login",
+        element: <Login />
+      },
+    
       {
         path: "/registration",
         element: <Registration />,
