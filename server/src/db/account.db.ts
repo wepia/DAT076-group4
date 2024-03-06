@@ -28,6 +28,11 @@ const accountSchema : Schema = new Schema ({
     birth : {
         type : Date,
         required : true
+    },
+
+    eventIDs : {
+        type : [Number],
+        required : true
     }
 });
 
