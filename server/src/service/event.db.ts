@@ -4,6 +4,9 @@ import { eventModel } from "../db/event.db";
 
 
 export class EventDBService implements IEventService {
+  getFilteredEvents(filter: { ids: number[]; from: Date; to: Date; organizer: string; }): Promise<SportEvent[]> {
+    throw new Error("Method not implemented.");
+  }
   addVolunteer(eventID: number, accountID: number): Boolean {
     throw new Error("Method not implemented.");
   }
