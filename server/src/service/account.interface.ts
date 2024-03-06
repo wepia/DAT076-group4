@@ -8,8 +8,14 @@ export interface IAccountService {
     //Returns the list of event-ids for this account
     getAccountEvents(userName : string) :Promise<number[]> 
 
-    //Changes the email for this account
-    changeEmail(userName : string, newEmail: string) : void
+    //Add an event to the account's eventlist
+    addEvent(userName : string, eventID : number): Promise<boolean>
+
+    //Remove an event from the account's eventlist
+    removeEvent(userName : string, eventID :number): Promise<boolean>
+
+    //Changes the email for this account if the correct password is passed
+    changeEmail(userName : string, password : string, newEmail: string) : Promise<boolean>
 
     //Access an account through username + password
     //Returns a deep copy of the account if the name and password matches
