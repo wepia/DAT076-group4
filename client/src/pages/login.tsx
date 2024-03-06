@@ -17,19 +17,10 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:8080/account/login", {
-        userName: inputs.username,
+        username: inputs.username,
         password: inputs.password,
       });
 
-      if (response.status === 400) {
-        setModalMessage("Invalid username or password");
-        setInputs({
-          username: "",
-          password: "",
-        });
-      } else if (response.status === 401) {
-        setModalMessage("Username or password is incorrect");
-      }
     } catch (error : any) {
         if (error.response) {
           setModalMessage(`Login Failed! ${error.response.data.message}`);
@@ -38,8 +29,18 @@ function Login() {
         } else {
           setModalMessage("Login Failed! An error occurred.");
         }
+
+        if (error.response.status === 400) {
+          setModalMessage("Invalid username or password");
+          setInputs({
+            username: "",
+            password: "",
+          });
+        } else if (error.response.status === 401) {
+          setModalMessage("Username or password is incorrect");
+        }
+        setShowModal(true);
     }
-    setShowModal(true);
   }
 
   return(

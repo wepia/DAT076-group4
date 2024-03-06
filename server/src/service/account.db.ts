@@ -16,4 +16,14 @@ export class AccountDBService implements IAccountService {
             birth : birth
         })
     }
+
+    async findAccount(username: string, password: string): Promise<boolean> {
+        const am : Model<Account> = await accountModel;
+        const user = await am.findOne({userName : username})
+        if (user?.password === password) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
