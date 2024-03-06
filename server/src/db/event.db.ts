@@ -40,6 +40,14 @@ const eventSchema : Schema = new Schema({
 
  required : true
 
+ },
+
+ volunteers : {
+
+  type : String,
+
+  required : true
+
  }
 
 });

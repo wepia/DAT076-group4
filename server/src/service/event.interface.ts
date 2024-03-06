@@ -2,9 +2,10 @@ import {SportEvent} from "../model/sportEvent";
 
 export interface IEventService {
 
-  // Returns a deep copy of the current list of events
+  //Returns a deep copy of the current list of events
   getEvents(): Promise<SportEvent[]>
 
+  //Returns a deep copy of a filtered list of events
   getFilteredEvents(filter: {ids: number[], from: Date, to: Date, organizer: string}): Promise<SportEvent[]>
 
   //Add a new event with the given name, organizer and date 
@@ -16,10 +17,10 @@ export interface IEventService {
 
   //Try adding an account to the list of volunteers 
   //returns a boolean indicating if the account was added (true) or not (false)
-  addVolunteer(eventID : number, accountID : number): Boolean
+  addVolunteer(eventID : number, userName : string): Boolean
 
   //Remove an account from the list of volunteers
   //Returns a boolean indicating if the account was removed (true) 
   //or if there was no such account to remove from the list (false)
-  removeVolunteer(eventID : number, accountID : number): Boolean
+  removeVolunteer(eventID : number, userName : string): Boolean
  }
