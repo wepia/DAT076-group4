@@ -4,6 +4,15 @@ import { eventModel } from "../db/event.db";
 
 
 export class EventDBService implements IEventService {
+  getFilteredEvents(filter: { ids: number[]; from: Date; to: Date; organizer: string; }): Promise<SportEvent[]> {
+    throw new Error("Method not implemented.");
+  }
+  addVolunteer(eventID: number, userName: string): Boolean {
+    throw new Error("Method not implemented.");
+  }
+  removeVolunteer(eventID: number, userName: string): Boolean {
+    throw new Error("Method not implemented.");
+  }
   async getEvents(): Promise<SportEvent[]>{
     return (await eventModel).find();
   }
@@ -13,7 +22,8 @@ export class EventDBService implements IEventService {
       id : Date.now(),
       name : name,
       organizer : organizer, 
-      date : date
+      date : date,
+      volunteers : []
     })
   }
 

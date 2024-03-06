@@ -46,7 +46,7 @@ eventRouter.delete("/", async (
     
     const events = await eventService.deleteEvent(id);
         
-    res.status(200).send(events);
+    res.status(200);
 } catch (e:any) {
     res.status(400).send(e.message);
 }
