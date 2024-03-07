@@ -68,7 +68,7 @@ export class AccountDBService implements IAccountService {
     const user = await am.findOne({ userName: userName, password: password });
 
     if (user === null) {
-      throw "Password don't match with the username";
+      throw new Error("Password don't match with the username");
     }
 
     //user.email = userName; //Guessing this is not supposed to be here?

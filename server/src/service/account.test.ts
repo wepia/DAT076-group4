@@ -25,9 +25,15 @@ test("If an account is created, it should only be possible to access it using us
     expect(account.email).toEqual(testemail);
     expect(account.gender).toEqual(testgender);
     expect(account.birth).toEqual(testbirth);
-    expect(await accountService.accessAccount(testuserName, "wrongPassword")).toThrow("Password don't match with the username");
-    
-    
+    try {
+        await accountService.accessAccount(testuserName, "wrongPassword");
+        // Fail the test if the above line doesn't throw an error
+        fail("Expected accessAccount to throw an error but it didn't.");
+    } catch (error : any) {
+        // Verify that the error is as expected
+        expect(error.message).toEqual("Password don't match with the username");
+    }
+
 })
 
 test("It should be possible to change email of an account using the correct username and password", async() =>{
