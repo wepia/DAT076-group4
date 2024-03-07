@@ -8,6 +8,10 @@ import { Account } from "../model/account";
 
 
 export class EventDBService implements IEventService {
+  async getVolunteers(eventID: string): Promise<string[]> {
+    throw new Error("Method not implemented.");
+  }
+
   async addVolunteer(eventID: string, userName: string): Promise<Boolean> {
     throw new Error("Method not implemented.");
   }

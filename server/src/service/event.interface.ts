@@ -12,6 +12,9 @@ export interface IEventService {
   // Removes an event with the given id
   deleteEvent(id : string): Promise<void>
 
+  //Returns the list of volunteers assigned to this event
+  getVolunteers(eventID : string): Promise<string[]>
+
   //Try adding an account to the list of volunteers 
   //returns a boolean indicating if the account was added (true) or not (false)
   addVolunteer(eventID : string, userName : string): Promise<Boolean>
