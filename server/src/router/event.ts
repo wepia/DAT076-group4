@@ -42,7 +42,7 @@ eventRouter.delete("/", async (
     res : Response<SportEvent[]>
 ) => {
     try {
-    const id : number = req.body.id;
+    const id : string = req.body.id;
     
     const events = await eventService.deleteEvent(id);
         

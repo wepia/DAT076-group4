@@ -4,5 +4,5 @@ export interface Account{
     password : string;
     gender : string;
     birth : Date;
-    eventIDs : number[]
+    eventIDs : String[]
 }

@@ -1,5 +1,5 @@
 export interface SportEvent {
-    id: number;
+    id: string;
     name: string;
     organizer: string;
     date: Date;

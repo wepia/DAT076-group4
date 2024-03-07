@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { Button, CloseButton, Col, Container, Form, ListGroup, Modal, Row } from "react-bootstrap";
 
 interface Event {
-  id: number;
+  id: string;
   name: string;
   organizer: string;
   date: Date;
@@ -28,7 +28,7 @@ function EventView() {
       const newEvents: Event[] = response.data;
       newEvents.forEach((event : Event) => {
         event.date = new Date(event.date);
-        if (typeof(event.id) !== "number" || typeof(event.name) !== "string" || typeof(event.organizer) !== "string") {
+        if (typeof(event.id) !== "string" || typeof(event.name) !== "string" || typeof(event.organizer) !== "string") {
           console.log("Invalid response from server: " + event);
         }
       })
@@ -71,8 +71,9 @@ function EventList({events, update} : {events: Event[], update: ()=>void}){
     <ListGroup>
       {events.map((e: Event) => 
         <EventItem 
+          key={e.id}
           event = {e} 
-          eventDeleted = {update}
+          eventDeleted = {() => update()}
           />
         )}
     </ListGroup>
@@ -83,14 +84,18 @@ function EventList({events, update} : {events: Event[], update: ()=>void}){
 function EventItem({event, eventDeleted} : {event: Event, eventDeleted : () => void}) {
 
   async function deleteEvent() {
+    console.log("deleteevent triggered");
     try{
       await axios.delete('http://localhost:8080/event',
           {data: {id: event.id}}
         );
-      eventDeleted(); //TODO only update
+      console.log("event deleted successfully");
+      await eventDeleted(); //TODO only update
+
     } catch (err: any) {
       if (err.response) {
         console.log(err.response.status);
+        console.log(err);
       } else if (err.request) {
         console.log("No response from server")
       } else {
@@ -99,7 +104,7 @@ function EventItem({event, eventDeleted} : {event: Event, eventDeleted : () => v
     }
   }
 
-  return (<ListGroup.Item key={event.id}>
+  return (<ListGroup.Item>
           <div><h5>{event.name}</h5>
               <small>{event.date.toLocaleString()}</small>
               <CloseButton onClick = 
@@ -128,6 +133,7 @@ function EventForm({visible, close, submit} : {visible: boolean, close: () => vo
     } catch (err: any) {
       if (err.response) {
         console.log(err.response.status);
+        console.log(err);
       } else if (err.request) {
         console.log("No response from server")
       } else {

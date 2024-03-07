@@ -31,7 +31,7 @@ const accountSchema : Schema = new Schema ({
     },
 
     eventIDs : {
-        type : [Number],
+        type : [String],
         required : true
     }
 });

@@ -6,21 +6,21 @@ export interface IEventService {
   getEvents(): Promise<SportEvent[]>
 
   //Returns a deep copy of a filtered list of events
-  getFilteredEvents(filter: {ids: number[], from: Date, to: Date, organizer: string}): Promise<SportEvent[]>
+  getFilteredEvents(filter: {ids: string[], from: Date, to: Date, organizer: string}): Promise<SportEvent[]>
 
   //Add a new event with the given name, organizer and date 
   //returns a copy of that event
   addEvent(name : string, organizer : string, date : Date) :Promise<SportEvent>
 
   // Removes an event with the given id
-  deleteEvent(id : number): void
+  deleteEvent(id : string): void
 
   //Try adding an account to the list of volunteers 
   //returns a boolean indicating if the account was added (true) or not (false)
-  addVolunteer(eventID : number, userName : string): Boolean
+  addVolunteer(eventID : string, userName : string): Boolean
 
   //Remove an account from the list of volunteers
   //Returns a boolean indicating if the account was removed (true) 
   //or if there was no such account to remove from the list (false)
-  removeVolunteer(eventID : number, userName : string): Boolean
+  removeVolunteer(eventID : string, userName : string): Boolean
  }

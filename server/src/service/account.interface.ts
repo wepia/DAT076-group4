@@ -14,10 +14,10 @@ export interface IAccountService {
     getAccountEvents(userName : string) :Promise<number[]> 
 
     //Add an event to the account's eventlist
-    addEvent(userName : string, eventID : number): Promise<boolean>
+    addEvent(userName : string, eventID : string): Promise<boolean>
 
     //Remove an event from the account's eventlist
-    removeEvent(userName : string, eventID :number): Promise<boolean>
+    removeEvent(userName : string, eventID :string): Promise<boolean>
 
     //Changes the email for this account if the correct password is passed
     changeEmail(userName : string, password : string, newEmail: string) : Promise<boolean>

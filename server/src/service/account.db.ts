@@ -4,10 +4,10 @@ import { accountModel} from "../db/account.db";
 import {Model} from 'mongoose';
 
 export class AccountDBService implements IAccountService {
-    addEvent(userName: string, eventID: number): Promise<boolean> {
+    addEvent(userName: string, eventID: string): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
-    removeEvent(userName: string, eventID: number): Promise<boolean> {
+    removeEvent(userName: string, eventID: string): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
     getAccountEvents(userName: string): Promise<number[]> {
