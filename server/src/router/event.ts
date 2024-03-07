@@ -51,3 +51,19 @@ eventRouter.delete("/", async (
     res.status(400).send(e.message);
 }
 })
+
+eventRouter.put("/", async (
+    req : Request,
+    res : Response<SportEvent[]>
+) => {
+    try {
+    const startDate : Date = req.body.startDate;
+    const endDate : Date = req.body.endDate;
+    const events = await eventService.filterEvents(startDate,endDate);
+
+    res.status(200).send(events);
+
+    } catch(e:any) {
+        res.status(400).send(e.message);
+    }
+})

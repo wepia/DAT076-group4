@@ -1,4 +1,5 @@
 import {Account} from "../model/account";
+import { SportEvent } from "../model/sportEvent";
 
 export interface IAccountService {
     //Register the account with the given account details.
@@ -11,7 +12,7 @@ export interface IAccountService {
     findAccount(username : string, password : string) : Promise<boolean>
 
     //Returns the list of event-ids for this account
-    getAccountEvents(userName : string) :Promise<number[]> 
+    getAccountEvents(userName : string) :Promise<string[]> 
 
     //Add an event to the account's eventlist
     addEvent(userName : string, eventID : string): Promise<boolean>

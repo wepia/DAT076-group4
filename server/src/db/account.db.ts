@@ -1,6 +1,7 @@
 import {Schema, Model} from "mongoose";
 import {Account} from "../model/account";
 import {conn} from "./conn";
+import { ObjectId } from "mongodb";
 
 const accountSchema : Schema = new Schema ({
     userName : {

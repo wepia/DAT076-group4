@@ -6,8 +6,9 @@ import Home from "./pages/home";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RegistrationForm from "./pages/RegistrationForm";
 import Login from './pages/login';
+import Registration from "./pages/Registration";
+import UserPage from "./pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -26,13 +27,18 @@ const router = createBrowserRouter([
     
       {
         path: "/registration",
-        element: <RegistrationForm />,
+        element: <Registration />,
       },
 
       {
         path: "/home",
         element: <Home />,
       },
+
+      {
+        path:"/profile",
+        element:<UserPage/>
+      }
     ],
   },
 ]);

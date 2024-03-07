@@ -46,12 +46,12 @@ test("An event should only be possible to add to the account's event-list once",
     await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
     const eventID : string = new ObjectId().toString();
 
-    const events1 : number[] = await accountService.getAccountEvents(testuserName);
+    const events1 : string[] = await accountService.getAccountEvents(testuserName);
     expect(await accountService.addEvent(testuserName, eventID)).toBeTruthy();
-    const events2 : number[] = await accountService.getAccountEvents(testuserName);
+    const events2 : string[] = await accountService.getAccountEvents(testuserName);
     expect(events1.length + 1).toEqual(events2.length);
     expect(await accountService.addEvent(testuserName, eventID)).toBeFalsy();
-    const events3 : number[] = await accountService.getAccountEvents(testuserName);
+    const events3 : string[] = await accountService.getAccountEvents(testuserName);
     expect(events2.length).toEqual(events3.length);
 })
 
@@ -61,11 +61,11 @@ test("An eventID should be possible to removed if it is in the list", async() =>
     const eventID : string = new ObjectId().toString();
 
     expect(await accountService.addEvent(testuserName, eventID)).toBeTruthy();
-    const events1 : number[] = await accountService.getAccountEvents(testuserName);
+    const events1 : string[] = await accountService.getAccountEvents(testuserName);
     expect(accountService.removeEvent(testuserName, eventID)).toBeTruthy();
-    const events2 : number[] = await accountService.getAccountEvents(testuserName);
+    const events2 : string[] = await accountService.getAccountEvents(testuserName);
     expect(accountService.removeEvent(testuserName, eventID)).toBeFalsy();
-    const events3 : number[] = await accountService.getAccountEvents(testuserName);
+    const events3 : string[] = await accountService.getAccountEvents(testuserName);
     expect(events2.length).toEqual(events3.length);
     expect(events1.length).toEqual(events2.length +1);
 })
@@ -75,9 +75,9 @@ test("If an eventID is added to an account, it should appear in the eventID-list
     await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
     const eventID : string = new ObjectId().toString();
 
-    const events1 : number[] = await accountService.getAccountEvents(testuserName);
+    const events1 : string[] = await accountService.getAccountEvents(testuserName);
     await accountService.addEvent(testuserName, eventID);
-    const events2 : number[] = await accountService.getAccountEvents(testuserName);
+    const events2 : string[] = await accountService.getAccountEvents(testuserName);
     expect(events2).toContain(eventID);
     expect(events1.length + 1).toEqual(events2.length);
 })

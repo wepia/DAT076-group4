@@ -2,6 +2,9 @@ import { SportEvent } from "../model/sportEvent";
 import { IEventService } from "./event.interface";
 import { eventModel } from "../db/event.db";
 import { ObjectId } from "mongodb";
+import { Model } from "mongoose";
+import { accountModel } from "../db/account.db";
+import { Account } from "../model/account";
 
 
 export class EventDBService implements IEventService {
@@ -15,6 +18,7 @@ export class EventDBService implements IEventService {
     throw new Error("Method not implemented.");
   }
   async getEvents(): Promise<SportEvent[]>{
+    
     return (await eventModel).find();
   }
 
@@ -35,6 +39,15 @@ export class EventDBService implements IEventService {
       {id:id}
     );
     return em.find();
+  }
+
+  async filterEvents(startDate : Date, endDate : Date) : Promise<SportEvent[]> {
+    const em = await eventModel;
+    const events = await em.find({
+      date: {$gte : startDate, $lte :endDate}
+    }).exec();
+
+    return events;
   }
 
 }
