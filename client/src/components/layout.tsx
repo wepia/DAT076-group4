@@ -7,6 +7,9 @@ import Footer from './footer';
 function Layout() {
   return (
     <div>
+
+      
+
       <AppNavbar />
 
       <Outlet />
