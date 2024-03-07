@@ -1,8 +1,8 @@
 import express from "express";
+import session from "express-session";
 import cors from "cors";
 import { accountRouter } from "./router/account";
 import { eventRouter } from "./router/event";
-import session from "express-session";
 
 
 export const app = express();

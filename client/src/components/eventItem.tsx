@@ -33,11 +33,11 @@ function EventCard(props: any) {
 export default EventCard;
 
 
-export function EventItem({event, eventDeleted} : {event: Event, eventDeleted : () => void}) {
+export function EventItem({event, receiver, eventDeleted} : {event: Event, receiver: string, eventDeleted : () => void}) {
   async function deleteEvent(e :React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     try{
       e.preventDefault();
-      await axios.delete('http://localhost:8080/event',
+      await axios.delete('http://localhost:8080/' + receiver,
           {data: {id: event.id}}
         );
       eventDeleted(); //await?

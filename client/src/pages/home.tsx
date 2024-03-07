@@ -2,10 +2,12 @@ import '../css/main.css';
 import { Container, Row, Col} from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import EventView from '../components/eventView';
-import EventCard from '../components/eventItem';
-import Footer from '../components/footer';
 
 function Home() {
+
+  function updateUserEvents() {
+    
+  }
   return (
     <div>
       <Container>
@@ -30,7 +32,7 @@ function Home() {
       </Container>
       <Container>
        
-        <EventView />
+        <EventView receiver='event'/>
 
       </Container>
      

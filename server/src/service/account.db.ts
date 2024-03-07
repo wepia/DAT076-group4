@@ -6,48 +6,63 @@ import { SportEvent } from "../model/sportEvent";
 import { eventModel } from "../db/event.db";
 
 export class AccountDBService implements IAccountService {
-  async addEvent(userName: string, eventID: string): Promise<boolean> {
+  
+  
+  async addEvent(userName: string, event: SportEvent): Promise<boolean> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName });
 
     if (user === null) {
+      console.log("user not found")
       return false;
     }
 
-    const index = user.eventIDs.indexOf(eventID);
-    if (index !== -1) {
-      user.eventIDs.splice(index, 1);
-    }
-
-    // Save the updated user object back to the database
+    user.events.push(event);
     await user.save();
 
     return true;
   }
-  async removeEvent(userName: string, eventID: string): Promise<boolean> {
+
+  async removeEvent(userName: string, event: SportEvent) : Promise<boolean> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName });
 
     if (user === null) {
-      throw new Error("No user with username " + userName);
+      console.log("No user with that username");
+      return false;
     }
-    const index = user.eventIDs.indexOf(eventID);
-    if (index !== -1) {
-      user.eventIDs.splice(index, 1);
-    }
-    await user.save();
+    user.populate("events");
 
-    return true;
+    const index = user.events.findIndex((event) => event.id.toString() === event.id.toString());
+    if (index !== -1) {
+      user.events.splice(index, 1);
+      await user.save();
+      return true;
+
+  } else {
+      console.log("Event not found in user's events");
+      return false;
   }
-  async getAccountEvents(userName: string): Promise<string[]> {
+
+  }
+
+  async getAccountEvents(userName: string): Promise<[SportEvent]> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName });
 
     if (user === null) {
       throw "No user with username " + userName;
     }
-    return (await eventModel).find({ id: { $in: user.eventIDs } });    
+    
+    user.populate("events");
+    const events = user.events;
+
+    return events;
+    
+    
   }
+
+
   async changeEmail(
     userName: string,
     password: string,
@@ -65,16 +80,18 @@ export class AccountDBService implements IAccountService {
 
     return true;
   }
-  async accessAccount(userName: string, password: string): Promise<Account> {
+
+  async accessAccount(userName: string): Promise<Account> {
     const am: Model<Account> = await accountModel;
-    const user = await am.findOne({ userName: userName, password: password });
+    const user = await am.findOne({ userName: userName});
 
     if (user === null) {
       throw new Error("Password don't match with the username");
     }
 
-    //user.email = userName; //Guessing this is not supposed to be here?
-    return user;
+    const userCopy = JSON.parse(JSON.stringify(user));
+
+    return userCopy;
   }
 
   async registerAccounts(

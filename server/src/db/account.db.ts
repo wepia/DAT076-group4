@@ -31,10 +31,10 @@ const accountSchema : Schema = new Schema ({
         required : true
     },
 
-    eventIDs : {
-        type : [String],
-        required : true
-    }
+    events : [{
+        type : ObjectId,
+        ref : "Events"
+}]
 });
 
 

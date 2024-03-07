@@ -1,70 +1,113 @@
+import express, { Router, Request, Response } from "express";
 import { Account } from "../model/account";
 import { AccountDBService } from "../service/account.db";
-import express, {Router, Request, Response} from "express";
 import { IAccountService } from "../service/account.interface";
 import { SportEvent } from "../model/sportEvent";
 
-const accountService : IAccountService = new AccountDBService();
-export const accountRouter : Router = express.Router();
+const accountService: IAccountService = new AccountDBService();
+export const accountRouter: Router = express.Router();
 
-accountRouter.post("/", async (
-    req : Request,
-    res : Response<Account | string>
-) => {
+accountRouter.post(
+  "/",
+  async (req: Request, res: Response<Account | string>) => {
     try {
-        const userName : string = req.body.userName;
-        const email : string = req.body.email;
-        const password : string = req.body.password;
-        const gender : string = req.body.gender;
-        const birth : Date = new Date(req.body.birth);
+      const userName: string = req.body.userName;
+      const email: string = req.body.email;
+      const password: string = req.body.password;
+      const gender: string = req.body.gender;
+      const birth: Date = new Date(req.body.birth);
 
-        const newAcc = await accountService.registerAccounts(userName, password, email, gender, birth);
-        res.status(200).send(newAcc);
+      const newAcc = await accountService.registerAccounts(
+        userName,
+        password,
+        email,
+        gender,
+        birth
+      );
+      res.status(200).send(newAcc);
     } catch (e: any) {
-        console.error(e);
-        res.status(500).send(e.message);
+      console.error(e);
+      res.status(500).send(e.message);
     }
+  }
+);
 
-} )
-
-interface LoginRequest extends Request {
-    session : any,
+interface LoginRequest extends Request{
     body : {username : string, password : string}
 }
 
-accountRouter.post("/login", async (
-    req : LoginRequest,
-    res : Response<string>
-    ) => {
-        try {
-            if (typeof(req.body.username) !== "string" || typeof(req.body.password) !== "string" 
-            || req.body.username === "" || req.body.password === "") {
-                return res.status(400).send("Invalid username or password")
-            }
+accountRouter.post(
+  "/login",
+  async (req: LoginRequest, res: Response<string>) => {
+    try {
+      if (typeof req.body.username !== "string" || typeof req.body.password !== "string" || req.body.username === "" || req.body.password === "") {
+        return res.status(400).send("Invalid username or password");
+      }
 
-            if (!await accountService.findAccount(req.body.username, req.body.password)) {
-                return res.status(401).send("Username or password is incorrect")
-            }
-                       
-            return res.status(200).send("Login success")
-        } catch (e: any) {
-            res.status(500).send(e.message);
-        }
+      if (! await accountService.findAccount(req.body.username,req.body.password)) {
+        return res.status(401).send("Username or password is incorrect");
+      }
+        console.log("Before assigning session user, the req.session is: " + JSON.stringify(req.session))
+        req.session.user = req.body.username;
+        console.log("req.session is: " + JSON.stringify(req.session));
+        console.log("req.session.user is: " + req.session.user);
+        console.log("login sessionID is: " + req.sessionID)
+
+
+        return res.status(200).send("Login success");
+    } catch (e: any) {
+      res.status(500).send(e.message);
     }
-)
+  }
+);
 
-accountRouter.get("/", async ( 
-    req: Request,
-    res: Response<String[]>
-) => {
-    try{
-        if(req.cookies.session.user === undefined) {
-            res.status(401);
-        }
+accountRouter.post("/logout", async (req: Request, res: Response) => {
+  try {
+    req.session.destroy((err) => {
+      res.status(200).send("ok");
+      res.redirect("/Home"); // will always fire after session is destroyed
+    });
+  } catch (e: any) {
+    res.status(500).send(e.message);
+  }
+});
 
-        const events : string[] = await accountService.getAccountEvents(req.cookies.session.user);
-        res.status(200).send(events);
-    } catch(e:any) {
-        res.status(500).send(e.message);
-    }
-})
+accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
+
+    console.log("GET sessionID is: " + req.sessionID);
+    console.log("In GET the req.session is: " + JSON.stringify(req.session));
+    console.log("In GET the req.session.user is: " + req.session.user);
+  if (req.session.user === undefined) {
+    console.log(req.session.user);
+    console.log(req.session)
+    return res.status(401).send(req.session.user);
+}
+
+  const events: SportEvent[] = await accountService.getAccountEvents(
+    req.session.user
+  );
+  return res.status(200).send(events);
+});
+
+accountRouter.delete("/", async (req: Request, res: Response) => {
+  if (req.session.user === undefined) {
+    return res.status(401);
+  }
+  try {
+    const event: SportEvent = req.body.event;
+
+    await accountService.removeEvent(req.session.user, event);
+    return res.status(200).send("ok");
+  } catch (e: any) {
+    res.status(500).send(e.message);
+  }
+});
+
+accountRouter.put("/", async (req: Request, res: Response) => {
+  if (req.session.user === undefined) {
+    return res.status(401);
+  }
+
+  const acc = await accountService.accessAccount(req.session.user);
+  return res.status(200).send(acc);
+});

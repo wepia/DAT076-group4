@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from './pages/login';
 import Registration from "./pages/RegistrationForm";
-import UserPage from "./pages/Profile";
+import Profile from "./pages/Profile";
 
 
 const router = createBrowserRouter([
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
 
       {
         path:"/profile",
-        element:<UserPage/>
+        element:<Profile/>
       }
     ],
   },
