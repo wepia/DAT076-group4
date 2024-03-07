@@ -18,14 +18,16 @@ const testbirth : Date = new Date('2013-06-08');
 test("If an account is created, it should only be possible to access it using username and password", async() =>{
     const accountService : IAccountService = new AccountDBService();
     await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
+
     const account : Account = await accountService.accessAccount(testuserName, testpassword);
     expect(account.userName).toEqual(testuserName);
     expect(account.password).toEqual(testpassword);
     expect(account.email).toEqual(testemail);
     expect(account.gender).toEqual(testgender);
     expect(account.birth).toEqual(testbirth);
-
-    expect(await accountService.accessAccount(testuserName, "wrongPassword")).toThrow(Error);
+    expect(await accountService.accessAccount(testuserName, "wrongPassword")).toThrow("Password don't match with the username");
+    
+    
 })
 
 test("It should be possible to change email of an account using the correct username and password", async() =>{

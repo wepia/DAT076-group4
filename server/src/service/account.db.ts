@@ -71,7 +71,7 @@ export class AccountDBService implements IAccountService {
       throw "Password don't match with the username";
     }
 
-    user.email = userName;
+    //user.email = userName; //Guessing this is not supposed to be here?
     return user;
   }
 
