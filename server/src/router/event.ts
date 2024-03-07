@@ -1,12 +1,13 @@
 import express, { Request, Response } from "express";
-import { EventService } from "../service/eventService";
+import { EventDBService } from "../service/event.db";
 import { SportEvent } from "../model/sportEvent";
+import { IEventService } from "../service/event.interface";
 
-const eventService = new EventService();
+const eventService : IEventService = new EventDBService();
 
-export const eventApi = express.Router();
+export const eventRouter = express.Router();
 
-eventApi.get("/", async (
+eventRouter.get("/", async (
     req: Request<{}, {}, {}>,
     res: Response<SportEvent[]>
 ) => {
@@ -19,24 +20,24 @@ eventApi.get("/", async (
 });
 
 
-eventApi.post("/", async(
+eventRouter.post("/", async(
     req : Request,
-    res : Response<SportEvent[]>
+    res : Response<SportEvent>
 ) => {
     try {
         const name : string = req.body.name;
         const organizer : string = req.body.organizer;
         const date : Date = req.body.date;
 
-        const events = await eventService.addEvent(name,organizer,date);
+        const event = await eventService.addEvent(name,organizer,date);
 
-        res.status(201).send(events);
+        res.status(201).send(event);
     } catch (e: any) {
         res.status(400).send(e.message);        
     }
 })
 
-eventApi.delete("/", async (
+eventRouter.delete("/", async (
     req : Request,
     res : Response<SportEvent[]>
 ) => {
@@ -45,7 +46,7 @@ eventApi.delete("/", async (
     
     const events = await eventService.deleteEvent(id);
         
-    res.status(201).send(events);
+    res.status(200).send(events);
 } catch (e:any) {
     res.status(400).send(e.message);
 }
