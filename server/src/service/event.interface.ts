@@ -13,7 +13,7 @@ export interface IEventService {
   addEvent(name : string, organizer : string, date : Date) :Promise<SportEvent>
 
   // Removes an event with the given id
-  deleteEvent(id : string): void
+  deleteEvent(id : string): Promise<SportEvent[]>
 
   //Try adding an account to the list of volunteers 
   //returns a boolean indicating if the account was added (true) or not (false)
