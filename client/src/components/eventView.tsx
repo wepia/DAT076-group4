@@ -116,7 +116,11 @@ export default function EventView() {
           <Button variant="outline-primary" size="lg" onClick={openForm}>Add event ➕</Button>
         </Col>
       </Row>
-      <EventForm visible={showForm} close={closeForm} submit={submitForm} />
+      <EventForm 
+        visible={showForm} 
+        close={closeForm} 
+        submit={submitForm} 
+      />
     </Container>
     
   );

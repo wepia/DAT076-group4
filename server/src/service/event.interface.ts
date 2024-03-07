@@ -13,7 +13,7 @@ export interface IEventService {
   addEvent(name : string, organizer : string, date : Date) :Promise<SportEvent>
 
   // Removes an event with the given id
-  deleteEvent(id : string): Promise<SportEvent[]>
+  deleteEvent(id : string): Promise<void>
 
   //Try adding an account to the list of volunteers 
   //returns a boolean indicating if the account was added (true) or not (false)
@@ -23,9 +23,6 @@ export interface IEventService {
   //Returns a boolean indicating if the account was removed (true) 
   //or if there was no such account to remove from the list (false)
   removeVolunteer(eventID : string, userName : string): Promise<Boolean>
-
-  // Removes an event with the given id and returns a deep copy of the new list of events
-  deleteEvent(id : string) :Promise<SportEvent[]>
 
   // Returns the events that are within the date interval startDate-endDate.
   filterEvents(startDate : Date, endDate : Date) : Promise<SportEvent[]>

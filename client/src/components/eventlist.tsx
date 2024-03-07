@@ -4,14 +4,14 @@ import { EventItem } from './eventItem';
 import { Event } from './eventView'
 
 
-export default function EventList({events, update} : {events: Event[], update: ()=>void}){
+export default function EventList({events, update} : {events: Event[], update: () => void}){
   return (
     <ListGroup>
       {events.map((e: Event) => 
         <EventItem 
           key = {e.id}
           event = {e} 
-          eventDeleted = {update}
+          eventDeleted = {() => update()}
           />
         )}
     </ListGroup>

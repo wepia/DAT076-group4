@@ -39,14 +39,14 @@ eventRouter.post("/", async(
 
 eventRouter.delete("/", async (
     req : Request,
-    res : Response<SportEvent[]>
+    res : Response
 ) => {
     try {
     const id : string = req.body.id;
     
-    const events = await eventService.deleteEvent(id);
+    await eventService.deleteEvent(id);
         
-    res.status(200);
+    res.status(200).send();
 } catch (e:any) {
     res.status(400).send(e.message);
 }
