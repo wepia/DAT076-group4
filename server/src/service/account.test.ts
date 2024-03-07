@@ -3,6 +3,7 @@ import { AccountDBService } from "./account.db";
 import { Account } from "../model/account";
 import * as SuperTest from "supertest";
 import { Response } from "supertest";
+import { ObjectId } from "mongodb";
 
 jest.mock("../db/conn");
 
@@ -43,7 +44,7 @@ test("It should be possible to change email of an account using the correct user
 test("An event should only be possible to add to the account's event-list once", async() =>{
     const accountService : IAccountService = new AccountDBService();
     await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
-    const eventID : number = 5;
+    const eventID : string = new ObjectId().toString();
 
     const events1 : number[] = await accountService.getAccountEvents(testuserName);
     expect(await accountService.addEvent(testuserName, eventID)).toBeTruthy();
@@ -57,7 +58,7 @@ test("An event should only be possible to add to the account's event-list once",
 test("An eventID should be possible to removed if it is in the list", async() =>{
     const accountService : IAccountService = new AccountDBService();
     await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
-    const eventID : number = 5;
+    const eventID : string = new ObjectId().toString();
 
     expect(await accountService.addEvent(testuserName, eventID)).toBeTruthy();
     const events1 : number[] = await accountService.getAccountEvents(testuserName);
@@ -72,7 +73,7 @@ test("An eventID should be possible to removed if it is in the list", async() =>
 test("If an eventID is added to an account, it should appear in the eventID-list", async() =>{
     const accountService : IAccountService = new AccountDBService();
     await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
-    const eventID : number = 5;
+    const eventID : string = new ObjectId().toString();
 
     const events1 : number[] = await accountService.getAccountEvents(testuserName);
     await accountService.addEvent(testuserName, eventID);
