@@ -33,12 +33,11 @@ export class EventDBService implements IEventService {
   }
 
 
-  async deleteEvent(id : string) :Promise<SportEvent[]>{
+  async deleteEvent(id : string) :Promise<void>{
     const em = await eventModel;
     await em.deleteOne(
       {id:id}
     );
-    return em.find();
   }
 
   async filterEvents(startDate : Date, endDate : Date) : Promise<SportEvent[]> {
