@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RegistrationForm from "./pages/RegistrationForm";
 import Login from './pages/login';
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,3 +51,6 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+
+

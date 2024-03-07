@@ -56,7 +56,7 @@ function RegistrationForm() {
   }
 
   return (
-    <div>
+    <div className="mt-4">
       <form
         action="process_registration.php"
         onSubmit={(e) => {
