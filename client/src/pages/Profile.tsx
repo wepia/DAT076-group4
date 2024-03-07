@@ -35,7 +35,11 @@ function UserPage() {
       <EventView receiver='event'/>
 
     </Container>
-
+    <Container>
+      <Row className="justify-content-center text-center">
+        <h2 className="mt-5">Signed up Events</h2>
+      </Row>
+    </Container>
     <Container>
     <EventView receiver='account'/>
     <LogOut />

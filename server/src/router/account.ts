@@ -47,11 +47,8 @@ accountRouter.post(
       if (! await accountService.findAccount(req.body.username,req.body.password)) {
         return res.status(401).send("Username or password is incorrect");
       }
-        console.log("Before assigning session user, the req.session is: " + JSON.stringify(req.session))
         req.session.user = req.body.username;
-        console.log("req.session is: " + JSON.stringify(req.session));
-        console.log("req.session.user is: " + req.session.user);
-        console.log("login sessionID is: " + req.sessionID)
+
 
 
         return res.status(200).send("Login success");
@@ -74,12 +71,8 @@ accountRouter.post("/logout", async (req: Request, res: Response) => {
 
 accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
 
-    console.log("GET sessionID is: " + req.sessionID);
-    console.log("In GET the req.session is: " + JSON.stringify(req.session));
-    console.log("In GET the req.session.user is: " + req.session.user);
   if (req.session.user === undefined) {
-    console.log(req.session.user);
-    console.log(req.session)
+
     return res.status(401).send(req.session.user);
 }
 
