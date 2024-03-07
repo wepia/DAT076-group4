@@ -37,7 +37,7 @@ export function EventItem({event, eventDeleted} : {event: Event, eventDeleted : 
 
   async function deleteEvent() {
     try{
-      await axios.delete('http://localhost:8080/event',
+      axios.delete('http://localhost:8080/event',
           {data: {id: event.id}}
         );
       eventDeleted(); //TODO only update
