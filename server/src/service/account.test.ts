@@ -14,11 +14,16 @@ const testemail : string = "test@mail.mock";
 const testgender : string = "testgender";
 const testbirth : Date = new Date('2013-06-08');
 
+let accountService: IAccountService;
+
+// Use beforeAll hook to create the account before running all tests
+beforeAll(async () => {
+    accountService = new AccountDBService();
+    await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
+});
+
 //tests
 test("If an account is created, it should only be possible to access it using username and password", async() =>{
-    const accountService : IAccountService = new AccountDBService();
-    await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
-
     const account : Account = await accountService.accessAccount(testuserName, testpassword);
     expect(account.userName).toEqual(testuserName);
     expect(account.password).toEqual(testpassword);
@@ -37,8 +42,6 @@ test("If an account is created, it should only be possible to access it using us
 })
 
 test("It should be possible to change email of an account using the correct username and password", async() =>{
-    const accountService : IAccountService = new AccountDBService();
-    await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
     const newemail : string = "new@mail.mock";
 
     expect(await accountService.changeEmail(testuserName, "wrongPassword", newemail)).toBeFalsy();
@@ -50,8 +53,6 @@ test("It should be possible to change email of an account using the correct user
 })
 
 test("An event should only be possible to add to the account's event-list once", async() =>{
-    const accountService : IAccountService = new AccountDBService();
-    await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
     const eventID : string = new ObjectId().toString();
 
     const events1 : string[] = await accountService.getAccountEvents(testuserName);
@@ -64,8 +65,6 @@ test("An event should only be possible to add to the account's event-list once",
 })
 
 test("An eventID should be possible to removed if it is in the list", async() =>{
-    const accountService : IAccountService = new AccountDBService();
-    await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
     const eventID : string = new ObjectId().toString();
 
     expect(await accountService.addEvent(testuserName, eventID)).toBeTruthy();
@@ -79,8 +78,6 @@ test("An eventID should be possible to removed if it is in the list", async() =>
 })
 
 test("If an eventID is added to an account, it should appear in the eventID-list", async() =>{
-    const accountService : IAccountService = new AccountDBService();
-    await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
     const eventID : string = new ObjectId().toString();
 
     const events1 : string[] = await accountService.getAccountEvents(testuserName);

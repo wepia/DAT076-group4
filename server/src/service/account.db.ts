@@ -83,6 +83,13 @@ export class AccountDBService implements IAccountService {
     birth: Date
   ): Promise<Account> {
     const am: Model<Account> = await accountModel;
+
+    // Check if an account with the same userName already exists
+    const existingAccount = am.findOne({ userName });
+    if (await existingAccount) {
+        throw new Error("An account with the same userName already exists");
+    }
+
     return await am.create({
       userName: userName,
       password: password,
