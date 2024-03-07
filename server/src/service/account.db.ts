@@ -60,7 +60,9 @@ export class AccountDBService implements IAccountService {
       return false;
     }
 
-    user.email = userName;
+    user.email = newEmail;
+    await user.save();
+
     return true;
   }
   async accessAccount(userName: string, password: string): Promise<Account> {
