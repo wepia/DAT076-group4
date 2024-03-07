@@ -17,12 +17,13 @@ export interface IEventService {
 
   //Try adding an account to the list of volunteers 
   //returns a boolean indicating if the account was added (true) or not (false)
-  addVolunteer(eventID : string, userName : string): Boolean
+  addVolunteer(eventID : string, userName : string): Promise<Boolean>
 
   //Remove an account from the list of volunteers
   //Returns a boolean indicating if the account was removed (true) 
   //or if there was no such account to remove from the list (false)
-  removeVolunteer(eventID : string, userName : string): Boolean
+  removeVolunteer(eventID : string, userName : string): Promise<Boolean>
+
   // Removes an event with the given id and returns a deep copy of the new list of events
   deleteEvent(id : string) :Promise<SportEvent[]>
 

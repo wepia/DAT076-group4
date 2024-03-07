@@ -8,13 +8,13 @@ import { Account } from "../model/account";
 
 
 export class EventDBService implements IEventService {
-  getFilteredEvents(filter: { ids: string[]; from: Date; to: Date; organizer: string; }): Promise<SportEvent[]> {
+  async getFilteredEvents(filter: { ids: string[]; from: Date; to: Date; organizer: string; }): Promise<SportEvent[]> {
     throw new Error("Method not implemented.");
   }
-  addVolunteer(eventID: string, userName: string): Boolean {
+  async addVolunteer(eventID: string, userName: string): Promise<Boolean> {
     throw new Error("Method not implemented.");
   }
-  removeVolunteer(eventID: string, userName: string): Boolean {
+  async removeVolunteer(eventID: string, userName: string): Promise<Boolean> {
     throw new Error("Method not implemented.");
   }
   async getEvents(): Promise<SportEvent[]>{
