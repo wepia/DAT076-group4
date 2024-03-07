@@ -2,7 +2,7 @@ import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
 import { Button, CloseButton, Col, Container, Form, ListGroup, Modal, Row } from "react-bootstrap";
 import EventForm from "./eventForm";
-import EventList from "./eventList";
+import EventList from "./eventlist";
 
 export interface Event {
   id: number;
@@ -49,7 +49,7 @@ export default function EventView() {
   return (
     <Container className="p-4">
       <Row>
-        <EventList
+        <EventList 
           events = {eventList}
           update = {() => updateEvents()}
         />
