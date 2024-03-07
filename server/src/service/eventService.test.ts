@@ -34,6 +34,6 @@ test("If an event is deleted, then it should be deleted from the list of all eve
     await eventService.deleteEvent(event.id);
     const events2 = await eventService.getEvents();
     expect(events1.length).toEqual(events2.length +1);
-    expect(events2.some((event) => event.name === name && event.organizer === organizer && event.date === date)).toBeFalsy();
+    expect(events2.some((e) => e.id===event.id)).toBeFalsy();
 
 })
