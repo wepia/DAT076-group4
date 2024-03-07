@@ -1,6 +1,9 @@
 import { SportEvent } from "../model/sportEvent";
 import { IEventService } from "./event.interface";
 import { eventModel } from "../db/event.db";
+import { Model } from "mongoose";
+import { accountModel } from "../db/account.db";
+import { Account } from "../model/account";
 
 
 export class EventDBService implements IEventService {
@@ -14,6 +17,7 @@ export class EventDBService implements IEventService {
     throw new Error("Method not implemented.");
   }
   async getEvents(): Promise<SportEvent[]>{
+    
     return (await eventModel).find();
   }
 

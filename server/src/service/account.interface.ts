@@ -1,4 +1,5 @@
 import {Account} from "../model/account";
+import { SportEvent } from "../model/sportEvent";
 
 export interface IAccountService {
     //Register the account with the given account details.

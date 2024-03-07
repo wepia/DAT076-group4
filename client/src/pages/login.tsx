@@ -21,6 +21,7 @@ function Login() {
         password: inputs.password,
       });
 
+
     } catch (error : any) {
         if (error.response) {
           setModalMessage(`Login Failed! ${error.response.data.message}`);

@@ -2,6 +2,7 @@ import { Account } from "../model/account";
 import { AccountDBService } from "../service/account.db";
 import express, {Router, Request, Response} from "express";
 import { IAccountService } from "../service/account.interface";
+import { SportEvent } from "../model/sportEvent";
 
 const accountService : IAccountService = new AccountDBService();
 export const accountRouter : Router = express.Router();
@@ -44,11 +45,26 @@ accountRouter.post("/login", async (
             if (!await accountService.findAccount(req.body.username, req.body.password)) {
                 return res.status(401).send("Username or password is incorrect")
             }
-
-            req.session.user = req.body.username
+                       
             return res.status(200).send("Login success")
         } catch (e: any) {
             res.status(500).send(e.message);
         }
     }
 )
+
+accountRouter.get("/", async ( 
+    req: Request,
+    res: Response<Number[]>
+) => {
+    try{
+        if(req.cookies.session.user === undefined) {
+            res.status(401);
+        }
+
+        const events : number[] = await accountService.getAccountEvents(req.cookies.session.user);
+        res.status(200).send(events);
+    } catch(e:any) {
+        res.status(500).send(e.message);
+    }
+})
