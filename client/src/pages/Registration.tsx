@@ -1,4 +1,6 @@
 import Form from '../components/Form'
+//TODO do we need this or should we remove it?
+
 
 function Registration() {
 

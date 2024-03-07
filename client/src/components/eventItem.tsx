@@ -34,9 +34,9 @@ export default EventCard;
 
 
 export function EventItem({event, eventDeleted} : {event: Event, eventDeleted : () => void}) {
-
-  async function deleteEvent() {
+  async function deleteEvent(e :React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     try{
+      e.preventDefault();
       await axios.delete('http://localhost:8080/event',
           {data: {id: event.id}}
         );
@@ -50,7 +50,7 @@ export function EventItem({event, eventDeleted} : {event: Event, eventDeleted : 
         console.log(err);
       }
     }
-  }
+  };
 
   return (
     <Card
@@ -64,7 +64,7 @@ export function EventItem({event, eventDeleted} : {event: Event, eventDeleted : 
             <Row className="align-items-start">
               <Col>{event.name}</Col>
               <Col xs="auto" className="d-flex justify-content-end">
-              <Button variant="outline-light" className='py-0' onClick={(ev) =>{ev.preventDefault(); deleteEvent()}}>✖️</Button></Col>
+                <Button variant="outline-light" className='py-0' onClick={e =>{deleteEvent(e)}}>✖️</Button></Col>
             </Row>
           </Container>
             </Card.Header>
