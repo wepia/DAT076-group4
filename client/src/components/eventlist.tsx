@@ -9,6 +9,7 @@ export default function EventList({events, update} : {events: Event[], update: (
     <ListGroup>
       {events.map((e: Event) => 
         <EventItem 
+          key = {e.id}
           event = {e} 
           eventDeleted = {update}
           />
