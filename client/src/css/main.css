@@ -1,9 +1,4 @@
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-  
+
 input,
 select {
     width: 100%;
@@ -76,3 +71,8 @@ form {
       animation-name: fadeinpane;
       animation-duration: 2s;   
   }
+
+.footer {
+  bottom: 0;
+  width: 100%;
+}
