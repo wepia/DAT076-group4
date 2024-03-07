@@ -11,7 +11,7 @@ export default function EventList({events, update} : {events: Event[], update: (
         <EventItem 
           key = {e.id}
           event = {e} 
-          eventDeleted = {update}
+          eventDeleted = {() => update()}
           />
         )}
     </ListGroup>

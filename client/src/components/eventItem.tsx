@@ -64,7 +64,7 @@ export function EventItem({event, eventDeleted} : {event: Event, eventDeleted : 
             <Row className="align-items-start">
               <Col>{event.name}</Col>
               <Col xs="auto" className="d-flex justify-content-end">
-              <Button variant="outline-light" className='py-0' onClick={ev =>{ev.preventDefault(); deleteEvent()}}>✖️</Button></Col>
+              <Button variant="outline-light" className='py-0' onClick={(ev) =>{ev.preventDefault(); deleteEvent()}}>✖️</Button></Col>
             </Row>
           </Container>
             </Card.Header>
