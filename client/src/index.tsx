@@ -7,7 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from './pages/login';
-import Registration from "./pages/Registration";
+import Registration from "./pages/RegistrationForm";
 import UserPage from "./pages/Profile";
 
 
