@@ -35,5 +35,16 @@ test("If an event is deleted, then it should be deleted from the list of all eve
     const events2 = await eventService.getEvents();
     expect(events1.length).toEqual(events2.length +1);
     expect(events2.some((e) => e.id===event.id)).toBeFalsy();
+})
 
+test("Calling filterEvents should give a list of events between startDate and endDate", async() =>{
+
+})
+
+test("Calling filterEvents should throw an error if startDate is after endDate", async() =>{
+    
+})
+
+test("Calling filterEvents should give a list of events between startDate and endDate", async() =>{
+    
 })

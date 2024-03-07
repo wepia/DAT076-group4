@@ -5,9 +5,6 @@ export interface IEventService {
   //Returns a deep copy of the current list of events
   getEvents(): Promise<SportEvent[]>
 
-  //Returns a deep copy of a filtered list of events
-  getFilteredEvents(filter: {ids: string[], from: Date, to: Date, organizer: string}): Promise<SportEvent[]>
-
   //Add a new event with the given name, organizer and date 
   //returns a copy of that event
   addEvent(name : string, organizer : string, date : Date) :Promise<SportEvent>
