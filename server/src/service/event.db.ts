@@ -3,9 +3,6 @@ import { IEventService } from "./event.interface";
 import { eventModel } from "../db/event.db";
 import { ObjectId } from "mongodb";
 import { Model } from "mongoose";
-import { accountModel } from "../db/account.db";
-import { Account } from "../model/account";
-
 
 export class EventDBService implements IEventService {
   async getVolunteers(eventID: string): Promise<string[]> {
@@ -19,18 +16,19 @@ export class EventDBService implements IEventService {
     throw new Error("Method not implemented.");
   }
   async getEvents(): Promise<SportEvent[]>{
-    
     return (await eventModel).find();
   }
 
   async addEvent(name : string, organizer : string, date : Date) :Promise<SportEvent>{
-    return (await eventModel).create({
+    const em: Model<SportEvent> = await eventModel;
+
+    return await em.create({
       id: new ObjectId().toString(),
       name : name,
       organizer : organizer, 
       date : date,
       volunteers : []
-    })
+    });
   }
 
 
@@ -43,6 +41,11 @@ export class EventDBService implements IEventService {
 
   async filterEvents(startDate : Date, endDate : Date) : Promise<SportEvent[]> {
     const em = await eventModel;
+
+    if(startDate > endDate){
+      throw new Error("No filtering, the start date is later than the end date.");
+    }
+
     const events = await em.find({
       date: {$gte : startDate, $lte :endDate}
     }).exec();
