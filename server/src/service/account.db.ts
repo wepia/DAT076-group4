@@ -7,23 +7,33 @@ import { eventModel } from "../db/event.db";
 
 export class AccountDBService implements IAccountService {
   async addEvent(userName: string, eventID: string): Promise<boolean> {
-    const am: Model<Account> = await accountModel;
-    const user = await am.findOne({ userName: userName });
-
-    if (user === null) {
-      return false;
+    try {
+      const am: Model<Account> = await accountModel;
+      const user = await am.findOne({ userName: userName });
+      if (!user) {
+        throw new Error("User not found");
+      }
+  
+      const updatedUser = await am.findByIdAndUpdate(
+        user._id,
+        { $addToSet: { eventIDs: eventID } },
+        { new: true, safe: true }
+      );
+  
+      if (!updatedUser) {
+        throw new Error("Failed to update user");
+      }
+  
+      return true;
+    } catch (error) {
+      console.error("Error adding event ID:", error);
+      return false; // Return false for any errors
     }
-
-    const index = user.eventIDs.indexOf(eventID);
-    if (index !== -1) {
-      user.eventIDs.splice(index, 1);
-    }
-
-    // Save the updated user object back to the database
-    await user.save();
-
-    return true;
   }
+  
+
+
+  
   async removeEvent(userName: string, eventID: string): Promise<boolean> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName });
