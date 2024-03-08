@@ -2,6 +2,7 @@ import * as SuperTest from "supertest";
 import {app} from "./start";
 import {Account} from "./model/account";
 
+jest.mock("./db/conn");
 const request = SuperTest.default(app);
 
 test("End-to-end test", async() => {
