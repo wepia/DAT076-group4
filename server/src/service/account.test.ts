@@ -56,10 +56,10 @@ test("An event should only be possible to add to the account's event-list once",
     const eventID : string = new ObjectId().toString();
 
     const events1 : string[] = await accountService.getAccountEvents(testuserName);
-    expect(await accountService.addEvent(testuserName, eventID)).toBeTruthy();
+    await accountService.addEvent(testuserName, eventID);
     const events2 : string[] = await accountService.getAccountEvents(testuserName);
     expect(events1.length + 1).toEqual(events2.length);
-    expect(await accountService.addEvent(testuserName, eventID)).toBeFalsy();
+    await accountService.addEvent(testuserName, eventID);
     const events3 : string[] = await accountService.getAccountEvents(testuserName);
     expect(events2.length).toEqual(events3.length);
 })
@@ -67,11 +67,11 @@ test("An event should only be possible to add to the account's event-list once",
 test("An eventID should be possible to removed if it is in the list", async() =>{
     const eventID : string = new ObjectId().toString();
 
-    expect(await accountService.addEvent(testuserName, eventID)).toBeTruthy();
+    await accountService.addEvent(testuserName, eventID);
     const events1 : string[] = await accountService.getAccountEvents(testuserName);
-    expect(accountService.removeEvent(testuserName, eventID)).toBeTruthy();
+    await accountService.removeEvent(testuserName, eventID);
     const events2 : string[] = await accountService.getAccountEvents(testuserName);
-    expect(accountService.removeEvent(testuserName, eventID)).toBeFalsy();
+    accountService.removeEvent(testuserName, eventID);
     const events3 : string[] = await accountService.getAccountEvents(testuserName);
     expect(events2.length).toEqual(events3.length);
     expect(events1.length).toEqual(events2.length +1);

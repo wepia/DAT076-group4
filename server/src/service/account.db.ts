@@ -2,11 +2,9 @@ import { Account } from "../model/account";
 import { IAccountService } from "./account.interface";
 import { accountModel } from "../db/account.db";
 import { Model } from "mongoose";
-import { SportEvent } from "../model/sportEvent";
-import { eventModel } from "../db/event.db";
 
 export class AccountDBService implements IAccountService {
-  async addEvent(userName: string, eventID: string): Promise<boolean> {
+  async addEvent(userName: string, eventID: string): Promise<void> {
     try {
       const am: Model<Account> = await accountModel;
       const user = await am.findOne({ userName: userName });
@@ -23,18 +21,12 @@ export class AccountDBService implements IAccountService {
       if (!updatedUser) {
         throw new Error("Failed to update user");
       }
-  
-      return true;
     } catch (error) {
       console.error("Error adding event ID:", error);
-      return false; // Return false for any errors
     }
   }
   
-
-
-  
-  async removeEvent(userName: string, eventID: string): Promise<boolean> {
+  async removeEvent(userName: string, eventID: string): Promise<void> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName });
 
@@ -46,9 +38,8 @@ export class AccountDBService implements IAccountService {
       user.eventIDs.splice(index, 1);
     }
     await user.save();
-
-    return true;
   }
+
   async getAccountEvents(userName: string): Promise<string[]> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName });
@@ -56,8 +47,9 @@ export class AccountDBService implements IAccountService {
     if (user === null) {
       throw "No user with username " + userName;
     }
-    return (await eventModel).find({ id: { $in: user.eventIDs } });    
+    return user.eventIDs;    
   }
+
   async changeEmail(
     userName: string,
     password: string,
@@ -75,6 +67,7 @@ export class AccountDBService implements IAccountService {
 
     return true;
   }
+
   async accessAccount(userName: string, password: string): Promise<Account> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName, password: password });
