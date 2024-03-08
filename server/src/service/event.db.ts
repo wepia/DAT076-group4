@@ -6,15 +6,51 @@ import { Model } from "mongoose";
 
 export class EventDBService implements IEventService {
   async getVolunteers(eventID: string): Promise<string[]> {
-    throw new Error("Method not implemented.");
+    const em: Model<SportEvent> = await eventModel;
+    const event = await em.findOne({ id: eventID });
+
+    if (event === null) {
+      throw "No event with id " + eventID;
+    }
+    return event.volunteers;
   }
 
-  async addVolunteer(eventID: string, userName: string): Promise<Boolean> {
-    throw new Error("Method not implemented.");
+  async addVolunteer(eventID: string, userName: string): Promise<void> {
+    try {
+      const em: Model<SportEvent> = await eventModel;
+      const event = await em.findOne({ id: eventID });
+      if (!event) {
+        throw new Error("Event not found");
+      }
+  
+      const updatedEvent = await em.findByIdAndUpdate(
+        event._id,
+        { $addToSet: { volunteers: userName } },
+        { new: true, safe: true }
+      );
+  
+      if (!updatedEvent) {
+        throw new Error("Failed to update event");
+      }
+    } catch (error) {
+      console.error("Error adding username:", error);
+    }
   }
-  async removeVolunteer(eventID: string, userName: string): Promise<Boolean> {
-    throw new Error("Method not implemented.");
+
+  async removeVolunteer(eventID: string, userName: string): Promise<void> {
+    const em: Model<SportEvent> = await eventModel;
+    const event = await em.findOne({ id: eventID });
+
+    if (event === null) {
+      throw new Error("No user with id " + eventID);
+    }
+    const index = event.volunteers.indexOf(userName);
+    if (index !== -1) {
+      event.volunteers.splice(index, 1);
+    }
+    await event.save();
   }
+
   async getEvents(): Promise<SportEvent[]>{
     return (await eventModel).find();
   }
