@@ -8,58 +8,60 @@ import { eventModel } from "../db/event.db";
 export class AccountDBService implements IAccountService {
   
   
-  async addEvent(userName: string, event: SportEvent): Promise<boolean> {
+  async addEvent(userName: string, eventID: string): Promise<void> {
     const am: Model<Account> = await accountModel;
-    const user = await am.findOne({ userName: userName });
+    const em : Model<SportEvent> = await eventModel;
 
+    const event = await em.findOne({id:eventID});
+    const user = await am.findOne({ userName: userName });
+    console.log(`even = ${event} ---------------- user=${user}` )
     if (user === null) {
-      console.log("user not found")
-      return false;
+        throw("Couldn't find user");
+    }
+
+    if (event === null) {
+      throw("Couldn't find event");
     }
 
     user.events.push(event);
     await user.save();
-
-    return true;
+    return;
   }
 
-  async removeEvent(userName: string, event: SportEvent) : Promise<boolean> {
+  async removeEvent(userName: string, eventID: string) : Promise<void> {
     const am: Model<Account> = await accountModel;
-    const user = await am.findOne({ userName: userName });
+    const user = await am.findOne({ userName: userName }).populate("events");;
 
     if (user === null) {
-      console.log("No user with that username");
-      return false;
+      throw("Couldn't find user");
     }
-    user.populate("events");
-
-    const index = user.events.findIndex((event) => event.id.toString() === event.id.toString());
+ 
+    const index = user.events.findIndex((event : SportEvent) => event.id === eventID);
     if (index !== -1) {
       user.events.splice(index, 1);
       await user.save();
-      return true;
+     
 
   } else {
-      console.log("Event not found in user's events");
-      return false;
+    
+
+      throw ("Couldn't find the event in the users event-list");
   }
 
   }
 
-  async getAccountEvents(userName: string): Promise<[SportEvent]> {
+  async getAccountEvents(userName: string): Promise<SportEvent[]> {
     const am: Model<Account> = await accountModel;
-    const user = await am.findOne({ userName: userName });
-
+    const user = await am.findOne({ userName: userName }).populate("events");
+    ;
     if (user === null) {
-      throw "No user with username " + userName;
+      throw new Error("No user with username " + userName);
     }
     
-    user.populate("events");
+   
     const events = user.events;
 
-    return events;
-    
-    
+    return events;  
   }
 
 

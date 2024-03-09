@@ -14,7 +14,6 @@ import EventForm from "./eventForm";
 import EventList from "./eventlist";
 import InputField from "./InputField";
 import { useNavigate } from "react-router-dom";
-axios.defaults.withCredentials = true;
 
 export interface Event {
   id: string;
@@ -23,18 +22,23 @@ export interface Event {
   date: Date;
 }
 
-interface EventViewProps {
-  receiver: string;
-}
+
 
 //TODO adapt so this component can be used for user specific list too, use a const set by some in params.
-export default function EventView({ receiver }: EventViewProps) {
+export default function EventView({ page, receiver }: {page: string, receiver: string}) {
   const [eventList, setEventList] = useState<Event[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [filterDates, setFilterDates] = useState({
     startDate: "",
     endDate: "",
   });
+
+  if (page === "home") {
+    axios.defaults.withCredentials = false;
+  } else {
+    axios.defaults.withCredentials = true;
+  }
+
   const openForm = () => setShowForm(true);
   const closeForm = () => setShowForm(false);
   const submitForm = () => {
@@ -49,6 +53,7 @@ export default function EventView({ receiver }: EventViewProps) {
 
   async function updateEvents() {
     try {
+      console.log("In update events")
       const response = await axios.get<Event[]>(
         "http://localhost:8080/" + receiver
       );
@@ -98,6 +103,46 @@ export default function EventView({ receiver }: EventViewProps) {
     setEventList(filteredEvents);
   }
 
+  if(page === 'profile') {
+    if(receiver === "account") {
+      return (
+        <Container className="p-4">
+          <Form onSubmit={(e) => handleSubmit(e)}>
+            <InputField
+              label="Start date"
+              type="date"
+              id="startDate"
+              name="startDate"
+              required={false}
+              setInputs={setFilterDates}
+              inputs={filterDates}
+            />
+    
+            <InputField
+              label="Final Date"
+              type="date"
+              id="endDate"
+              name="endDate"
+              required={false}
+              setInputs={setFilterDates}
+              inputs={filterDates}
+            />
+    
+            <button type="submit" className="btn btn-primary">
+              Filter the events within a date interval
+            </button>
+          </Form>
+          <Row>
+            <EventList
+              events={eventList}
+              receiver={receiver}
+              page={page}
+              update={() => updateEvents()}
+            />
+          </Row>
+        </Container>
+      );
+    } else {
   return (
     <Container className="p-4">
       <Form onSubmit={(e) => handleSubmit(e)}>
@@ -129,17 +174,57 @@ export default function EventView({ receiver }: EventViewProps) {
         <EventList
           events={eventList}
           receiver={receiver}
+          page={page}
           update={() => updateEvents()}
         />
       </Row>
       <Row className="justify-content-center">
         <Col className="mt-4" style={{ textAlign: "right" }}>
           <Button variant="outline-primary" size="lg" onClick={openForm}>
-            Add event ➕
+            Create event ➕
           </Button>
         </Col>
       </Row>
       <EventForm visible={showForm} close={closeForm} submit={submitForm} />
     </Container>
-  );
+  );}
+  } else {
+    return (
+      <Container className="p-4">
+      <Form onSubmit={(e) => handleSubmit(e)}>
+        <InputField
+          label="Start date"
+          type="date"
+          id="startDate"
+          name="startDate"
+          required={false}
+          setInputs={setFilterDates}
+          inputs={filterDates}
+        />
+
+        <InputField
+          label="Final Date"
+          type="date"
+          id="endDate"
+          name="endDate"
+          required={false}
+          setInputs={setFilterDates}
+          inputs={filterDates}
+        />
+
+        <button type="submit" className="btn btn-primary">
+          Filter the events within a date interval
+        </button>
+      </Form>
+      <Row>
+        <EventList
+          events={eventList}
+          receiver={receiver}
+          page = {page}
+          update={() => updateEvents()}
+        />
+      </Row>
+    </Container>
+    )
+  }
 }

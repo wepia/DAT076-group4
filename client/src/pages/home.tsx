@@ -5,9 +5,6 @@ import EventView from '../components/eventView';
 
 function Home() {
 
-  function updateUserEvents() {
-    
-  }
   return (
     <div>
       <Container>
@@ -32,7 +29,7 @@ function Home() {
       </Container>
       <Container>
        
-        <EventView receiver='event'/>
+        <EventView receiver='event' page='home'/>
 
       </Container>
      

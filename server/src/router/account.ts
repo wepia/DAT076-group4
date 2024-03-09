@@ -24,7 +24,9 @@ accountRouter.post(
         gender,
         birth
       );
-      res.status(200).send(newAcc);
+
+      const accCopy = JSON.stringify(newAcc);
+      res.status(200).send(accCopy);
     } catch (e: any) {
       console.error(e);
       res.status(500).send(e.message);
@@ -61,42 +63,57 @@ accountRouter.post(
 accountRouter.post("/logout", async (req: Request, res: Response) => {
   try {
     req.session.destroy((err) => {
-      res.status(200).send("ok");
-      res.redirect("/Home"); // will always fire after session is destroyed
+      return res.status(200).send("successfull logout")
     });
   } catch (e: any) {
     res.status(500).send(e.message);
   }
 });
 
+accountRouter.put("/", async (
+  req : Request,
+  res : Response
+) => {
+  try {
+     if (req.session.user === undefined) {
+      res.status(401).send("Need to be logged in");
+     } else{
+     const eventID : string = req.body.data.id;
+     console.log("eventId: " + eventID)
+     await accountService.addEvent(req.session.user, eventID)
+  }} catch (e:any) {
+    res.status(500).send(e.message);
+  }
+})
+
 accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
-
+ try{
   if (req.session.user === undefined) {
-
     return res.status(401).send(req.session.user);
 }
-
   const events: SportEvent[] = await accountService.getAccountEvents(
     req.session.user
   );
   return res.status(200).send(events);
-});
+} catch(e:any) {
+  res.status(500).send(e.message);
+}}
+);
 
 accountRouter.delete("/", async (req: Request, res: Response) => {
   if (req.session.user === undefined) {
     return res.status(401);
   }
   try {
-    const event: SportEvent = req.body.event;
-
-    await accountService.removeEvent(req.session.user, event);
+    const eventID: string = req.body.id;
+    await accountService.removeEvent(req.session.user, eventID);
     return res.status(200).send("ok");
   } catch (e: any) {
     res.status(500).send(e.message);
   }
 });
 
-accountRouter.put("/", async (req: Request, res: Response) => {
+accountRouter.get("/account", async (req: Request, res: Response) => {
   if (req.session.user === undefined) {
     return res.status(401);
   }

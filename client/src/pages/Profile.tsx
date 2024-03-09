@@ -32,7 +32,7 @@ function UserPage() {
     </Container>
     <Container>
      
-      <EventView receiver='event'/>
+      <EventView receiver='event' page='profile'/>
 
     </Container>
     <Container>
@@ -41,7 +41,7 @@ function UserPage() {
       </Row>
     </Container>
     <Container>
-    <EventView receiver='account'/>
+    <EventView receiver='account' page='profile'/>
     <LogOut />
     </Container>
    

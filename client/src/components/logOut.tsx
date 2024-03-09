@@ -4,18 +4,22 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import { Button} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function LogOut() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+
+  const navigate = useNavigate();
   async function logOut() {
     try {
-      const response = await axios.post("/logout");
-      setModalMessage("Log out successfull!");
-      setShowModal(true);
-    } catch (error) {
+      await axios.post("http://localhost:8080/account/logout");
+      navigate("/home");
+
+    } catch (e: any) {
       setModalMessage("Unsuccessful log out!");
       setShowModal(true);
+      
     }
   }
   

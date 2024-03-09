@@ -1,6 +1,7 @@
 import {Schema, Model} from "mongoose";
 import {SportEvent} from "../model/sportEvent";
 import { conn } from "./conn";
+import { ObjectId } from "mongodb";
 
 const eventSchema : Schema = new Schema({
  id : {
@@ -24,8 +25,13 @@ const eventSchema : Schema = new Schema({
  required : true
  },
 
- volunteers : {
-  type : [String],
+ volunteers : [{
+  type : ObjectId,
+  ref : "Accounts"
+}],
+
+ owner : {
+  type : String,
   required : true
  }
 })
