@@ -49,25 +49,20 @@ export class EventDBService implements IEventService {
   async removeVolunteer(eventID: string, userName: string): Promise<void> {
     const em : Model<SportEvent> = await eventModel;
     
-
     const event = await em.findOne({id:eventID}).populate("volunteers");
-    console.log("event in service to remove volunteer: " + event)
-    if(event === null) {
+    //console.log("event in service to remove volunteer: " + event)
+    if(!event) {
       throw("Couldn't find the event");
     }
     const index = event.volunteers.findIndex((volunteer : Account) => volunteer.userName === userName);
         
     if (index !== -1) {
         event.volunteers.splice(index, 1);
-        await event.save();
-        
-        return; 
-    } else {
-        throw(`Volunteer with username ${userName} is not signed up for this event`);
-    }
+    } 
 
+    await event.save();
   }
-
+  
   async getEvents(): Promise<SportEvent[]>{
     const em : Model<SportEvent> = await eventModel;
     const events : SportEvent[] = await em.find();

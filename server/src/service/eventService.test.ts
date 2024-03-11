@@ -2,14 +2,20 @@ import { IEventService } from "./event.interface";
 import { EventDBService } from "./event.db";
 import { SportEvent } from "../model/sportEvent";
 import { Account } from "../model/account";
+import { IAccountService } from "./account.interface";
+import { AccountDBService } from "./account.db";
 
 jest.mock("../db/conn");
 
 let eventService: IEventService;
 const volunteerNames :string[] = ["Andreas", "Gustaf", "Razan", "Pia", "Emma", "Lennart"];
+let testVolunteers : Account[];
 
 beforeAll(async () => {
     eventService = new EventDBService();
+    const accountService : IAccountService = new AccountDBService();
+    testVolunteers = await Promise.all(volunteerNames.map(async(name) =>
+                        await accountService.registerAccounts(name, "password", "e@mail.test", "testGender", new Date(2003, 9, 4))));
     //await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
     //put all volunteernames in database
 });
@@ -140,11 +146,11 @@ test("Adding a new volunteer to an event should add that name to the list of vol
     const owner = "annalena"
 
     const event :SportEvent = await eventService.addEvent(name, organizer, date, owner);
-    await Promise.all(volunteerNames.map(async(n) => {await eventService.addVolunteer(event.id,n);}));
+    await Promise.all(testVolunteers.map(async(v) => {await eventService.addVolunteer(event.id,v.userName);}));
     const volunteerlist:Account[] = await eventService.getVolunteers(event.id);
 
-    expect(volunteerlist).toHaveLength(volunteerNames.length);
-    volunteerNames.map(n => expect(volunteerlist).toContain(n));
+    expect(volunteerlist).toHaveLength(testVolunteers.length);
+    testVolunteers.map(v => expect(volunteerlist.map(vol => vol.userName)).toContain(v.userName));
 })
 
 test("Adding a volunteer to an event twice should only add the name to the list once", async() =>{
@@ -183,7 +189,7 @@ test("Trying to remove a volunteer that is not in an events list should do nothi
     const organizer = "No fun foundation";
     const date = new Date("2023-10-27");
     const owner = "Boring McBored";
-    const user = volunteerNames[2];//"EgonIsNotInTheList";
+    const user = "EgonIsNotInTheList";
 
     const event :SportEvent = await eventService.addEvent(name, organizer,date,owner);
     await Promise.all(volunteerNames.map(async(n) => {await eventService.addVolunteer(event.id,n);}));

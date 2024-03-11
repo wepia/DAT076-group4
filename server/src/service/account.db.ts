@@ -51,7 +51,7 @@ export class AccountDBService implements IAccountService {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName }).populate("events");;
 
-    if (user === null) {
+    if (!user) {
       throw("Couldn't find user");
     }
  
