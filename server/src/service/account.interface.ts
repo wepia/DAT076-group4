@@ -12,16 +12,19 @@ export interface IAccountService {
     findAccount(username : string, password : string) : Promise<boolean>
 
     //Returns the list of event-ids for this account
-    getAccountEvents(userName : string) :Promise<string[]> 
+    getAccountEvents(userName : string) :Promise<SportEvent[]> 
 
     //Add an event to the account's eventlist
     addEvent(userName : string, eventID : string): Promise<void>
 
     //Remove an event from the account's eventlist
-    removeEvent(userName : string, eventID :string): Promise<void>
+    removeEvent(userName : string, eventID : string): Promise<void>
 
     //Changes the email for this account if the correct password is passed
     changeEmail(userName : string, password : string, newEmail: string) : Promise<boolean>
+
+    //Returns a censored (no password included) copy of the account
+    getAccountData(userName : string) : Promise<Account>
 
     //Access an account through username + password
     //Returns a deep copy of the account if the name and password matches
