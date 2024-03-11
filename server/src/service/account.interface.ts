@@ -8,7 +8,6 @@ export interface IAccountService {
 
     //Returns true if if a user with the specified username and password exists
     //false otherwise.
-    //Throws an exception if username or password is invalid.
     findAccount(username : string, password : string) : Promise<boolean>
 
     //Returns the list of event-ids for this account
