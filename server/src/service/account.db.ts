@@ -2,52 +2,78 @@ import { Account } from "../model/account";
 import { IAccountService } from "./account.interface";
 import { accountModel } from "../db/account.db";
 import { Model } from "mongoose";
+import { SportEvent } from "../model/sportEvent";
+import { eventModel } from "../db/event.db";
 
 export class AccountDBService implements IAccountService {
-  async addEvent(userName: string, eventID: string): Promise<void> {
-    try {
-      const am: Model<Account> = await accountModel;
-      const user = await am.findOne({ userName: userName });
-      if (!user) {
-        throw new Error("User not found");
-      }
-  
-      const updatedUser = await am.findByIdAndUpdate(
-        user._id,
-        { $addToSet: { eventIDs: eventID } },
-        { new: true, safe: true }
-      );
-  
-      if (!updatedUser) {
-        throw new Error("Failed to update user");
-      }
-    } catch (error) {
-      console.error("Error adding event ID:", error);
-    }
-  }
-  
-  async removeEvent(userName: string, eventID: string): Promise<void> {
+  async getAccountData(userName: string): Promise<Account> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName });
 
-    if (user === null) {
-      throw new Error("No user with username " + userName);
+    // Make a deep copy of the user object
+    const userCopy: Account = JSON.parse(JSON.stringify(user));
+
+    // Censor sensitive information
+    userCopy.password = "********";
+
+    return userCopy;
+  }
+
+  async addEvent(userName: string, eventID: string): Promise<void> {
+    const am: Model<Account> = await accountModel;
+    const em: Model<SportEvent> = await eventModel;
+
+    // Find the user
+    const user = await am.findOne({ userName: userName });
+    if (!user) {
+        throw new Error("User not found");
     }
-    const index = user.eventIDs.indexOf(eventID);
+
+    // Find the event
+    const event = await em.findOne({ id: eventID });
+    if (!event) {
+        throw new Error("Event not found");
+    }
+
+    // event should only be added to the accounts event-list once
+    const updatedAccount = await am.findByIdAndUpdate(
+      user._id,
+      { $addToSet: { events: event._id } },
+      { new: true, safe: true }
+    );
+
+    if (!updatedAccount) {
+      throw new Error("Failed to update eventlist");
+    }
+}
+
+  async removeEvent(userName: string, eventID: string) : Promise<void> {
+    const am: Model<Account> = await accountModel;
+    const user = await am.findOne({ userName: userName }).populate("events");;
+
+    if (!user) {
+      throw("Couldn't find user");
+    }
+ 
+    const index = user.events.findIndex((event : SportEvent) => event.id === eventID);
     if (index !== -1) {
-      user.eventIDs.splice(index, 1);
+      user.events.splice(index, 1);
     }
     await user.save();
   }
 
-  async getAccountEvents(userName: string): Promise<string[]> {
+  async getAccountEvents(userName: string): Promise<SportEvent[]> {
     const am: Model<Account> = await accountModel;
-    const user = await am.findOne({ userName: userName });
-
-    if (user === null) {
-      throw "No user with username " + userName;
+    const user = await am.findOne({ userName: userName }).populate("events");
+    
+    if (!user) {
+      throw new Error("No user with username " + userName);
     }
-    return user.eventIDs;    
+    
+   
+    const events = user.events;
+
+    return events;  
   }
 
   async changeEmail(
@@ -70,14 +96,15 @@ export class AccountDBService implements IAccountService {
 
   async accessAccount(userName: string, password: string): Promise<Account> {
     const am: Model<Account> = await accountModel;
-    const user = await am.findOne({ userName: userName, password: password });
+    const user = await am.findOne({ userName: userName, password: password});
 
-    if (user === null) {
+    if (!user) {
       throw new Error("Password don't match with the username");
     }
 
-    //user.email = userName; //Guessing this is not supposed to be here?
-    return user;
+    const userCopy = JSON.parse(JSON.stringify(user));
+
+    return userCopy;
   }
 
   async registerAccounts(

@@ -3,59 +3,73 @@ import { IEventService } from "./event.interface";
 import { eventModel } from "../db/event.db";
 import { ObjectId } from "mongodb";
 import { Model } from "mongoose";
+import { Account } from "../model/account";
+import { accountModel } from "../db/account.db";
 
 export class EventDBService implements IEventService {
-  async getVolunteers(eventID: string): Promise<string[]> {
-    const em: Model<SportEvent> = await eventModel;
-    const event = await em.findOne({ id: eventID });
 
-    if (event === null) {
-      throw "No event with id " + eventID;
+  async getVolunteers(eventID: string): Promise<Account[]> {
+    const em : Model<SportEvent> =  await eventModel;
+
+    const event = await em.findOne({id:eventID}).populate("volunteers");
+    
+    if(event) {
+      
+      return event.volunteers;
     }
-    return event.volunteers;
+
+    throw("Couldn't find event");
   }
 
   async addVolunteer(eventID: string, userName: string): Promise<void> {
-    try {
-      const em: Model<SportEvent> = await eventModel;
-      const event = await em.findOne({ id: eventID });
-      if (!event) {
-        throw new Error("Event not found");
-      }
-  
-      const updatedEvent = await em.findByIdAndUpdate(
+    const em: Model<SportEvent> = await eventModel;
+    const am: Model<Account> = await accountModel;
+
+    const event = await em.findOne({ id: eventID });
+    if (!event) {
+        throw new Error("Couldn't find event");
+    }
+
+    const account = await am.findOne({ userName: userName });
+    if (!account) {
+        throw new Error("Couldn't find user");
+    }
+
+    const updatedEvent = await em.findByIdAndUpdate(
         event._id,
-        { $addToSet: { volunteers: userName } },
+        { $addToSet: { volunteers: account._id } },
         { new: true, safe: true }
-      );
-  
-      if (!updatedEvent) {
+    );
+
+    if (!updatedEvent) {
         throw new Error("Failed to update event");
-      }
-    } catch (error) {
-      console.error("Error adding username:", error);
     }
   }
 
   async removeVolunteer(eventID: string, userName: string): Promise<void> {
-    const em: Model<SportEvent> = await eventModel;
-    const event = await em.findOne({ id: eventID });
-
-    if (event === null) {
-      throw new Error("No user with id " + eventID);
+    const em : Model<SportEvent> = await eventModel;
+    
+    const event = await em.findOne({id:eventID}).populate("volunteers");
+    //console.log("event in service to remove volunteer: " + event)
+    if(!event) {
+      throw("Couldn't find the event");
     }
-    const index = event.volunteers.indexOf(userName);
+    const index = event.volunteers.findIndex((volunteer : Account) => volunteer.userName === userName);
+        
     if (index !== -1) {
-      event.volunteers.splice(index, 1);
-    }
+        event.volunteers.splice(index, 1);
+    } 
+
     await event.save();
   }
-
+  
   async getEvents(): Promise<SportEvent[]>{
-    return (await eventModel).find();
+    const em : Model<SportEvent> = await eventModel;
+    const events : SportEvent[] = await em.find();
+    return events;
   }
 
-  async addEvent(name : string, organizer : string, date : Date) :Promise<SportEvent>{
+  async addEvent(name : string, organizer : string, date : Date, owner : string) :Promise<SportEvent>{
     const em: Model<SportEvent> = await eventModel;
 
     return await em.create({
@@ -63,20 +77,27 @@ export class EventDBService implements IEventService {
       name : name,
       organizer : organizer, 
       date : date,
-      volunteers : []
+      volunteers : [],
+      owner : owner
     });
   }
 
 
-  async deleteEvent(id : string) :Promise<void>{
-    const em = await eventModel;
+  async deleteEvent(id : string, owner : string) :Promise<void>{
+    const em : Model<SportEvent> =  await eventModel;
+    
+    const event = await em.findOne({ id: id, owner: owner });
+    if(event){
     await em.deleteOne(
-      {id:id}
+      {id:id, owner:owner}
     );
+    } else {
+      throw new Error("Not the owner of the event");
+    }
   }
 
   async filterEvents(startDate : Date, endDate : Date) : Promise<SportEvent[]> {
-    const em = await eventModel;
+    const em : Model<SportEvent> =  await eventModel;
 
     if(startDate > endDate){
       throw new Error("No filtering, the start date is later than the end date.");

@@ -1,7 +1,10 @@
+import { Account } from "./account";
+
 export interface SportEvent {
     id: string;
     name: string;
     organizer: string;
     date: Date;
-    volunteers: string[]
+    volunteers: Account[];
+    owner: string;
 }
