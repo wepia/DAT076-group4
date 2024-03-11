@@ -70,7 +70,39 @@ accountRouter.post("/logout", async (req: Request, res: Response) => {
   }
 });
 
-accountRouter.put("/", async (
+accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
+ try{
+  if (req.session.user === undefined) {
+    return res.status(401).send(req.session.user);
+}
+  const events: SportEvent[] = await accountService.getAccountEvents(
+    req.session.user
+  );
+  return res.status(200).send(events);
+} catch(e:any) {
+  res.status(500).send(e.message);
+}}
+);
+
+accountRouter.get("/account", async (req: Request, res: Response) => {
+  if (req.session.user === undefined) {
+    return res.status(401);
+  }
+
+  const acc = await accountService.accessAccount(req.session.user);
+  return res.status(200).send(acc);
+});
+
+export async function schedule(user : any, eventID : string) {
+  
+}
+export async function unschedule(user : any, eventID : string) {
+  
+}
+
+
+/*
+accountRouter.put("/schedule", async (
   req : Request,
   res : Response
 ) => {
@@ -86,21 +118,7 @@ accountRouter.put("/", async (
   }
 })
 
-accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
- try{
-  if (req.session.user === undefined) {
-    return res.status(401).send(req.session.user);
-}
-  const events: SportEvent[] = await accountService.getAccountEvents(
-    req.session.user
-  );
-  return res.status(200).send(events);
-} catch(e:any) {
-  res.status(500).send(e.message);
-}}
-);
-
-accountRouter.delete("/", async (req: Request, res: Response) => {
+accountRouter.delete("/schedule", async (req: Request, res: Response) => {
   if (req.session.user === undefined) {
     return res.status(401);
   }
@@ -112,12 +130,4 @@ accountRouter.delete("/", async (req: Request, res: Response) => {
     res.status(500).send(e.message);
   }
 });
-
-accountRouter.get("/account", async (req: Request, res: Response) => {
-  if (req.session.user === undefined) {
-    return res.status(401);
-  }
-
-  const acc = await accountService.accessAccount(req.session.user);
-  return res.status(200).send(acc);
-});
+*/

@@ -65,24 +65,6 @@ eventRouter.delete("/", async (
 }
 });
 
-eventRouter.delete("/user", async (
-    req : Request,
-    res: Response
-) => {
-    try {
-    if(req.session.user === undefined) {
-        res.status(401).send("You need to be logged in");
-    } else {
-
-    const eventID : string = req.body.id;
-    console.log("eventID: " + eventID)
-    await eventService.removeVolunteer(eventID, req.session.user);
-    }
-} catch(e:any){
-    res.status(500).send(e.message);
-}
-})
-
 eventRouter.put("/", async (
     req : Request,
     res : Response<SportEvent[]>
@@ -99,7 +81,15 @@ eventRouter.put("/", async (
     }
 })
 
-eventRouter.put("/volunteer", async ( 
+export async function schedule(user : any, eventID : string) {
+  
+}
+export async function unschedule(user : any, eventID : string) {
+  
+}
+
+/*
+eventRouter.put("/schedule", async ( 
     req: Request,
     res: Response
 ) => {
@@ -119,3 +109,21 @@ eventRouter.put("/volunteer", async (
     }
 })
 
+eventRouter.delete("/schedule", async (
+    req : Request,
+    res: Response
+) => {
+    try {
+    if(req.session.user === undefined) {
+        res.status(401).send("You need to be logged in");
+    } else {
+
+    const eventID : string = req.body.id;
+    console.log("eventID: " + eventID)
+    await eventService.removeVolunteer(eventID, req.session.user);
+    }
+} catch(e:any){
+    res.status(500).send(e.message);
+}
+})
+*/
