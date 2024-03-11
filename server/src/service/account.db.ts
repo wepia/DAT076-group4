@@ -20,33 +20,32 @@ export class AccountDBService implements IAccountService {
   }
 
   async addEvent(userName: string, eventID: string): Promise<void> {
-    try {
-        const am: Model<Account> = await accountModel;
-        const em: Model<SportEvent> = await eventModel;
+    const am: Model<Account> = await accountModel;
+    const em: Model<SportEvent> = await eventModel;
 
-        // Find the user
-        const user = await am.findOne({ userName: userName });
-        if (!user) {
-            throw new Error("User not found");
-        }
+    // Find the user
+    const user = await am.findOne({ userName: userName });
+    if (!user) {
+        throw new Error("User not found");
+    }
 
-        // Find the event
-        const event = await em.findOne({ id: eventID });
-        if (!event) {
-            throw new Error("Event not found");
-        }
+    // Find the event
+    const event = await em.findOne({ id: eventID });
+    if (!event) {
+        throw new Error("Event not found");
+    }
 
-        // Update the user by pushing the event to the events array
-        user.events.push(event);
+    // event should only be added to the accounts event-list once
+    const updatedAccount = await am.findByIdAndUpdate(
+      user._id,
+      { $addToSet: { events: event._id } },
+      { new: true, safe: true }
+    );
 
-        // Save the updated user document
-        await user.save();
-    } catch (error) {
-        console.error("Error adding event to user:", error);
-        throw error;
+    if (!updatedAccount) {
+      throw new Error("Failed to update eventlist");
     }
 }
-
 
   async removeEvent(userName: string, eventID: string) : Promise<void> {
     const am: Model<Account> = await accountModel;
@@ -97,9 +96,9 @@ export class AccountDBService implements IAccountService {
 
   async accessAccount(userName: string, password: string): Promise<Account> {
     const am: Model<Account> = await accountModel;
-    const user = await am.findOne({ userName: userName});
+    const user = await am.findOne({ userName: userName, password: password});
 
-    if (user === null) {
+    if (!user) {
       throw new Error("Password don't match with the username");
     }
 

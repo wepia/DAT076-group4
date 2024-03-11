@@ -1,6 +1,7 @@
 import { IEventService } from "./event.interface";
 import { EventDBService } from "./event.db";
 import { SportEvent } from "../model/sportEvent";
+import { Account } from "../model/account";
 
 jest.mock("../db/conn");
 
@@ -10,14 +11,16 @@ const volunteerNames :string[] = ["Andreas", "Gustaf", "Razan", "Pia", "Emma", "
 beforeAll(async () => {
     eventService = new EventDBService();
     //await accountService.registerAccounts(testuserName, testpassword, testemail, testgender, testbirth);
+    //put all volunteernames in database
 });
 
 test("If an event is created, then it should be added to the list of all events", async() => {
     const name = "Football";
     const organizer = "Local football club";
     const date = new Date("2024-03-10");
+    const owner = "Vilgot"
 
-    const event :SportEvent = await eventService.addEvent(name, organizer, date);
+    const event :SportEvent = await eventService.addEvent(name, organizer, date, owner);
     expect(new Date(event.date)).toEqual(date);
     expect(event.name).toEqual(name);
     expect(event.organizer).toEqual(organizer);
@@ -39,10 +42,11 @@ test("If an event is deleted, then it should be deleted from the list of all eve
     const name = "Swimming";
     const organizer = "Swimmers United";
     const date = new Date("2025-05-13");
+    const owner = "Frodo"
 
-    const event :SportEvent = await eventService.addEvent(name, organizer, date);
+    const event :SportEvent = await eventService.addEvent(name, organizer, date, owner);
     const events1 = await eventService.getEvents();
-    await eventService.deleteEvent(event.id);
+    await eventService.deleteEvent(event.id, event.owner);
     const events2 = await eventService.getEvents();
     expect(events1.length).toEqual(events2.length +1);
     expect(events2.some((e) => e.id===event.id)).toBeFalsy();
@@ -58,7 +62,7 @@ test("Calling filterEvents should return a list of all events between(and includ
     let counter :number = 0;
     await Promise.all(datesInFrame.map(async d => {
         let nString = (counter++).toString();
-        let event = await eventService.addEvent("evt" + nString, "org" + nString, d);
+        let event = await eventService.addEvent("evt" + nString, "org" + nString, d, "own" + nString);
         eventsInFrame.push(event);
     }));
     //6 dates out of frame
@@ -66,7 +70,7 @@ test("Calling filterEvents should return a list of all events between(and includ
     const eventsOutOfFrame :SportEvent[] =[];
     await Promise.all(datesOutOfFrame.map(async d => {
         let nString = (counter++).toString();
-        let event = await eventService.addEvent("evt" + nString, "org" + nString, d);
+        let event = await eventService.addEvent("evt" + nString, "org" + nString, d, "own" + nString);
         eventsOutOfFrame.push(event);
     }));
     const all1 :SportEvent[] = await eventService.getEvents();
@@ -122,9 +126,10 @@ test("When an event is created, it's list of volunteers is empty", async() =>{
     const name = "SomeSport";
     const organizer = "SomeOrganizer";
     const date = new Date("2025-04-11");
+    const owner = "SomeOwner"
 
-    const event :SportEvent = await eventService.addEvent(name, organizer, date);
-    const volunteerlist :string[] = await eventService.getVolunteers(event.id);
+    const event :SportEvent = await eventService.addEvent(name, organizer, date, owner);
+    const volunteerlist :Account[] = await eventService.getVolunteers(event.id);
     expect(volunteerlist).toHaveLength(0);
 })
 
@@ -132,10 +137,11 @@ test("Adding a new volunteer to an event should add that name to the list of vol
     const name = "Hockey";
     const organizer = "Local hockey club";
     const date = new Date("2025-04-11");
+    const owner = "annalena"
 
-    const event :SportEvent = await eventService.addEvent(name, organizer, date);
+    const event :SportEvent = await eventService.addEvent(name, organizer, date, owner);
     await Promise.all(volunteerNames.map(async(n) => {await eventService.addVolunteer(event.id,n);}));
-    const volunteerlist:string[] = await eventService.getVolunteers(event.id);
+    const volunteerlist:Account[] = await eventService.getVolunteers(event.id);
 
     expect(volunteerlist).toHaveLength(volunteerNames.length);
     volunteerNames.map(n => expect(volunteerlist).toContain(n));
@@ -145,13 +151,14 @@ test("Adding a volunteer to an event twice should only add the name to the list 
     const name = "Horse racing";
     const organizer = "Local jockey club";
     const date = new Date("2028-01-11");
-    const userName = "Lasse";
+    const owner = "Lasse";
+    const user = volunteerNames[0];
 
-    const event :SportEvent = await eventService.addEvent(name, organizer, date);
-    await eventService.addVolunteer(event.id,userName);
-    const volunteerlist1:string[] = await eventService.getVolunteers(event.id);
-    await eventService.addVolunteer(event.id,userName);
-    const volunteerlist2:string[] = await eventService.getVolunteers(event.id);
+    const event :SportEvent = await eventService.addEvent(name, organizer, date, owner);
+    await eventService.addVolunteer(event.id,user);
+    const volunteerlist1:Account[] = await eventService.getVolunteers(event.id);
+    await eventService.addVolunteer(event.id,user);
+    const volunteerlist2:Account[] = await eventService.getVolunteers(event.id);
 
     expect(volunteerlist1).toEqual(volunteerlist2);
 })
@@ -160,12 +167,13 @@ test("Removing volunteer from an event should remove that name from the list of 
     const name = "Orientation";
     const organizer = "Maps r us";
     const date = new Date("2020-12-21");
-    const userName = "Lotta";
+    const owner = "Lotta";
+    const user = volunteerNames[1];
 
-    const event :SportEvent = await eventService.addEvent(name, organizer, date);
-    await eventService.addVolunteer(event.id,userName);
-    await eventService.removeVolunteer(event.id,userName);
-    const volunteerlist:string[] = await eventService.getVolunteers(event.id);
+    const event :SportEvent = await eventService.addEvent(name, organizer, date, owner);
+    await eventService.addVolunteer(event.id,user);
+    await eventService.removeVolunteer(event.id,user);
+    const volunteerlist:Account[] = await eventService.getVolunteers(event.id);
 
     expect(volunteerlist).toHaveLength(0);
 })
@@ -174,13 +182,14 @@ test("Trying to remove a volunteer that is not in an events list should do nothi
     const name = "Boring event noone wants";
     const organizer = "No fun foundation";
     const date = new Date("2023-10-27");
-    const userName = "EgonIsNotInTheList";
+    const owner = "Boring McBored";
+    const user = volunteerNames[2];//"EgonIsNotInTheList";
 
-    const event :SportEvent = await eventService.addEvent(name, organizer, date);
+    const event :SportEvent = await eventService.addEvent(name, organizer,date,owner);
     await Promise.all(volunteerNames.map(async(n) => {await eventService.addVolunteer(event.id,n);}));
-    const volunteerlist1:string[] = await eventService.getVolunteers(event.id);
-    await eventService.removeVolunteer(event.id,userName);
-    const volunteerlist2:string[] = await eventService.getVolunteers(event.id);
+    const volunteerlist1:Account[] = await eventService.getVolunteers(event.id);
+    await eventService.removeVolunteer(event.id,user);
+    const volunteerlist2:Account[] = await eventService.getVolunteers(event.id);
 
     expect(volunteerlist1).toEqual(volunteerlist2);
 })
