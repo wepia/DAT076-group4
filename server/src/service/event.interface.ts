@@ -17,12 +17,12 @@ export interface IEventService {
 
   //Try adding an account to the list of volunteers 
   //returns a boolean indicating if the account was added (true) or not (false)
-  addVolunteer(eventID : string, userName : string): Promise<Boolean>
+  addVolunteer(eventID : string, userName : string): Promise<void>
 
   //Remove an account from the list of volunteers
   //Returns a boolean indicating if the account was removed (true) 
   //or if there was no such account to remove from the list (false)
-  removeVolunteer(eventID : string, userName : string): Promise<Boolean>
+  removeVolunteer(eventID : string, userName : string): Promise<void>
 
   // Returns the events that are within the date interval startDate-endDate.
   filterEvents(startDate : Date, endDate : Date) : Promise<SportEvent[]>

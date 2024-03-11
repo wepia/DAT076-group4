@@ -22,8 +22,18 @@ test("If an event is created, then it should be added to the list of all events"
     expect(event.name).toEqual(name);
     expect(event.organizer).toEqual(organizer);
     const events :SportEvent[] = await eventService.getEvents();
-    expect(events).toContain(event);
+    
+    const createdEvent: SportEvent | undefined = events.find(e => 
+        e.name === event.name && 
+        e.organizer === event.organizer && 
+        e.date.getTime() === event.date.getTime() &&
+        e.id === event.id
+    );
+
+    // Assert that the created event exists in the list of events
+    expect(createdEvent).toBeDefined();
 })
+
 
 test("If an event is deleted, then it should be deleted from the list of all events", async() => {
     const name = "Swimming";
@@ -70,9 +80,27 @@ test("Calling filterEvents should return a list of all events between(and includ
     expect(filtered.length).toBeGreaterThanOrEqual(4);
     expect(all1.length - filtered.length).toBeGreaterThanOrEqual(6);
 
-    //the filtered list contains all the right events and not the others
-    eventsInFrame.map(e => expect(filtered).toContain(e));
-    eventsOutOfFrame.map(e => expect(filtered).not.toContain(e));
+    // Check that the filtered list contains all the right events and not the others
+    eventsInFrame.forEach(expectedEvent => {
+        const foundEvent = filtered.find(event =>
+            event.name === expectedEvent.name &&
+            event.organizer === expectedEvent.organizer &&
+            event.date.getTime() === expectedEvent.date.getTime()
+        );
+        expect(foundEvent).toBeDefined();
+    });
+
+    eventsOutOfFrame.forEach(unexpectedEvent => {
+        const foundEvent = filtered.find(event =>
+            event.name === unexpectedEvent.name &&
+            event.organizer === unexpectedEvent.organizer &&
+            event.date.getTime() === unexpectedEvent.date.getTime()
+        );
+        expect(foundEvent).toBeUndefined();
+    });
+
+   // eventsInFrame.map(e => expect(filtered).toContain(e));
+   // eventsOutOfFrame.map(e => expect(filtered).not.toContain(e));
 })
 
 test("Calling filterEvents should throw an error if startDate is after endDate", async() =>{
