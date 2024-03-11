@@ -93,11 +93,24 @@ accountRouter.get("/account", async (req: Request, res: Response) => {
   return res.status(200).send(acc);
 });
 
-export async function schedule(user : any, eventID : string) {
-  
+export async function schedule(user:string, eventID:string): Promise<void> {
+  try {
+    console.log("shedule in accountRouter");
+    await accountService.addEvent(user, eventID);
+  } catch (e:any) {
+    console.log("Error in account-schedule: " + e.message);
+    throw e;
+  }
 }
-export async function unschedule(user : any, eventID : string) {
-  
+
+export async function unschedule(user:string, eventID:string): Promise<void> {
+  try {
+    console.log("unshedule in accountRouter");
+    await accountService.removeEvent(user, eventID);
+  } catch (e:any) {
+    console.log("Error in account-unschedule: " + e.message);
+    throw e;
+  }
 }
 
 

@@ -29,7 +29,7 @@ app.put("/schedule", async (
     res : Response
   ) => {
     try {
-        if (req.session.user === undefined) {
+        if (!req.session.user) {
             console.log("user is undefined");
             res.status(401).send("Need to be logged in");
         } else {
@@ -37,8 +37,8 @@ app.put("/schedule", async (
             const eventID: string = req.body.data.id;
             console.log("Scheduling event: " + eventID + " to user: " + user);
 
-            await accountSchedule(user,eventID);
-            await eventSchedule(user,eventID);
+            await accountSchedule(user, eventID);
+            await eventSchedule(user, eventID);
 
             res.status(200).send("Schedule successful");
         }
@@ -54,7 +54,7 @@ app.delete("/schedule", async (
     res : Response
   ) => {
     try {
-        if (req.session.user === undefined) {
+        if (!req.session.user) {
             console.log("user is undefined");
             res.status(401).send("Need to be logged in");
         } else {
@@ -62,8 +62,8 @@ app.delete("/schedule", async (
             const eventID: string = req.body.data.id;
             console.log("Scheduling event: " + eventID + " to user: " + user);
 
-            await accountUnschedule(user,eventID);
-            await eventUnschedule(user,eventID);
+            await accountUnschedule(user, eventID);
+            await eventUnschedule(user, eventID);
 
             res.status(200).send("Schedule successful");
         }
@@ -73,4 +73,3 @@ app.delete("/schedule", async (
         res.status(500).json({ error: "Error scheduling event" });
     }
 });
-

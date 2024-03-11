@@ -81,11 +81,24 @@ eventRouter.put("/", async (
     }
 })
 
-export async function schedule(user : any, eventID : string) {
-  
+export async function schedule(user:string, eventID:string): Promise<void> {
+    try {
+        console.log("shedule in eventRouter");
+        await eventService.addVolunteer(eventID, user);
+      } catch (e:any) {
+        console.log("Error in event-schedule: " + e.message);
+        throw e;
+      }
 }
-export async function unschedule(user : any, eventID : string) {
-  
+
+export async function unschedule(user:string, eventID:string): Promise<void> {
+    try {
+        console.log("unshedule in eventRouter");
+        await eventService.removeVolunteer(eventID, user);
+      } catch (e:any) {
+        console.log("Error in event-unschedule: " + e.message);
+        throw e;
+      }
 }
 
 /*
