@@ -25,8 +25,8 @@ accountRouter.post(
         birth
       );
 
-      const accCopy = JSON.stringify(newAcc);
-      res.status(200).send(accCopy);
+      
+      res.status(200).send("ok");
     } catch (e: any) {
       console.error(e);
       res.status(500).send(e.message);
@@ -88,12 +88,33 @@ accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
 
 accountRouter.get("/account", async (req: Request, res: Response) => {
   if (req.session.user === undefined) {
-    return res.status(401);
+    return res.status(401)
   }
 
   const acc = await accountService.getAccountData(req.session.user);
   return res.status(200).send(acc);
 });
+
+
+accountRouter.put("/", async (
+  req : Request,
+  res : Response
+) => {
+  try {
+    if(req.session.user === undefined) {
+       res.status(401).send("Need to be logged in");
+    } else{
+  const startDate : Date = req.body.startDate;
+  const endDate : Date = req.body.endDate;
+  const events = await accountService.filterEvents(req.session.user,startDate,endDate);
+
+  res.status(200).send(events);
+    }
+
+  } catch(e:any) {
+      res.status(500).send(e.message);
+  }
+})
 
 
 
