@@ -12,6 +12,12 @@ const eventService : IEventService = new EventDBService();
 
 export const scheduleRouter: Router = express.Router();
 
+// Adds a user to the SportEvents list of volunteers
+// and adds the SportEvent to the Accounts list of events.
+// At success it sends a response with status 200 and
+// body "ok"
+// sends back a response with status 401 and with body
+// "Need to be logged in" if the user is not logged in.
 scheduleRouter.put("/", async(
     req : Request,
     res : Response
@@ -35,6 +41,12 @@ scheduleRouter.put("/", async(
     }
 })
 
+// Removes the Account from the SportEvents field "volunteers"
+// and removes the SportEvent from the Accounts field "events".
+// At success it will send a response with status 401 and
+// body "ok"
+// if the user is not logged in, a response with status
+// 401 and body "Need to be logged in" will be sent.
 scheduleRouter.delete("/", async(
     req : Request,
     res : Response,

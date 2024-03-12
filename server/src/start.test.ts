@@ -6,32 +6,37 @@ import {Account} from "./model/account";
 jest.mock("./db/conn");
 const request = SuperTest.default(app);
 
+const testuserName: string = "testname";
+const testemail: string = "test@e.mail";
+const testpassword: string = "testPassword";
+const testgender: string = "testGender";
+const testbirth: Date = new Date("1970-01-20");
+
 beforeAll(async () => {
     //Register a test account
-
+    await request.post("/account").send({userName : testuserName, password : testpassword, email : testemail, gender : testgender, birth : testbirth});
     //Create a test event
 
 });
 
-test("Account-routing", async() =>{
-    const testuserName: string = "testname";
-    const testemail: string = "test@e.mail";
-    const testpassword: string = "testPassword";
-    const testgender: string = "testGender";
-    const testbirth: Date = new Date("1970-01-20");
+test("create account", async() =>{
+    const testuserName2: string = "testname2";
+    const testemail2: string = "test@e2.mail";
+    const testpassword2: string = "testPassword2";
+    const testgender2: string = "testGender2";
+    const testbirth2: Date = new Date("2000-04-23");
 
-    //Registration ok
-    const res1 = await request.post("/account").send({userName : testuserName, password : testpassword, email : testemail, gender : testgender, birth : testbirth});
-    const responseBody1 = JSON.parse(res1.text);
-    
+    const res1 = await request.post("/account").send({userName : testuserName2, password : testpassword2, email : testemail2, gender : testgender2, birth : testbirth2});
+
     expect(res1.statusCode).toEqual(200);
-    
-    expect(responseBody1.userName).toEqual(testuserName);
-    //expect(res1.body.password).toEqual(testpassword);
-    expect(responseBody1.email).toEqual(testemail);
-    expect(responseBody1.gender).toEqual(testgender);
-    expect(new Date(responseBody1.birth)).toEqual(testbirth);
+    expect(res1.text).toEqual("ok");
 
+    //Register same username
+    const res2 = await request.post("/account").send({userName : testuserName2, password : testpassword2, email : testemail2, gender : testgender2, birth : testbirth2});
+    expect(res2.statusCode).toEqual(500);
+})
+
+test("login/out account", async()=>{
     //login with wrong username or password
     const res2 = await request.post("/account/login").send({username : "notausername", password : testpassword});
     const res3 = await request.post("/account/login").send({username : testuserName, password : "wrongpassword"});
@@ -44,24 +49,30 @@ test("Account-routing", async() =>{
     const res4 = await request.post("/account/login").send({username : testuserName, password : testpassword});
     expect(res4.statusCode).toEqual(200);
     expect(res4.text).toEqual("Login success");
-/*
+
+    //logout
+    const res7 = await request.post("/account/logout");
+    expect(res7.statusCode).toEqual(200);
+    expect(res7.text).toEqual("successfull logout");
+})
+
+test("Session access functions", async()=>{
+    await request.post("/account/login").send({username : testuserName, password : testpassword});
+    
     //Get account information
-    const res5 = await request.get("/account/account");
+    const res5 = await request.get("/account/account")//.send();
     expect(res5.statusCode).toEqual(200);
     expect(res5.body.userName).toEqual(testuserName);
     expect(res5.body.email).toEqual(testemail);
     expect(res5.body.gender).toEqual(testgender);
     expect(new Date(res5.body.birth)).toEqual(testbirth);
-
+ /*
     //Get eventlist (should be empty)
     const res6 = await request.get("/account");
     expect(res6.statusCode).toEqual(200);
     expect(res6.body).toEqual([]);
 
-    //logout
-    const res7 = await request.post("/account/logout");
-    expect(res7.statusCode).toEqual(200);
-    expect(res7.body).toEqual("successfull logout");
+    
 
     //Try to access functions logged out
     const res8 = await request.get("/account/account");
@@ -69,8 +80,6 @@ test("Account-routing", async() =>{
     const res9 = await request.get("/account");
     expect(res9.statusCode).toEqual(401);
 
-    //Register same username
-    const res10 = await request.post("/account").send({userName : testuserName, password : testpassword, email : testemail, gender : testgender, birth : testbirth});
-    expect(res10.statusCode).toEqual(500);
     */
+    await request.post("/account/logout");
 });
