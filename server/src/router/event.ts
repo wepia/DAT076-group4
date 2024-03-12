@@ -7,6 +7,10 @@ const eventService : IEventService = new EventDBService();
 
 export const eventRouter = express.Router();
 
+// Returns a response with status 200 and the
+// body is all the registered events.
+// If an error occur in the server, 
+// it will send a response with status 500.
 eventRouter.get("/", async (
     req: Request<{}, {}, {}>,
     res: Response<SportEvent[]>
@@ -15,11 +19,15 @@ eventRouter.get("/", async (
         const events = await eventService.getEvents();
         res.status(201).send(events);
     } catch (e: any) {
-        res.status(400).send(e.message);
+        res.status(500).send(e.message);
     }
 });
 
-
+// Registers a new event.
+// If successfull, returns status code 200 and the
+// body is hte newly registered event.
+// If the user is not logged in it send back a status code 401.
+// At internal server error, send back a response with code 500.
 eventRouter.post("/", async(
     req : Request,
     res : Response<SportEvent>
@@ -40,6 +48,13 @@ eventRouter.post("/", async(
     }
 })
 
+// Deletes the event with the specified id.
+// At success, sends back a response with status code 200
+// and body "ok".
+// If user is not logged in, it will send back a 
+// response with status code 401 and the body will be "Not logged in"
+// Response with status 401 will also be sent if the suer is not the owner of the 
+// event that are to be deleted.
 eventRouter.delete("/", async (
     req : Request,
     res : Response
@@ -53,7 +68,7 @@ eventRouter.delete("/", async (
     
     await eventService.deleteEvent(id, req.session.user);
         
-    res.status(200).send();
+    res.status(200).send("Ok");
 } catch (e:any) {
 
     if(e.message === 'Not the owner of the event'){
@@ -65,6 +80,13 @@ eventRouter.delete("/", async (
 }
 });
 
+// Filters all the registered events that are
+// within the given date interval.
+// At success, sends a response with status 200
+// and body will be all the filtered events.
+// Errors from the server will result in a 
+// response with status 500 and body will be 
+// the error message.
 eventRouter.put("/", async (
     req : Request,
     res : Response<SportEvent[]>
@@ -77,6 +99,6 @@ eventRouter.put("/", async (
     res.status(200).send(events);
 
     } catch(e:any) {
-        res.status(400).send(e.message);
+        res.status(500).send(e.message);
     }
 })

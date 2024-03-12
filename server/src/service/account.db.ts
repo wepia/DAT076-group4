@@ -20,6 +20,9 @@ export class AccountDBService implements IAccountService {
     return userCopy;
   }
 
+  //Adds an event to the event list in the Account model.
+  //Throws error is the specified eventID is not associated with an event
+  // Or if the username does not associate with a registered Account.
   async addEvent(userName: string, eventID: string): Promise<void> {
     const am: Model<Account> = await accountModel;
     const em: Model<SportEvent> = await eventModel;
@@ -48,6 +51,9 @@ export class AccountDBService implements IAccountService {
     }
 }
 
+  // Removes the event with the eventID from the list of events if the Accounts model.
+  // Throws error if the eventID do not correspond to a registered event
+  // or if the username doesn't associate with any registered Accounts
   async removeEvent(userName: string, eventID: string) : Promise<void> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName }).populate("events");;
@@ -63,6 +69,8 @@ export class AccountDBService implements IAccountService {
     await user.save();
   }
 
+  // Returns all the events that are inside the events field in the Account.
+  // Throws error if there is no registered account with the given username
   async getAccountEvents(userName: string): Promise<SportEvent[]> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName }).populate("events");
@@ -77,6 +85,10 @@ export class AccountDBService implements IAccountService {
     return events;  
   }
 
+  // Changes the accounts current email to the newEmail.
+  // Returns true if the email changed successfully
+  // Returns false is no registered account is associated with the 
+  // combination of the given username and password.
   async changeEmail(
     userName: string,
     password: string,
@@ -95,6 +107,9 @@ export class AccountDBService implements IAccountService {
     return true;
   }
 
+  // Returns the account details of the account.
+  // Throws error if no registered account has the given
+  // combination of the username and password. 
   async accessAccount(userName: string, password: string): Promise<Account> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName, password: password});
@@ -108,6 +123,9 @@ export class AccountDBService implements IAccountService {
     return userCopy;
   }
 
+  // Creates an account with the given account specifications.
+  // Throws an error if the username, password or email already
+  // exists in another account. 
   async registerAccounts(
     userName: string,
     password: string,
@@ -133,6 +151,9 @@ export class AccountDBService implements IAccountService {
     });
   }
 
+  // Returns true if the method successfully located the account with the 
+  // specified username. 
+  // If no account is located, it return false.
   async findAccount(username: string, password: string): Promise<boolean> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: username });
@@ -141,5 +162,23 @@ export class AccountDBService implements IAccountService {
     } else {
       return false;
     }
+  }
+
+  // Filtering the events, for which the account is signed up for, that are within
+  // the startDate and endDate.
+  async filterEvents(userName : string, startDate : Date, endDate : Date) : Promise<SportEvent[]> {
+    const am : Model<Account> =  await accountModel;
+    const user = await am.findOne({ userName: userName }).populate("events");
+    if(user === null) {
+      throw("Couldn't locate the user")
+    }
+    const parsedStartDate : Date = new Date(startDate);
+    const parsedEndDate : Date = new Date(endDate);
+    const events = user.events;
+    
+    const filteredEvents : SportEvent[] = user.events.filter(event => event.date >= parsedStartDate && event.date <= parsedEndDate )
+
+
+    return filteredEvents;
   }
 }

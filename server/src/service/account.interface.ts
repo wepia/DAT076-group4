@@ -28,4 +28,8 @@ export interface IAccountService {
     //Access an account through username + password
     //Returns a deep copy of the account if the name and password matches
     accessAccount(userName : string, password : string) : Promise<Account>
+
+    // Filters the events inside the account field "events".
+    // Will return all the events that are within the startDate and endDate.
+    filterEvents(userName : string, startDate : Date, endDate : Date) : Promise<SportEvent[]>
 }
