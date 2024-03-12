@@ -96,6 +96,7 @@ accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
 // If the user is not logged in, returns a status 401.
 accountRouter.get("/account", async (req: Request, res: Response) => {
   if (req.session.user === undefined) {
+    console.log(req.session)
     return res.status(401).send("need to login")
   }
 

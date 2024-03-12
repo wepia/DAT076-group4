@@ -2,6 +2,13 @@ import * as SuperTest from "supertest";
 import express, { Router, Request, Response } from "express";
 import {app} from "./start";
 import {Account} from "./model/account";
+var session = require('supertest-session');
+
+var testSession: { post: (arg0: string) => { (): any; new(): any; send: { (arg0: { username: string; password: string; }): any; new(): any; }; }; get: (arg0: string) => any; };
+
+beforeEach(function () {
+  testSession = session(app);
+});
 
 jest.mock("./db/conn");
 const request = SuperTest.default(app);
@@ -57,29 +64,26 @@ test("login/out account", async()=>{
 })
 
 test("Session access functions", async()=>{
-    await request.post("/account/login").send({username : testuserName, password : testpassword});
+    await testSession.post("/account/login").send({username : testuserName, password : testpassword});
     
     //Get account information
-    const res5 = await request.get("/account/account")//.send();
+    const res5 = await testSession.get("/account/account");
     expect(res5.statusCode).toEqual(200);
     expect(res5.body.userName).toEqual(testuserName);
     expect(res5.body.email).toEqual(testemail);
     expect(res5.body.gender).toEqual(testgender);
     expect(new Date(res5.body.birth)).toEqual(testbirth);
- /*
+
     //Get eventlist (should be empty)
-    const res6 = await request.get("/account");
+    const res6 = await testSession.get("/account");
     expect(res6.statusCode).toEqual(200);
     expect(res6.body).toEqual([]);
 
-    
+    testSession.post("/account/logout");
 
     //Try to access functions logged out
-    const res8 = await request.get("/account/account");
+    const res8 = await testSession.get("/account/account");
     expect(res8.statusCode).toEqual(401);
-    const res9 = await request.get("/account");
+    const res9 = await testSession.get("/account");
     expect(res9.statusCode).toEqual(401);
-
-    */
-    await request.post("/account/logout");
 });
