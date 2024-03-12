@@ -167,7 +167,6 @@ export class AccountDBService implements IAccountService {
   // the startDate and endDate.
   async filterEvents(userName : string, startDate : Date, endDate : Date) : Promise<SportEvent[]> {
     const am : Model<Account> =  await accountModel;
-    console.log("inside the filterEvents in account")
     const user = await am.findOne({ userName: userName }).populate("events");
     if(user === null) {
       throw("Couldn't locate the user")
@@ -175,7 +174,6 @@ export class AccountDBService implements IAccountService {
     const parsedStartDate : Date = new Date(startDate);
     const parsedEndDate : Date = new Date(endDate);
     const events = user.events;
-    console.log("events are: " + events)
     
     const filteredEvents : SportEvent[] = user.events.filter(event => event.date >= parsedStartDate && event.date <= parsedEndDate )
 
