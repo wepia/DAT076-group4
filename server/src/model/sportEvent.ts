@@ -5,6 +5,6 @@ export interface SportEvent {
     name: string;
     organizer: string;
     date: Date;
-    volunteers: [Account];
+    volunteers: Account[];
     owner: string;
 }

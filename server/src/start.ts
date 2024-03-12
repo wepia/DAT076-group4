@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-//import express, { Request, Response, NextFunction, Router } from "express";
 import session from "express-session";
 import cors from "cors";
 import { eventRouter } from "./router/event";

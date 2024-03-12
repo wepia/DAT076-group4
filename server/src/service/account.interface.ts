@@ -8,7 +8,6 @@ export interface IAccountService {
 
     //Returns true if if a user with the specified username and password exists
     //false otherwise.
-    //Throws an exception if username or password is invalid.
     findAccount(username : string, password : string) : Promise<boolean>
 
     //Returns the list of event-ids for this account
@@ -23,7 +22,10 @@ export interface IAccountService {
     //Changes the email for this account if the correct password is passed
     changeEmail(userName : string, password : string, newEmail: string) : Promise<boolean>
 
+    //Returns a censored (no password included) copy of the account
+    getAccountData(userName : string) : Promise<Account>
+
     //Access an account through username + password
     //Returns a deep copy of the account if the name and password matches
-    accessAccount(userName : string) : Promise<Account>
+    accessAccount(userName : string, password : string) : Promise<Account>
 }

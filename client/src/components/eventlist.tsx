@@ -4,35 +4,16 @@ import { EventItem } from './eventItem';
 import { Event } from './eventView'
 
 
-export default function EventList({events, receiver, page, update} : {events: Event[], receiver: string, page: string, update: () => void}){
- 
- if(page === 'profile') {
+export default function EventList({events, update} : {events: Event[], update: () => void}){
   return (
     <ListGroup>
       {events.map((e: Event) => 
         <EventItem 
           key = {e.id}
-          event = {e}
-          receiver = {receiver}
-          page = {page}
-          update = {() => update()}
+          event = {e} 
+          eventDeleted = {() => update()}
           />
         )}
     </ListGroup>
   );
-      } else {
-        return(
-          <ListGroup>
-          {events.map((e: Event) => 
-            <EventItem 
-              key = {e.id}
-              event = {e}
-              receiver = {receiver} 
-              page = {page}
-              update = {() => update()}
-              />
-            )}
-        </ListGroup>
-        );
-      }
 }

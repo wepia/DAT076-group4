@@ -9,7 +9,7 @@ import { Account } from "../model/account";
 
 export class EventDBService implements IEventService {
 
-  async getVolunteers(eventID: string): Promise<[Account]> {
+  async getVolunteers(eventID: string): Promise<Account[]> {
     const em : Model<SportEvent> =  await eventModel;
 
     const event = await em.findOne({id:eventID}).populate("volunteers");

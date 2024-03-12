@@ -14,7 +14,7 @@ export interface IEventService {
   deleteEvent(id : string, owner : string): Promise<void>
 
   //Returns the list of volunteers assigned to this event
-  getVolunteers(eventID : string): Promise<[Account]>
+  getVolunteers(eventID : string): Promise<Account[]>
 
   //Try adding an account to the list of volunteers 
   //returns a boolean indicating if the account was added (true) or not (false)

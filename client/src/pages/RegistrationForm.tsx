@@ -5,10 +5,12 @@ import axios from "axios";
 import InputField from "../components/InputField";
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
+import ErrorModal from "../components/errorModal";
 
 function RegistrationForm() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const closeForm = () => setShowModal(false);
   const [inputs, setInputs] = useState({
     username: "",
     email: "",
@@ -123,17 +125,12 @@ function RegistrationForm() {
         </button>
       </form>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Registration Status</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{modalMessage}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ErrorModal
+        visible = {showModal}
+        message = {modalMessage}
+        page = "Registration"
+        close = {closeForm}
+      />
 
       <footer/>
     </div>

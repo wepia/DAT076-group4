@@ -6,52 +6,67 @@ import { SportEvent } from "../model/sportEvent";
 import { eventModel } from "../db/event.db";
 
 export class AccountDBService implements IAccountService {
-  
-  
+  async getAccountData(userName: string): Promise<Account> {
+    const am: Model<Account> = await accountModel;
+    const user = await am.findOne({ userName: userName });
+
+    // Make a deep copy of the user object
+    const userCopy: Account = JSON.parse(JSON.stringify(user));
+
+    // Censor sensitive information
+    userCopy.password = "********";
+
+    return userCopy;
+  }
+
   async addEvent(userName: string, eventID: string): Promise<void> {
     const am: Model<Account> = await accountModel;
-    const em : Model<SportEvent> = await eventModel;
+    const em: Model<SportEvent> = await eventModel;
 
-    const event = await em.findOne({id:eventID});
+    // Find the user
     const user = await am.findOne({ userName: userName });
-    if (user === null) {
-        throw("Couldn't find user");
+    if (!user) {
+        throw new Error("User not found");
     }
 
-    if (event === null) {
-      throw("Couldn't find event");
+    // Find the event
+    const event = await em.findOne({ id: eventID });
+    if (!event) {
+        throw new Error("Event not found");
     }
-    user.events.push(event);
-    await user.save();
-    return;
-  }
+
+    // event should only be added to the accounts event-list once
+    const updatedAccount = await am.findByIdAndUpdate(
+      user._id,
+      { $addToSet: { events: event._id } },
+      { new: true, safe: true }
+    );
+
+    if (!updatedAccount) {
+      throw new Error("Failed to update eventlist");
+    }
+}
 
   async removeEvent(userName: string, eventID: string) : Promise<void> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName }).populate("events");;
-    if (user === null) {
+
+    if (!user) {
       throw("Couldn't find user");
     }
  
     const index = user.events.findIndex((event : SportEvent) => event.id === eventID);
     if (index !== -1) {
       user.events.splice(index, 1);
-      await user.save();
-     
-
-  } else {
-    
-
-      throw ("Couldn't find the event in the users event-list");
-  }
-
+    }
+    await user.save();
   }
 
   async getAccountEvents(userName: string): Promise<SportEvent[]> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName }).populate("events");
-    ;
-    if (user === null) {
+    
+    if (!user) {
       throw new Error("No user with username " + userName);
     }
     
@@ -60,7 +75,6 @@ export class AccountDBService implements IAccountService {
 
     return events;  
   }
-
 
   async changeEmail(
     userName: string,
@@ -80,11 +94,11 @@ export class AccountDBService implements IAccountService {
     return true;
   }
 
-  async accessAccount(userName: string): Promise<Account> {
+  async accessAccount(userName: string, password: string): Promise<Account> {
     const am: Model<Account> = await accountModel;
-    const user = await am.findOne({ userName: userName});
+    const user = await am.findOne({ userName: userName, password: password});
 
-    if (user === null) {
+    if (!user) {
       throw new Error("Password don't match with the username");
     }
 

@@ -6,5 +6,5 @@ export interface Account{
     password : string;
     gender : string;
     birth : Date;
-    events : [SportEvent]
+    events : SportEvent[]
 }
