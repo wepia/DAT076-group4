@@ -7,6 +7,8 @@ import { SportEvent } from "../model/sportEvent";
 const accountService: IAccountService = new AccountDBService();
 export const accountRouter: Router = express.Router();
 
+
+// Registers the new account 
 accountRouter.post(
   "/",
   async (req: Request, res: Response<Account | string>) => {
@@ -17,7 +19,7 @@ accountRouter.post(
       const gender: string = req.body.gender;
       const birth: Date = new Date(req.body.birth);
 
-      const newAcc = await accountService.registerAccounts(
+      await accountService.registerAccounts(
         userName,
         password,
         email,
@@ -38,6 +40,9 @@ interface LoginRequest extends Request{
     body : {username : string, password : string}
 }
 
+// Logs into the user with the specified username and password
+// Return status 401 if the username or password doesn't 
+// match with an registered account.
 accountRouter.post(
   "/login",
   async (req: LoginRequest, res: Response<string>) => {
@@ -60,6 +65,7 @@ accountRouter.post(
   }
 );
 
+// Logs out the user by destroying the session.
 accountRouter.post("/logout", async (req: Request, res: Response) => {
   try {
     req.session.destroy((err) => {
@@ -71,7 +77,8 @@ accountRouter.post("/logout", async (req: Request, res: Response) => {
 });
 
 
-
+// Returns the list of accounts with a 200 respons if successfull
+// otherwise returns with status 500
 accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
  try{
   if (req.session.user === undefined) {
@@ -86,6 +93,8 @@ accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
 }}
 );
 
+// Returns the account data of the user with a status 200 response.
+// If the user is not logged in, returns a status 401.
 accountRouter.get("/account", async (req: Request, res: Response) => {
   if (req.session.user === undefined) {
     return res.status(401)
@@ -96,6 +105,8 @@ accountRouter.get("/account", async (req: Request, res: Response) => {
 });
 
 
+// Filters the events of the users signed up events with status 200.
+// If the user is not logged in, return response with status 401.
 accountRouter.put("/", async (
   req : Request,
   res : Response
