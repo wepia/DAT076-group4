@@ -30,11 +30,11 @@ eventRouter.get("/", async (
 // At internal server error, send back a response with code 500.
 eventRouter.post("/", async(
     req : Request,
-    res : Response<SportEvent>
+    res : Response<SportEvent | string>
 ) => {
     try {
         if(req.session.user === undefined) {
-            return res.status(401);
+            return res.status(401).send("need to be logged in");
         }
         const name : string = req.body.name;
         const organizer : string = req.body.organizer;

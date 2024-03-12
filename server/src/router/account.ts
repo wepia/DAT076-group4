@@ -76,7 +76,7 @@ accountRouter.post("/logout", async (req: Request, res: Response) => {
 });
 
 
-// Returns the list of accounts with a 200 respons if successfull
+// Returns the list of events with a 200 respons if successfull
 // otherwise returns with status 500
 accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
  try{

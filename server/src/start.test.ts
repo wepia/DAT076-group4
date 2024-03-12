@@ -4,7 +4,7 @@ import {app} from "./start";
 import {Account} from "./model/account";
 var session = require('supertest-session');
 
-var testSession: { post: (arg0: string) => { (): any; new(): any; send: { (arg0: { username: string; password: string; }): any; new(): any; }; }; get: (arg0: string) => any; };
+var testSession: { get: (arg0: string) => any; post: (arg0: string) => { (): any; new(): any; send: { (arg0: { username?: string; password?: string; name?: string; organizer?: string; date?: Date; }): any; new(): any; }; }; delete: (arg0: any) => any; };
 
 beforeEach(function () {
   testSession = session(app);
@@ -19,11 +19,13 @@ const testpassword: string = "testPassword";
 const testgender: string = "testGender";
 const testbirth: Date = new Date("1970-01-20");
 
+const testEventname : string = "testevent";
+const testorganizer : string = "testorganizer";
+const testdate : Date = new Date("1978-05-13");
+
 beforeAll(async () => {
     //Register a test account
     await request.post("/account").send({userName : testuserName, password : testpassword, email : testemail, gender : testgender, birth : testbirth});
-    //Create a test event
-
 });
 
 test("create account", async() =>{
@@ -64,6 +66,12 @@ test("login/out account", async()=>{
 })
 
 test("Session access functions", async()=>{
+     //Try to access functions logged out
+     const res8 = await testSession.get("/account/account");
+     expect(res8.statusCode).toEqual(401);
+     const res9 = await testSession.get("/account");
+     expect(res9.statusCode).toEqual(401);
+
     await testSession.post("/account/login").send({username : testuserName, password : testpassword});
     
     //Get account information
@@ -78,12 +86,24 @@ test("Session access functions", async()=>{
     const res6 = await testSession.get("/account");
     expect(res6.statusCode).toEqual(200);
     expect(res6.body).toEqual([]);
-
-    testSession.post("/account/logout");
-
-    //Try to access functions logged out
-    const res8 = await testSession.get("/account/account");
-    expect(res8.statusCode).toEqual(401);
-    const res9 = await testSession.get("/account");
-    expect(res9.statusCode).toEqual(401);
 });
+
+test("create/delete event", async() =>{
+    //try to create event out of session
+    const res0 = await testSession.post("/event").send({name: testEventname,organizer: testorganizer,date: testdate});
+    expect(res0.statusCode).toEqual(401);
+
+    await testSession.post("/account/login").send({username : testuserName, password : testpassword});
+    //create event
+    const res1 = await testSession.post("/event").send({name: testEventname,organizer: testorganizer,date: testdate});
+    expect(res1.statusCode).toEqual(201);
+    expect(res1.body.name).toEqual(testEventname);
+    expect(res1.body.organizer).toEqual(testorganizer);
+    expect(new Date(res1.body.date)).toEqual(testdate);
+    expect(res1.body.owner).toEqual(testuserName);
+
+    //delete event
+    const res2 = await testSession.delete(res1.body.id);
+    expect(res2.statusCode).toEqual(200);
+
+})
