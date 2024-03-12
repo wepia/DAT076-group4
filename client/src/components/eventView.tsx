@@ -69,6 +69,7 @@ export default function EventView({ page, receiver }: {page: string, receiver: s
           console.log("Invalid response from server: " + event);
         }
       });
+      
       setEventList(newEvents);
     } catch (err: any) {
       if (err.response.status === 401) {
