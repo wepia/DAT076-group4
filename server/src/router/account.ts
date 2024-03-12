@@ -12,7 +12,7 @@ export const accountRouter: Router = express.Router();
 // Registers the new account 
 accountRouter.post(
   "/",
-  async (req: Request, res: Response<Account | string>) => {
+  async (req: Request, res: Response<string>) => {
     try {
       const userName: string = req.body.userName;
       const email: string = req.body.email;
@@ -22,7 +22,6 @@ accountRouter.post(
 
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
-
        await accountService.registerAccounts(
         userName,
         hashedPassword,
@@ -30,6 +29,7 @@ accountRouter.post(
         gender,
         birth
       );
+      res.status(200).send("ok")
     } catch (e: any) {
       console.error(e);
       res.status(500).send(e.message);
@@ -56,8 +56,6 @@ accountRouter.post(
         return res.status(401).send("Username or password is incorrect");
       }
         req.session.user = req.body.username;
-
-
 
         return res.status(200).send("Login success");
     } catch (e: any) {
