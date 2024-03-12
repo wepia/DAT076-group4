@@ -3,6 +3,7 @@ import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { Event } from "./eventView";
 import { useState } from "react";
+import ErrorModal from "./errorModal";
 
 function EventCard(props: any) {
   return (
@@ -34,6 +35,7 @@ export function EventItem({ event, receiver, page, update}: {  event: Event; rec
 
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const closeForm = () => setShowModal(false);
   
   async function signUp(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     try {
@@ -180,17 +182,12 @@ export function EventItem({ event, receiver, page, update}: {  event: Event; rec
           <Card.Text>{event.organizer}</Card.Text>
         </Card.Body>
 
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Registration Status</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{modalMessage}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        <ErrorModal
+        visible = {showModal}
+        message = {modalMessage}
+        page = "Sign up"
+        close = {closeForm}
+        />
       </Card>
     );}
   } else {
