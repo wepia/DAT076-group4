@@ -3,6 +3,8 @@ import InputField from "../components/InputField";
 import { FormEvent, useState } from "react";
 import axios from "axios";
 import ErrorModal from "../components/errorModal";
+import { useNavigate } from 'react-router-dom';
+axios.defaults.withCredentials = true;
 
 function Login() {
   const [showModal, setShowModal] = useState(false);
@@ -13,8 +15,8 @@ function Login() {
     password: "",
   });
 
-  // Sends a post request with the values in the username and password input fields.
-  // Also handles any potential error in the request.
+  const navigate = useNavigate();
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     try {
@@ -23,6 +25,7 @@ function Login() {
         password: inputs.password,
       });
 
+      navigate("/profile")
 
     } catch (error : any) {
         if (error.response) {
