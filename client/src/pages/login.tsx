@@ -13,6 +13,8 @@ function Login() {
     password: "",
   });
 
+  // Sends a post request with the values in the username and password input fields.
+  // Also handles any potential error in the request.
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     try {
