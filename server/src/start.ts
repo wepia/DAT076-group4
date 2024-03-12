@@ -4,13 +4,15 @@ import cors from "cors";
 import { eventRouter } from "./router/event";
 import { scheduleRouter } from "./router/schedule";
 import { accountRouter } from "./router/account";
+import * as fs from 'fs';
 
 
 export const app = express();
+const key = fs.readFileSync('./src/secret.txt', 'utf-8')
 
 app.use(express.json());
 app.use(session({
-    secret : "test",
+    secret : key,
     resave : false,
     saveUninitialized : false
 }));
