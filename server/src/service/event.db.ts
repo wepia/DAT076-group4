@@ -36,10 +36,8 @@ export class EventDBService implements IEventService {
     if(account === null) {
       throw("Couldn't find user");
     }
-    console.log(`user in service layer: ${account} and the event: ${event}`)
     event.volunteers.push(account);
     await event.save();
-    console.log("event after adding the volunteer: " + event)
     return;
   }
 
@@ -48,16 +46,16 @@ export class EventDBService implements IEventService {
     
 
     const event = await em.findOne({id:eventID}).populate("volunteers");
-    console.log("event in service to remove volunteer: " + event)
     if(event === null) {
       throw("Couldn't find the event");
     }
     const index = event.volunteers.findIndex((volunteer : Account) => volunteer.userName === userName);
         
     if (index !== -1) {
+
         event.volunteers.splice(index, 1);
         await event.save();
-        
+
         return; 
     } else {
         throw(`Volunteer with username ${userName} is not signed up for this event`);

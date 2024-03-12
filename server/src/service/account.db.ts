@@ -14,7 +14,6 @@ export class AccountDBService implements IAccountService {
 
     const event = await em.findOne({id:eventID});
     const user = await am.findOne({ userName: userName });
-    console.log(`even = ${event} ---------------- user=${user}` )
     if (user === null) {
         throw("Couldn't find user");
     }
@@ -22,7 +21,6 @@ export class AccountDBService implements IAccountService {
     if (event === null) {
       throw("Couldn't find event");
     }
-
     user.events.push(event);
     await user.save();
     return;
@@ -31,7 +29,6 @@ export class AccountDBService implements IAccountService {
   async removeEvent(userName: string, eventID: string) : Promise<void> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: userName }).populate("events");;
-
     if (user === null) {
       throw("Couldn't find user");
     }

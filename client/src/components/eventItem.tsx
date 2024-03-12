@@ -38,7 +38,10 @@ export function EventItem({ event, receiver, page, update}: {  event: Event; rec
   async function signUp(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     try {
       e.preventDefault();
-      console.log("eventItem 41");
+
+      
+
+      
       await axios.put("http://localhost:8080/schedule", {
         data: { id: event.id }, 
             });
@@ -46,15 +49,12 @@ export function EventItem({ event, receiver, page, update}: {  event: Event; rec
      // await axios.put("http://localhost:8080/event/volunteer", {
       //      id: event.id 
       //      });
-      console.log("eventItem 49");
       update();
     } catch(e:any){
       if (e.status === 401) {
-        console.log("eventItem 53");
         setModalMessage("Need to be logged in");
         setShowModal(true);
       } else {
-        console.log("eventItem 57");
         setModalMessage(e.message);
         setShowModal(true);
       }
@@ -69,13 +69,9 @@ export function EventItem({ event, receiver, page, update}: {  event: Event; rec
         data: { id: event.id },
       });
     } else {
-      await axios.delete("http://localhost:8080/account", {
+      await axios.delete("http://localhost:8080/schedule", {
         data: { id: event.id },
       });
-      //await axios.delete("http://localhost:8080/event/user", {
-      // data:{id:event.id},
-     // });
-
     }
 
       update();
