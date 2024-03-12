@@ -72,6 +72,8 @@ accountRouter.post("/logout", async (req: Request, res: Response) => {
   }
 });
 
+
+
 accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
  try{
   if (req.session.user === undefined) {
@@ -95,54 +97,6 @@ accountRouter.get("/account", async (req: Request, res: Response) => {
   return res.status(200).send(acc);
 });
 
-export async function schedule(user:string, eventID:string): Promise<void> {
-  try {
-    console.log("shedule in accountRouter");
-    await accountService.addEvent(user, eventID);
-  } catch (e:any) {
-    console.log("Error in account-schedule: " + e.message);
-    throw e;
-  }
-}
-
-export async function unschedule(user:string, eventID:string): Promise<void> {
-  try {
-    console.log("unshedule in accountRouter");
-    await accountService.removeEvent(user, eventID);
-  } catch (e:any) {
-    console.log("Error in account-unschedule: " + e.message);
-    throw e;
-  }
-}
 
 
-/*
-accountRouter.put("/schedule", async (
-  req : Request,
-  res : Response
-) => {
-  try {
-     if (req.session.user === undefined) {
-      res.status(401).send("Need to be logged in");
-     } else{
-     const eventID : string = req.body.data.id;
-     console.log("eventId: " + eventID)
-     await accountService.addEvent(req.session.user, eventID)
-  }} catch (e:any) {
-    res.status(500).send(e.message);
-  }
-})
 
-accountRouter.delete("/schedule", async (req: Request, res: Response) => {
-  if (req.session.user === undefined) {
-    return res.status(401);
-  }
-  try {
-    const eventID: string = req.body.id;
-    await accountService.removeEvent(req.session.user, eventID);
-    return res.status(200).send("ok");
-  } catch (e: any) {
-    res.status(500).send(e.message);
-  }
-});
-*/

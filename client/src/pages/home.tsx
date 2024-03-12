@@ -30,7 +30,7 @@ function Home() {
       </Container>
       <Container>
        
-        <EventView />
+        <EventView page={"home"}  receiver='event'/>
 
       </Container>
      
