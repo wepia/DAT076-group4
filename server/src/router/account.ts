@@ -3,6 +3,7 @@ import { Account } from "../model/account";
 import { AccountDBService } from "../service/account.db";
 import { IAccountService } from "../service/account.interface";
 import { SportEvent } from "../model/sportEvent";
+import bcrypt from 'bcrypt';
 
 const accountService: IAccountService = new AccountDBService();
 export const accountRouter: Router = express.Router();
@@ -19,16 +20,16 @@ accountRouter.post(
       const gender: string = req.body.gender;
       const birth: Date = new Date(req.body.birth);
 
-      await accountService.registerAccounts(
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+       await accountService.registerAccounts(
         userName,
-        password,
+        hashedPassword,
         email,
         gender,
         birth
       );
-
-      
-      res.status(200).send("ok");
     } catch (e: any) {
       console.error(e);
       res.status(500).send(e.message);
