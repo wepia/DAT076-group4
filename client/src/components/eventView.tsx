@@ -69,6 +69,7 @@ export default function EventView({ page, receiver }: {page: string, receiver: s
           console.log("Invalid response from server: " + event);
         }
       });
+      
       setEventList(newEvents);
     } catch (err: any) {
       if (err.response.status === 401) {
@@ -86,12 +87,8 @@ export default function EventView({ page, receiver }: {page: string, receiver: s
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    let startDateParam =
-      filterDates.startDate.length > 0 ? filterDates.startDate : new Date(0);
-    let endDateParam =
-      filterDates.endDate.length > 0
-        ? filterDates.endDate
-        : new Date(8640000000000000);
+    let startDateParam = filterDates.startDate.length > 0 ? filterDates.startDate : new Date(0);
+    let endDateParam = filterDates.endDate.length > 0 ? filterDates.endDate: new Date(8640000000000000);
     const response = await axios.put("http://localhost:8080/" + receiver, {
       startDate: startDateParam,
       endDate: endDateParam,

@@ -9,6 +9,8 @@ import { Account } from "../model/account";
 
 export class EventDBService implements IEventService {
 
+  // Returns a list of accounts that are in the SportEvents "volunteers" field.
+  // Throws an error if no SportEvents matches the given eventID.
   async getVolunteers(eventID: string): Promise<Account[]> {
     const em : Model<SportEvent> =  await eventModel;
 
@@ -20,6 +22,9 @@ export class EventDBService implements IEventService {
     throw("Couldn't find event");
   }
 
+  // Adds an account to the SportEvents "volunteer" field.
+  // Throws an error if either eventID or userName
+  // doesn't match with an SportEvents or account respectively.
   async addVolunteer(eventID: string, userName: string): Promise<void> {
     const em : Model<SportEvent> =  await eventModel;
     const am : Model<Account> = await accountModel;
@@ -45,6 +50,9 @@ export class EventDBService implements IEventService {
     }
   }
 
+  // Removes a volunteer from the SportEvents "volunteer" field.
+  // Throws an error if the eventID doesn't match with
+  // an registered SportEvent.
   async removeVolunteer(eventID: string, userName: string): Promise<void> {
     const em : Model<SportEvent> = await eventModel;
     
@@ -61,12 +69,14 @@ export class EventDBService implements IEventService {
     await event.save();
   }
 
+  // Returns all the registered SportEvents. 
   async getEvents(): Promise<SportEvent[]>{
     const em : Model<SportEvent> = await eventModel;
     const events : SportEvent[] = await em.find();
     return events;
   }
 
+  // Creates a new SportEvent
   async addEvent(name : string, organizer : string, date : Date, owner : string) :Promise<SportEvent>{
     return (await eventModel).create({
       id: new ObjectId().toString(),
@@ -78,7 +88,9 @@ export class EventDBService implements IEventService {
     })
   }
 
-
+  // Deletes a SportEvent
+  // Throws an error if the input "owner" does not match
+  // with the SportEvents field "owner"
   async deleteEvent(id : string, owner : string) :Promise<void>{
     const em : Model<SportEvent> =  await eventModel;
     
@@ -92,6 +104,8 @@ export class EventDBService implements IEventService {
     }
   }
 
+  // Returns a list of all the registered SportEvents
+  // that are within the dates startDate and endDate.
   async filterEvents(startDate : Date, endDate : Date) : Promise<SportEvent[]> {
     const em : Model<SportEvent> =  await eventModel;
 
