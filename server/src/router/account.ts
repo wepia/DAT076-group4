@@ -3,6 +3,7 @@ import { Account } from "../model/account";
 import { AccountDBService } from "../service/account.db";
 import { IAccountService } from "../service/account.interface";
 import { SportEvent } from "../model/sportEvent";
+import bcrypt from 'bcrypt';
 
 const accountService: IAccountService = new AccountDBService();
 export const accountRouter: Router = express.Router();
@@ -17,9 +18,12 @@ accountRouter.post(
       const gender: string = req.body.gender;
       const birth: Date = new Date(req.body.birth);
 
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
       const newAcc = await accountService.registerAccounts(
         userName,
-        password,
+        hashedPassword,
         email,
         gender,
         birth
@@ -50,8 +54,6 @@ accountRouter.post(
         return res.status(401).send("Username or password is incorrect");
       }
         req.session.user = req.body.username;
-
-
 
         return res.status(200).send("Login success");
     } catch (e: any) {

@@ -4,6 +4,7 @@ import { accountModel } from "../db/account.db";
 import { Model } from "mongoose";
 import { SportEvent } from "../model/sportEvent";
 import { eventModel } from "../db/event.db";
+import bcrypt from 'bcrypt';
 
 export class AccountDBService implements IAccountService {
   async getAccountData(userName: string): Promise<Account> {
@@ -135,8 +136,8 @@ export class AccountDBService implements IAccountService {
   async findAccount(username: string, password: string): Promise<boolean> {
     const am: Model<Account> = await accountModel;
     const user = await am.findOne({ userName: username });
-    if (user?.password === password) {
-      return true;
+    if (user !== null) {
+      return await bcrypt.compare(password, user.password);
     } else {
       return false;
     }
