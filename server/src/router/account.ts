@@ -46,7 +46,7 @@ accountRouter.post(
   "/login",
   async (req: LoginRequest, res: Response<string>) => {
     try {
-      if (typeof req.body.username !== "string" || typeof req.body.password !== "string" || req.body.username === "" || req.body.password === "") {
+      if (((typeof req.body.username) !== "string") || ((typeof req.body.password) !== "string") || (req.body.username === "") || (req.body.password === "")) {
         return res.status(400).send("Invalid username or password");
       }
 
@@ -73,7 +73,7 @@ accountRouter.post("/logout", async (req: Request, res: Response) => {
 });
 
 
-
+//TODO should be "/events" here and "/"" below?
 accountRouter.get("/", async (req: Request, res: Response<SportEvent[]>) => {
  try{
   if (req.session.user === undefined) {
